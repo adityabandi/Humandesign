@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Human Design Results</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">HumanDesign</a>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/quiz.html" class="nav-link">Quiz</a></li>
+                <li><a href="/blog.html" class="nav-link">Blog</a></li>
+                <li><a href="/buy.html" class="nav-link cta-button">Get Full Report</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content results-page">
+        <div class="container">
+            <div class="results-header">
+                <h1>Your Human Design Results</h1>
+                <p class="results-subtitle">Based on your assessment responses, here's your personalized Human Design preview</p>
+            </div>
+
+            <div class="results-grid">
+                <div class="result-card primary">
+                    <h2>Your Type</h2>
+                    <div class="result-value" id="resultType">Calculating...</div>
+                    <p class="result-description" id="typeDescription">Loading your type description...</p>
+                </div>
+
+                <div class="result-card">
+                    <h3>Your Authority</h3>
+                    <div class="result-value secondary" id="resultAuthority">Calculating...</div>
+                    <p class="result-description" id="authorityDescription">Loading your authority description...</p>
+                </div>
+
+                <div class="result-card">
+                    <h3>Your Profile</h3>
+                    <div class="result-value secondary" id="resultProfile">Calculating...</div>
+                    <p class="result-description" id="profileDescription">Loading your profile description...</p>
+                </div>
+
+                <div class="result-card">
+                    <h3>Your Centers</h3>
+                    <div class="centers-grid" id="centersGrid">
+                        <div class="center defined" data-center="sacral">Sacral</div>
+                        <div class="center undefined" data-center="emotional">Emotional</div>
+                        <div class="center defined" data-center="throat">Throat</div>
+                        <div class="center undefined" data-center="identity">Identity</div>
+                        <div class="center defined" data-center="will">Will</div>
+                        <div class="center undefined" data-center="head">Head</div>
+                        <div class="center defined" data-center="ajna">Ajna</div>
+                        <div class="center undefined" data-center="spleen">Spleen</div>
+                        <div class="center undefined" data-center="root">Root</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-summary">
+                <h2>Your Personal Summary</h2>
+                <div class="summary-content" id="summaryContent">
+                    <p>Generating your personalized Human Design summary...</p>
+                </div>
+            </div>
+
+            <div class="upgrade-cta">
+                <div class="cta-content">
+                    <h2>Want the Complete Picture?</h2>
+                    <p>This is just a preview of your Human Design. Get your full detailed report with:</p>
+                    <ul>
+                        <li>Complete bodygraph chart</li>
+                        <li>Detailed gate and channel analysis</li>
+                        <li>Life purpose and career guidance</li>
+                        <li>Relationship compatibility insights</li>
+                        <li>Decision-making strategies</li>
+                    </ul>
+                    <a href="/buy.html" class="btn btn-primary large" onclick="trackEvent('buy_click')">Get Full Report - $47</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="results.js"></script>
+</body>
+</html>

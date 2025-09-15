@@ -1,0 +1,502 @@
+[
+  {
+    "id": 1,
+    "question": "I feel most energized when I'm actively doing something.",
+    "category": "energy_type"
+  },
+  {
+    "id": 2,
+    "question": "I prefer to wait for the right opportunity rather than forcing things to happen.",
+    "category": "strategy"
+  },
+  {
+    "id": 3,
+    "question": "I have a strong gut feeling about what's right for me.",
+    "category": "authority"
+  },
+  {
+    "id": 4,
+    "question": "I enjoy being recognized for my unique insights and perspectives.",
+    "category": "projector_traits"
+  },
+  {
+    "id": 5,
+    "question": "I feel drained when I'm around too many people for extended periods.",
+    "category": "energy_sensitivity"
+  },
+  {
+    "id": 6,
+    "question": "I naturally take charge and initiate new projects or ideas.",
+    "category": "manifestor_traits"
+  },
+  {
+    "id": 7,
+    "question": "I need to feel invited before sharing my opinions or advice.",
+    "category": "projector_traits"
+  },
+  {
+    "id": 8,
+    "question": "I have consistent energy throughout the day for work I love.",
+    "category": "generator_traits"
+  },
+  {
+    "id": 9,
+    "question": "I tend to mirror the energy and emotions of people around me.",
+    "category": "reflector_traits"
+  },
+  {
+    "id": 10,
+    "question": "I make decisions based on what feels emotionally right over time.",
+    "category": "emotional_authority"
+  },
+  {
+    "id": 11,
+    "question": "I trust my immediate gut responses to guide my choices.",
+    "category": "sacral_authority"
+  },
+  {
+    "id": 12,
+    "question": "I need to inform others before I take action.",
+    "category": "manifestor_traits"
+  },
+  {
+    "id": 13,
+    "question": "I feel most fulfilled when I'm responding to life rather than initiating.",
+    "category": "generator_traits"
+  },
+  {
+    "id": 14,
+    "question": "I have natural wisdom about systems and how to improve them.",
+    "category": "projector_traits"
+  },
+  {
+    "id": 15,
+    "question": "I change significantly based on my environment and the people I'm with.",
+    "category": "reflector_traits"
+  },
+  {
+    "id": 16,
+    "question": "I speak my truth even when others might not want to hear it.",
+    "category": "throat_defined"
+  },
+  {
+    "id": 17,
+    "question": "I need time and space to process emotional decisions.",
+    "category": "emotional_authority"
+  },
+  {
+    "id": 18,
+    "question": "I have a lot of sexual energy and magnetism.",
+    "category": "sacral_defined"
+  },
+  {
+    "id": 19,
+    "question": "I feel pressure to prove my worth through achievements.",
+    "category": "ego_conditioning"
+  },
+  {
+    "id": 20,
+    "question": "I'm most productive when I follow my natural rhythms.",
+    "category": "generator_traits"
+  },
+  {
+    "id": 21,
+    "question": "I naturally see the bigger picture and patterns others miss.",
+    "category": "projector_traits"
+  },
+  {
+    "id": 22,
+    "question": "I feel like I don't quite fit in anywhere completely.",
+    "category": "reflector_traits"
+  },
+  {
+    "id": 23,
+    "question": "I have strong willpower and determination when I want something.",
+    "category": "ego_defined"
+  },
+  {
+    "id": 24,
+    "question": "I make decisions by talking through my thoughts out loud.",
+    "category": "throat_authority"
+  },
+  {
+    "id": 25,
+    "question": "I feel most authentic when I'm being spontaneous.",
+    "category": "spleen_authority"
+  },
+  {
+    "id": 26,
+    "question": "I have a hard time saying no to requests for my time and energy.",
+    "category": "sacral_undefined"
+  },
+  {
+    "id": 27,
+    "question": "I prefer to work on one thing at a time rather than multitasking.",
+    "category": "focus_type"
+  },
+  {
+    "id": 28,
+    "question": "I feel energized by being around other people.",
+    "category": "social_energy"
+  },
+  {
+    "id": 29,
+    "question": "I need recognition and invitation to share my gifts effectively.",
+    "category": "projector_traits"
+  },
+  {
+    "id": 30,
+    "question": "I have natural healing abilities or intuitive insights.",
+    "category": "spleen_defined"
+  },
+  {
+    "id": 31,
+    "question": "I feel most satisfied when I complete what I start.",
+    "category": "generator_traits"
+  },
+  {
+    "id": 32,
+    "question": "I often know things without being able to explain how I know them.",
+    "category": "intuitive_authority"
+  },
+  {
+    "id": 33,
+    "question": "I struggle with consistency in my emotions and moods.",
+    "category": "emotional_undefined"
+  },
+  {
+    "id": 34,
+    "question": "I have a natural ability to guide and manage others.",
+    "category": "projector_traits"
+  },
+  {
+    "id": 35,
+    "question": "I feel like I'm here to experience life in all its variety.",
+    "category": "reflector_traits"
+  },
+  {
+    "id": 36,
+    "question": "I make decisions quickly and trust my first instincts.",
+    "category": "spleen_authority"
+  },
+  {
+    "id": 37,
+    "question": "I feel most at peace when I'm in a natural environment.",
+    "category": "environmental_sensitivity"
+  },
+  {
+    "id": 38,
+    "question": "I have trouble with traditional schedules and prefer flexibility.",
+    "category": "irregular_rhythm"
+  },
+  {
+    "id": 39,
+    "question": "I feel energized by challenges and competition.",
+    "category": "ego_defined"
+  },
+  {
+    "id": 40,
+    "question": "I need to wait for clarity before making important decisions.",
+    "category": "emotional_authority"
+  },
+  {
+    "id": 41,
+    "question": "I have a natural ability to start new projects and ventures.",
+    "category": "manifestor_traits"
+  },
+  {
+    "id": 42,
+    "question": "I feel most comfortable when I understand the rules and expectations.",
+    "category": "structure_preference"
+  },
+  {
+    "id": 43,
+    "question": "I often feel misunderstood by others.",
+    "category": "unique_expression"
+  },
+  {
+    "id": 44,
+    "question": "I have consistent access to creative and sexual energy.",
+    "category": "sacral_defined"
+  },
+  {
+    "id": 45,
+    "question": "I feel most aligned when I'm following my passions.",
+    "category": "generator_traits"
+  },
+  {
+    "id": 46,
+    "question": "I naturally see what's not working and how to fix it.",
+    "category": "projector_traits"
+  },
+  {
+    "id": 47,
+    "question": "I tend to be very sensitive to my environment and other people's energies.",
+    "category": "reflector_traits"
+  },
+  {
+    "id": 48,
+    "question": "I make decisions based on what brings me joy and excitement.",
+    "category": "emotional_response"
+  },
+  {
+    "id": 49,
+    "question": "I have a strong sense of timing and when to act.",
+    "category": "spleen_defined"
+  },
+  {
+    "id": 50,
+    "question": "I feel most successful when I'm invited to participate.",
+    "category": "projector_traits"
+  },
+  {
+    "id": 51,
+    "question": "I have natural leadership abilities and others look to me for direction.",
+    "category": "manifestor_traits"
+  },
+  {
+    "id": 52,
+    "question": "I prefer to take time to think things through before responding.",
+    "category": "mental_processing"
+  },
+  {
+    "id": 53,
+    "question": "I feel most authentic when I'm expressing my emotions freely.",
+    "category": "emotional_expression"
+  },
+  {
+    "id": 54,
+    "question": "I have a natural ability to transform and regenerate myself.",
+    "category": "transformation_energy"
+  },
+  {
+    "id": 55,
+    "question": "I feel most energized when I'm learning and growing.",
+    "category": "mental_stimulation"
+  },
+  {
+    "id": 56,
+    "question": "I tend to be very focused and can concentrate for long periods.",
+    "category": "sustained_focus"
+  },
+  {
+    "id": 57,
+    "question": "I feel most comfortable when I have a clear purpose or mission.",
+    "category": "purpose_driven"
+  },
+  {
+    "id": 58,
+    "question": "I naturally attract resources and opportunities.",
+    "category": "magnetic_energy"
+  },
+  {
+    "id": 59,
+    "question": "I feel most alive when I'm creating something new.",
+    "category": "creative_energy"
+  },
+  {
+    "id": 60,
+    "question": "I have a natural ability to see through deception and illusion.",
+    "category": "intuitive_perception"
+  },
+  {
+    "id": 61,
+    "question": "I feel most satisfied when I'm helping others reach their potential.",
+    "category": "supportive_nature"
+  },
+  {
+    "id": 62,
+    "question": "I have a strong connection to my body's wisdom and signals.",
+    "category": "body_awareness"
+  },
+  {
+    "id": 63,
+    "question": "I feel most comfortable when I'm being myself authentically.",
+    "category": "authentic_expression"
+  },
+  {
+    "id": 64,
+    "question": "I naturally understand complex systems and how they work.",
+    "category": "systems_thinking"
+  },
+  {
+    "id": 65,
+    "question": "I feel most energized when I'm around inspiring people.",
+    "category": "inspirational_energy"
+  },
+  {
+    "id": 66,
+    "question": "I have a natural ability to heal and transform others.",
+    "category": "healing_energy"
+  },
+  {
+    "id": 67,
+    "question": "I feel most at peace when I'm in flow with life's natural rhythms.",
+    "category": "natural_flow"
+  },
+  {
+    "id": 68,
+    "question": "I tend to be very independent and self-reliant.",
+    "category": "independence"
+  },
+  {
+    "id": 69,
+    "question": "I feel most fulfilled when I'm making a meaningful contribution.",
+    "category": "meaningful_work"
+  },
+  {
+    "id": 70,
+    "question": "I have natural charisma and can influence others easily.",
+    "category": "influential_energy"
+  },
+  {
+    "id": 71,
+    "question": "I feel most comfortable when I understand my role in relationships.",
+    "category": "relational_clarity"
+  },
+  {
+    "id": 72,
+    "question": "I naturally seek experiences that expand my consciousness.",
+    "category": "consciousness_expansion"
+  },
+  {
+    "id": 73,
+    "question": "I feel most energized when I'm exploring new possibilities.",
+    "category": "exploration_energy"
+  },
+  {
+    "id": 74,
+    "question": "I have a natural ability to bring order to chaos.",
+    "category": "organizing_energy"
+  },
+  {
+    "id": 75,
+    "question": "I feel most satisfied when I'm living according to my values.",
+    "category": "values_alignment"
+  },
+  {
+    "id": 76,
+    "question": "I naturally understand what motivates and drives other people.",
+    "category": "psychological_insight"
+  },
+  {
+    "id": 77,
+    "question": "I feel most alive when I'm taking calculated risks.",
+    "category": "risk_taking"
+  },
+  {
+    "id": 78,
+    "question": "I have a natural ability to see the potential in people and situations.",
+    "category": "potential_recognition"
+  },
+  {
+    "id": 79,
+    "question": "I feel most comfortable when I'm prepared and organized.",
+    "category": "preparation_preference"
+  },
+  {
+    "id": 80,
+    "question": "I naturally seek balance and harmony in all areas of life.",
+    "category": "harmony_seeking"
+  },
+  {
+    "id": 81,
+    "question": "I feel most energized when I'm collaborating with others.",
+    "category": "collaborative_energy"
+  },
+  {
+    "id": 82,
+    "question": "I have a natural ability to innovate and think outside the box.",
+    "category": "innovative_thinking"
+  },
+  {
+    "id": 83,
+    "question": "I feel most satisfied when I'm making progress toward my goals.",
+    "category": "progress_orientation"
+  },
+  {
+    "id": 84,
+    "question": "I naturally understand the deeper meaning behind events and experiences.",
+    "category": "meaning_making"
+  },
+  {
+    "id": 85,
+    "question": "I feel most comfortable when I'm learning from mentors and guides.",
+    "category": "guidance_seeking"
+  },
+  {
+    "id": 86,
+    "question": "I have a natural ability to inspire and motivate others.",
+    "category": "motivational_energy"
+  },
+  {
+    "id": 87,
+    "question": "I feel most alive when I'm pushing beyond my comfort zone.",
+    "category": "growth_seeking"
+  },
+  {
+    "id": 88,
+    "question": "I naturally seek to understand the root cause of problems.",
+    "category": "root_cause_analysis"
+  },
+  {
+    "id": 89,
+    "question": "I feel most satisfied when I'm contributing to something greater than myself.",
+    "category": "service_orientation"
+  },
+  {
+    "id": 90,
+    "question": "I have a natural ability to synthesize complex information.",
+    "category": "synthesis_ability"
+  },
+  {
+    "id": 91,
+    "question": "I feel most comfortable when I trust my intuitive insights.",
+    "category": "intuitive_trust"
+  },
+  {
+    "id": 92,
+    "question": "I naturally seek experiences that challenge my beliefs and assumptions.",
+    "category": "belief_challenging"
+  },
+  {
+    "id": 93,
+    "question": "I feel most energized when I'm expressing my unique gifts.",
+    "category": "gift_expression"
+  },
+  {
+    "id": 94,
+    "question": "I have a natural ability to create beauty and aesthetic harmony.",
+    "category": "aesthetic_creation"
+  },
+  {
+    "id": 95,
+    "question": "I feel most at peace when I'm connected to my spiritual nature.",
+    "category": "spiritual_connection"
+  },
+  {
+    "id": 96,
+    "question": "I naturally seek to understand how everything is interconnected.",
+    "category": "interconnection_awareness"
+  },
+  {
+    "id": 97,
+    "question": "I feel most fulfilled when I'm living with purpose and intention.",
+    "category": "purposeful_living"
+  },
+  {
+    "id": 98,
+    "question": "I have a natural ability to bridge different worlds and perspectives.",
+    "category": "bridging_ability"
+  },
+  {
+    "id": 99,
+    "question": "I feel most comfortable when I'm honoring my authentic nature.",
+    "category": "authentic_honor"
+  },
+  {
+    "id": 100,
+    "question": "I naturally seek to leave a positive legacy for future generations.",
+    "category": "legacy_creation"
+  }
+]
