@@ -91,6 +91,10 @@ class HumanDesignQuiz {
         if (nextButton) {
             nextButton.addEventListener('click', () => this.nextQuestion());
         }
+        
+        // Add global functions for backward compatibility
+        window.previousQuestion = () => this.previousQuestion();
+        window.nextQuestion = () => this.nextQuestion();
     }
     
     renderCurrentQuestion() {
