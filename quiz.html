@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Design Quiz - Discover Your Type</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">HumanDesign</a>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/quiz.html" class="nav-link">Quiz</a></li>
+                <li><a href="/preview.html" class="nav-link">Preview</a></li>
+                <li><a href="/blog.html" class="nav-link">Blog</a></li>
+                <li><a href="/buy.html" class="nav-link cta-button">Get Full Report</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content quiz-page">
+        <div class="container">
+            <div class="quiz-header">
+                <h1>Human Design Assessment</h1>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">0/100</span>
+                </div>
+            </div>
+
+            <div class="quiz-container" id="quizContainer">
+                <div class="question-card" id="questionCard">
+                    <h2 class="question-text" id="questionText">Loading question...</h2>
+                    <div class="likert-scale">
+                        <div class="scale-labels">
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="scale-options">
+                            <label class="scale-option">
+                                <input type="radio" name="answer" value="1">
+                                <span class="scale-number">1</span>
+                            </label>
+                            <label class="scale-option">
+                                <input type="radio" name="answer" value="2">
+                                <span class="scale-number">2</span>
+                            </label>
+                            <label class="scale-option">
+                                <input type="radio" name="answer" value="3">
+                                <span class="scale-number">3</span>
+                            </label>
+                            <label class="scale-option">
+                                <input type="radio" name="answer" value="4">
+                                <span class="scale-number">4</span>
+                            </label>
+                            <label class="scale-option">
+                                <input type="radio" name="answer" value="5">
+                                <span class="scale-number">5</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="question-actions">
+                        <button id="prevButton" class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                        <button id="nextButton" class="btn btn-primary" onclick="nextQuestion()" disabled>Next</button>
+                    </div>
+                </div>
+
+                <div class="quiz-complete hidden" id="quizComplete">
+                    <h2>Assessment Complete!</h2>
+                    <p>Thank you for completing the Human Design assessment. We're now analyzing your responses to generate your personalized report.</p>
+                    <button class="btn btn-primary large" onclick="submitQuiz()">View My Results</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Include database -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="database.js"></script>
+    <script src="script.js"></script>
+    <script src="quiz.js"></script>
+</body>
+</html>
