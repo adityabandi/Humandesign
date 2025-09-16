@@ -1,8 +1,8 @@
-// Database service layer
+// Simplified Database service layer (no authentication required)
 class DatabaseService {
     constructor() {
         this.supabase = null;
-        this.currentUser = null;
+        this.sessionId = null;
         this.init();
     }
 
@@ -13,136 +13,84 @@ class DatabaseService {
                 window.SUPABASE_CONFIG.url,
                 window.SUPABASE_CONFIG.anon_key
             );
-            
-            // Check if user is already logged in
-            const { data: { user } } = await this.supabase.auth.getUser();
-            this.currentUser = user;
-            
-            // Listen for auth changes
-            this.supabase.auth.onAuthStateChange((event, session) => {
-                this.currentUser = session?.user || null;
-                this.handleAuthStateChange(event, session);
-            });
         }
-    }
-
-    handleAuthStateChange(event, session) {
-        if (event === 'SIGNED_IN') {
-            console.log('User signed in:', session.user);
-            this.onUserSignedIn(session.user);
-        } else if (event === 'SIGNED_OUT') {
-            console.log('User signed out');
-            this.onUserSignedOut();
-        }
-    }
-
-    onUserSignedIn(user) {
-        // Update UI to show user is logged in
-        this.updateAuthUI(true, user);
         
-        // If we're on the quiz page, we can now save responses
-        if (window.location.pathname.includes('quiz')) {
-            this.enableQuizSaving();
+        // Get or create session ID
+        this.sessionId = this.getOrCreateSessionId();
+        
+        // Initialize session in database if available
+        if (this.supabase && window.QUIZ_CONFIG.enableDatabase) {
+            this.initializeSession();
         }
     }
 
-    onUserSignedOut() {
-        // Update UI to show user is logged out
-        this.updateAuthUI(false);
-    }
-
-    updateAuthUI(isSignedIn, user = null) {
-        const authContainer = document.getElementById('auth-container');
-        if (!authContainer) return;
-
-        if (isSignedIn && user) {
-            authContainer.innerHTML = `
-                <div class="user-info">
-                    <span>Welcome, ${user.email}</span>
-                    <button onclick="database.signOut()" class="btn btn-secondary">Sign Out</button>
-                </div>
-            `;
-        } else {
-            authContainer.innerHTML = `
-                <div class="auth-buttons">
-                    <button onclick="showSignInModal()" class="btn btn-secondary">Sign In</button>
-                    <button onclick="showSignUpModal()" class="btn btn-primary">Sign Up</button>
-                </div>
-            `;
+    getOrCreateSessionId() {
+        // Check if we already have a session ID
+        let sessionId = localStorage.getItem('quiz_session_id');
+        
+        if (!sessionId) {
+            // Create new session ID
+            sessionId = window.QUIZ_CONFIG.generateSessionId();
+            localStorage.setItem('quiz_session_id', sessionId);
+            localStorage.setItem('quiz_session_created', new Date().toISOString());
         }
+        
+        return sessionId;
     }
 
-    // Authentication methods
-    async signUp(email, password) {
+    async initializeSession() {
         try {
-            const { data, error } = await this.supabase.auth.signUp({
-                email: email,
-                password: password
-            });
-
-            if (error) throw error;
+            // Create session record in database
+            const expiresAt = new Date();
+            expiresAt.setTime(expiresAt.getTime() + window.QUIZ_CONFIG.sessionExpiration);
             
-            return { success: true, data };
-        } catch (error) {
-            console.error('Sign up error:', error);
-            return { success: false, error: error.message };
-        }
-    }
-
-    async signIn(email, password) {
-        try {
-            const { data, error } = await this.supabase.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
-
-            if (error) throw error;
-            
-            return { success: true, data };
-        } catch (error) {
-            console.error('Sign in error:', error);
-            return { success: false, error: error.message };
-        }
-    }
-
-    async signOut() {
-        try {
-            const { error } = await this.supabase.auth.signOut();
-            if (error) throw error;
-            
-            return { success: true };
-        } catch (error) {
-            console.error('Sign out error:', error);
-            return { success: false, error: error.message };
-        }
-    }
-
-    // Quiz response methods
-    async saveQuizResponse(quizId, questionId, answerValue) {
-        if (!this.currentUser) {
-            console.log('User not authenticated, saving to localStorage');
-            return this.saveToLocalStorage(quizId, questionId, answerValue);
-        }
-
-        try {
-            const { data, error } = await this.supabase
-                .from('quiz_responses')
+            const { error } = await this.supabase
+                .from('quiz_sessions')
                 .upsert({
-                    user_id: this.currentUser.id,
-                    quiz_id: quizId,
-                    question_id: questionId,
-                    answer_value: answerValue,
+                    session_id: this.sessionId,
+                    expires_at: expiresAt.toISOString(),
                     updated_at: new Date().toISOString()
                 });
 
-            if (error) throw error;
-            
-            return { success: true, data };
+            if (error && !error.message.includes('duplicate')) {
+                console.warn('Could not initialize session in database:', error);
+            }
         } catch (error) {
-            console.error('Error saving quiz response:', error);
-            // Fallback to localStorage
-            return this.saveToLocalStorage(quizId, questionId, answerValue);
+            console.warn('Database session initialization failed:', error);
         }
+    }
+
+    // Quiz response methods (no authentication needed)
+    async saveQuizResponse(quizId, questionId, answerValue) {
+        // Always save to localStorage first
+        const localResult = this.saveToLocalStorage(quizId, questionId, answerValue);
+        
+        // Try to save to database if available
+        if (this.supabase && window.QUIZ_CONFIG.enableDatabase) {
+            try {
+                const { error } = await this.supabase
+                    .from('quiz_responses')
+                    .upsert({
+                        session_id: this.sessionId,
+                        quiz_id: quizId,
+                        question_id: questionId,
+                        answer_value: answerValue,
+                        created_at: new Date().toISOString()
+                    });
+
+                if (error) {
+                    console.warn('Database save failed, using localStorage:', error);
+                    return localResult;
+                }
+                
+                return { success: true, storage: 'database' };
+            } catch (error) {
+                console.warn('Database save error, using localStorage:', error);
+                return localResult;
+            }
+        }
+        
+        return localResult;
     }
 
     saveToLocalStorage(quizId, questionId, answerValue) {
@@ -159,160 +107,134 @@ class DatabaseService {
     }
 
     async getQuizResponses(quizId) {
-        if (!this.currentUser) {
-            // Try to get from localStorage
+        // Try database first if available
+        if (this.supabase && window.QUIZ_CONFIG.enableDatabase) {
             try {
-                const key = `quiz_responses_${quizId}`;
-                const data = JSON.parse(localStorage.getItem(key) || '{}');
-                return { success: true, data, storage: 'local' };
+                const { data, error } = await this.supabase
+                    .from('quiz_responses')
+                    .select('*')
+                    .eq('session_id', this.sessionId)
+                    .eq('quiz_id', quizId);
+
+                if (!error && data && data.length > 0) {
+                    // Convert array to object for easier access
+                    const responses = {};
+                    data.forEach(response => {
+                        responses[response.question_id] = response.answer_value;
+                    });
+                    
+                    return { success: true, data: responses, storage: 'database' };
+                }
             } catch (error) {
-                return { success: false, error: 'No responses found' };
+                console.warn('Database fetch failed, using localStorage:', error);
             }
         }
-
+        
+        // Fallback to localStorage
         try {
-            const { data, error } = await this.supabase
-                .from('quiz_responses')
-                .select('*')
-                .eq('user_id', this.currentUser.id)
-                .eq('quiz_id', quizId);
-
-            if (error) throw error;
-            
-            // Convert array to object for easier access
-            const responses = {};
-            data.forEach(response => {
-                responses[response.question_id] = response.answer_value;
-            });
-            
-            return { success: true, data: responses };
+            const key = `quiz_responses_${quizId}`;
+            const data = JSON.parse(localStorage.getItem(key) || '{}');
+            return { success: true, data, storage: 'local' };
         } catch (error) {
-            console.error('Error getting quiz responses:', error);
-            return { success: false, error: error.message };
+            return { success: false, error: 'No responses found' };
         }
     }
 
     async saveQuizResults(quizId, results) {
-        if (!this.currentUser) {
-            console.log('User not authenticated, saving results to localStorage');
-            localStorage.setItem('quiz_results', JSON.stringify(results));
-            return { success: true, storage: 'local' };
-        }
+        // Always save to localStorage
+        localStorage.setItem('quiz_results', JSON.stringify(results));
+        
+        // Try to save to database if available
+        if (this.supabase && window.QUIZ_CONFIG.enableDatabase) {
+            try {
+                const { error } = await this.supabase
+                    .from('quiz_results')
+                    .upsert({
+                        session_id: this.sessionId,
+                        quiz_id: quizId,
+                        type: results.type,
+                        authority: results.authority,
+                        profile: results.profile,
+                        centers: results.centers || {},
+                        scores: results.scores || {},
+                        summary: results.summary || '',
+                        updated_at: new Date().toISOString()
+                    });
 
-        try {
-            const { data, error } = await this.supabase
-                .from('quiz_results')
-                .upsert({
-                    user_id: this.currentUser.id,
-                    quiz_id: quizId,
-                    type: results.type,
-                    authority: results.authority,
-                    profile: results.profile,
-                    centers: results.centers || {},
-                    scores: results.scores || {},
-                    summary: results.summary || '',
-                    updated_at: new Date().toISOString()
-                });
-
-            if (error) throw error;
-            
-            return { success: true, data };
-        } catch (error) {
-            console.error('Error saving quiz results:', error);
-            // Fallback to localStorage
-            localStorage.setItem('quiz_results', JSON.stringify(results));
-            return { success: false, error: error.message, storage: 'local' };
+                if (error) {
+                    console.warn('Database results save failed, using localStorage:', error);
+                    return { success: true, storage: 'local' };
+                }
+                
+                return { success: true, storage: 'database' };
+            } catch (error) {
+                console.warn('Database results save error:', error);
+            }
         }
+        
+        return { success: true, storage: 'local' };
     }
 
     async getQuizResults(quizId) {
-        if (!this.currentUser) {
-            // Try localStorage
+        // Try database first if available
+        if (this.supabase && window.QUIZ_CONFIG.enableDatabase) {
             try {
-                const data = JSON.parse(localStorage.getItem('quiz_results') || '{}');
-                return { success: true, data, storage: 'local' };
+                const { data, error } = await this.supabase
+                    .from('quiz_results')
+                    .select('*')
+                    .eq('session_id', this.sessionId)
+                    .eq('quiz_id', quizId)
+                    .single();
+
+                if (!error && data) {
+                    return { success: true, data, storage: 'database' };
+                }
             } catch (error) {
-                return { success: false, error: 'No results found' };
+                console.warn('Database results fetch failed, using localStorage:', error);
             }
         }
-
+        
+        // Fallback to localStorage
         try {
-            const { data, error } = await this.supabase
-                .from('quiz_results')
-                .select('*')
-                .eq('user_id', this.currentUser.id)
-                .eq('quiz_id', quizId)
-                .single();
-
-            if (error) throw error;
-            
-            return { success: true, data };
+            const data = JSON.parse(localStorage.getItem('quiz_results') || '{}');
+            return { success: true, data, storage: 'local' };
         } catch (error) {
-            console.error('Error getting quiz results:', error);
-            return { success: false, error: error.message };
-        }
-    }
-
-    async getUserReports() {
-        if (!this.currentUser) {
-            return { success: false, error: 'User not authenticated' };
-        }
-
-        try {
-            const { data, error } = await this.supabase
-                .from('user_reports')
-                .select(`
-                    *,
-                    quiz_results (
-                        type,
-                        authority,
-                        profile,
-                        created_at
-                    )
-                `)
-                .eq('user_id', this.currentUser.id)
-                .order('created_at', { ascending: false });
-
-            if (error) throw error;
-            
-            return { success: true, data };
-        } catch (error) {
-            console.error('Error getting user reports:', error);
-            return { success: false, error: error.message };
+            return { success: false, error: 'No results found' };
         }
     }
 
     async generateFullReport(quizResultId) {
-        if (!this.currentUser) {
-            return { success: false, error: 'User not authenticated' };
-        }
-
         try {
-            // Get the quiz results first
-            const { data: quizResult, error: quizError } = await this.supabase
-                .from('quiz_results')
-                .select('*')
-                .eq('id', quizResultId)
-                .eq('user_id', this.currentUser.id)
-                .single();
-
-            if (quizError) throw quizError;
+            // Get the quiz results
+            const resultsResponse = await this.getQuizResults(quizResultId);
+            if (!resultsResponse.success) {
+                throw new Error('Quiz results not found');
+            }
+            
+            const quizResult = resultsResponse.data;
 
             // Generate the comprehensive report
             const reportData = this.generateReportContent(quizResult);
 
-            // Save the full report
-            const { data, error } = await this.supabase
-                .from('user_reports')
-                .upsert({
-                    user_id: this.currentUser.id,
-                    quiz_result_id: quizResultId,
-                    report_data: reportData,
-                    is_purchased: false,
-                    updated_at: new Date().toISOString()
-                });
+            // Save the full report to database if available
+            if (this.supabase && window.QUIZ_CONFIG.enableDatabase) {
+                try {
+                    const { error } = await this.supabase
+                        .from('quiz_reports')
+                        .upsert({
+                            session_id: this.sessionId,
+                            quiz_result_id: quizResultId,
+                            report_data: reportData,
+                            updated_at: new Date().toISOString()
+                        });
 
-            if (error) throw error;
+                    if (error) {
+                        console.warn('Report save to database failed:', error);
+                    }
+                } catch (error) {
+                    console.warn('Report database save error:', error);
+                }
+            }
             
             return { success: true, data: reportData };
         } catch (error) {
@@ -323,23 +245,34 @@ class DatabaseService {
 
     generateReportContent(quizResult) {
         // This method generates the 40+ page report content
-        // In a real implementation, this would be much more sophisticated
         const reportGenerator = new ReportGenerator(quizResult);
         return reportGenerator.generateFullReport();
     }
 
-    isAuthenticated() {
-        return !!this.currentUser;
+    getCurrentSessionId() {
+        return this.sessionId;
     }
 
-    getCurrentUser() {
-        return this.currentUser;
+    // Utility method to check if database is available
+    isDatabaseAvailable() {
+        return !!(this.supabase && window.QUIZ_CONFIG.enableDatabase);
     }
 
-    enableQuizSaving() {
-        // Enable real-time saving for quiz responses
-        if (window.quiz) {
-            window.quiz.enableDatabaseSaving();
+    // Clean up expired sessions (utility method)
+    async cleanupExpiredSessions() {
+        if (!this.isDatabaseAvailable()) return;
+        
+        try {
+            const { error } = await this.supabase
+                .from('quiz_sessions')
+                .delete()
+                .lt('expires_at', new Date().toISOString());
+
+            if (error) {
+                console.warn('Session cleanup failed:', error);
+            }
+        } catch (error) {
+            console.warn('Session cleanup error:', error);
         }
     }
 }

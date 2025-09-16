@@ -19,7 +19,6 @@
                 <li><a href="/preview.html" class="nav-link">Preview</a></li>
                 <li><a href="/blog.html" class="nav-link">Blog</a></li>
                 <li><a href="/buy.html" class="nav-link cta-button">Get Full Report</a></li>
-                <li id="auth-container-nav"></li>
             </ul>
         </div>
     </nav>
@@ -76,20 +75,22 @@
             <div class="upgrade-cta">
                 <div class="cta-content">
                     <h2>Want the Complete Picture?</h2>
-                    <p>This is just a preview of your Human Design. Get your full detailed report with:</p>
+                    <p>This is just a preview of your Human Design. Get your full detailed PDF report with:</p>
                     <ul>
-                        <li>Complete bodygraph chart</li>
-                        <li>Detailed gate and channel analysis</li>
+                        <li>Complete 40+ page personalized analysis</li>
+                        <li>Detailed bodygraph chart with all gates and channels</li>
                         <li>Life purpose and career guidance</li>
                         <li>Relationship compatibility insights</li>
-                        <li>Decision-making strategies</li>
+                        <li>Decision-making strategies for your authority</li>
+                        <li>Daily practices and personalized affirmations</li>
+                        <li>Downloadable PDF format for offline reading</li>
                     </ul>
                     <div class="cta-buttons">
                         <a href="/preview.html" class="btn btn-secondary large" onclick="trackEvent('preview_click')">
                             Preview Full Report
                         </a>
                         <a href="/buy.html" class="btn btn-primary large" onclick="trackEvent('buy_click')">
-                            Get Full Report - $47
+                            Get PDF Report - $47
                         </a>
                     </div>
                 </div>
@@ -97,23 +98,11 @@
         </div>
     </main>
 
-    <!-- Include authentication and database -->
+    <!-- Include database -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <script src="database.js"></script>
     <script src="script.js"></script>
     <script src="results.js"></script>
-    
-    <!-- Load auth modal -->
-    <div id="auth-modal-container"></div>
-    <script>
-        // Load auth modal
-        fetch('auth-modal.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('auth-modal-container').innerHTML = html;
-            })
-            .catch(error => console.log('Auth modal not loaded:', error));
-    </script>
 </body>
 </html>

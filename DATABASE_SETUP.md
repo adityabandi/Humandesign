@@ -1,4 +1,4 @@
-# Human Design Database Setup Guide
+# Human Design Database Setup Guide (Anonymous Sessions)
 
 ## Supabase Setup Instructions
 
@@ -17,34 +17,30 @@
 Run these SQL commands in your Supabase SQL Editor:
 
 ```sql
--- Enable Row Level Security
-ALTER TABLE IF EXISTS auth.users ENABLE ROW LEVEL SECURITY;
-
--- Create users table extension (optional, if you need additional user fields)
-CREATE TABLE public.user_profiles (
-  id UUID REFERENCES auth.users(id) PRIMARY KEY,
-  email TEXT UNIQUE,
-  full_name TEXT,
+-- Create quiz_sessions table for anonymous sessions
+CREATE TABLE public.quiz_sessions (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  session_id TEXT UNIQUE NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  expires_at TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
 -- Create quiz_responses table
 CREATE TABLE public.quiz_responses (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES auth.users(id),
+  session_id TEXT REFERENCES public.quiz_sessions(session_id) ON DELETE CASCADE,
   quiz_id TEXT NOT NULL,
   question_id INTEGER NOT NULL,
   answer_value INTEGER NOT NULL CHECK (answer_value >= 1 AND answer_value <= 5),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(user_id, quiz_id, question_id)
+  UNIQUE(session_id, quiz_id, question_id)
 );
 
 -- Create quiz_results table
 CREATE TABLE public.quiz_results (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES auth.users(id),
+  session_id TEXT REFERENCES public.quiz_sessions(session_id) ON DELETE CASCADE,
   quiz_id TEXT NOT NULL,
   type TEXT NOT NULL,
   authority TEXT NOT NULL,
@@ -54,76 +50,70 @@ CREATE TABLE public.quiz_results (
   summary TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(user_id, quiz_id)
+  UNIQUE(session_id, quiz_id)
 );
 
--- Create user_reports table
-CREATE TABLE public.user_reports (
+-- Create quiz_reports table
+CREATE TABLE public.quiz_reports (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES auth.users(id),
-  quiz_result_id UUID REFERENCES public.quiz_results(id),
+  session_id TEXT REFERENCES public.quiz_sessions(session_id) ON DELETE CASCADE,
+  quiz_result_id UUID REFERENCES public.quiz_results(id) ON DELETE CASCADE,
   report_data JSONB NOT NULL,
-  is_purchased BOOLEAN DEFAULT FALSE,
-  purchase_date TIMESTAMP WITH TIME ZONE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Create indexes for performance
-CREATE INDEX idx_quiz_responses_user_quiz ON public.quiz_responses(user_id, quiz_id);
-CREATE INDEX idx_quiz_results_user_quiz ON public.quiz_results(user_id, quiz_id);
-CREATE INDEX idx_user_reports_user ON public.user_reports(user_id);
-CREATE INDEX idx_user_reports_purchased ON public.user_reports(is_purchased);
+CREATE INDEX idx_quiz_sessions_session_id ON public.quiz_sessions(session_id);
+CREATE INDEX idx_quiz_sessions_expires_at ON public.quiz_sessions(expires_at);
+CREATE INDEX idx_quiz_responses_session_quiz ON public.quiz_responses(session_id, quiz_id);
+CREATE INDEX idx_quiz_results_session_quiz ON public.quiz_results(session_id, quiz_id);
+CREATE INDEX idx_quiz_reports_session ON public.quiz_reports(session_id);
 
--- Set up Row Level Security policies
+-- Set up Row Level Security policies (allow anonymous access)
+ALTER TABLE public.quiz_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.quiz_responses ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.quiz_results ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.user_reports ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.quiz_reports ENABLE ROW LEVEL SECURITY;
 
--- Policies for quiz_responses
-CREATE POLICY "Users can insert their own quiz responses" 
-  ON public.quiz_responses FOR INSERT 
-  WITH CHECK (auth.uid() = user_id);
+-- Policies for quiz_sessions (allow anonymous access)
+CREATE POLICY "Allow anonymous access to quiz sessions" 
+  ON public.quiz_sessions FOR ALL 
+  USING (true);
 
-CREATE POLICY "Users can view their own quiz responses" 
-  ON public.quiz_responses FOR SELECT 
-  USING (auth.uid() = user_id);
+-- Policies for quiz_responses (allow anonymous access)
+CREATE POLICY "Allow anonymous access to quiz responses" 
+  ON public.quiz_responses FOR ALL 
+  USING (true);
 
-CREATE POLICY "Users can update their own quiz responses" 
-  ON public.quiz_responses FOR UPDATE 
-  USING (auth.uid() = user_id);
+-- Policies for quiz_results (allow anonymous access)
+CREATE POLICY "Allow anonymous access to quiz results" 
+  ON public.quiz_results FOR ALL 
+  USING (true);
 
--- Policies for quiz_results
-CREATE POLICY "Users can insert their own quiz results" 
-  ON public.quiz_results FOR INSERT 
-  WITH CHECK (auth.uid() = user_id);
+-- Policies for quiz_reports (allow anonymous access)
+CREATE POLICY "Allow anonymous access to quiz reports" 
+  ON public.quiz_reports FOR ALL 
+  USING (true);
 
-CREATE POLICY "Users can view their own quiz results" 
-  ON public.quiz_results FOR SELECT 
-  USING (auth.uid() = user_id);
+-- Function to clean up expired sessions automatically
+CREATE OR REPLACE FUNCTION cleanup_expired_sessions()
+RETURNS void AS $$
+BEGIN
+  DELETE FROM public.quiz_sessions 
+  WHERE expires_at < NOW();
+END;
+$$ LANGUAGE plpgsql;
 
-CREATE POLICY "Users can update their own quiz results" 
-  ON public.quiz_results FOR UPDATE 
-  USING (auth.uid() = user_id);
-
--- Policies for user_reports
-CREATE POLICY "Users can insert their own reports" 
-  ON public.user_reports FOR INSERT 
-  WITH CHECK (auth.uid() = user_id);
-
-CREATE POLICY "Users can view their own reports" 
-  ON public.user_reports FOR SELECT 
-  USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can update their own reports" 
-  ON public.user_reports FOR UPDATE 
-  USING (auth.uid() = user_id);
+-- Create a scheduled function to run cleanup (optional)
+-- This requires the pg_cron extension if you want automatic cleanup
+-- SELECT cron.schedule('cleanup-sessions', '0 2 * * *', 'SELECT cleanup_expired_sessions();');
 ```
 
-### Step 4: Configure Authentication
-1. In Supabase dashboard, go to Authentication > Settings
-2. Enable email confirmations if desired
-3. Configure any social auth providers if needed
+### Step 4: Configure Settings
+1. In Supabase dashboard, go to Settings > API
+2. Ensure "Enable Row Level Security" is enabled
+3. No authentication configuration needed (anonymous access)
 
 ### Step 5: Update Configuration
 1. Update the `SUPABASE_CONFIG` object in `config.js`
@@ -131,20 +121,36 @@ CREATE POLICY "Users can update their own reports"
 3. Replace `your-anon-key-here` with your actual anon key
 
 ### Step 6: Test the Integration
-1. Sign up for a new account through the website
-2. Take the quiz while logged in
-3. Check your Supabase dashboard to see the data being saved
+1. Take the quiz on the website
+2. Check your Supabase dashboard to see the data being saved
+3. Each browser session gets a unique session_id
 
 ## Features Enabled
-- User authentication (sign up, sign in, sign out)
-- Quiz response storage per user
+- Anonymous quiz sessions (no user registration required)
+- Quiz response storage per session
 - Personalized results calculation and storage
 - 40+ page report generation
 - Preview functionality
-- Database-backed user sessions
+- Session-based data persistence
+- Automatic session expiration (7 days)
+
+## Session Management
+- Each user gets a unique session ID stored in localStorage
+- Sessions expire after 7 days automatically
+- Quiz responses are tied to session ID instead of user account
+- Data is accessible via session ID only
+- Expired sessions are automatically cleaned up
 
 ## Security Notes
-- All data is protected by Row Level Security (RLS)
-- Users can only access their own data
-- API keys are safe for client-side use (anon key only)
-- All sensitive data requires authentication
+- All data is accessible anonymously but tied to unique session IDs
+- No personal information is required or stored
+- Session IDs are randomly generated and difficult to guess
+- Data automatically expires after session timeout
+- RLS policies allow anonymous access while maintaining data isolation
+
+## PDF Generation
+The system generates comprehensive PDF reports containing:
+- Complete 40+ page Human Design analysis
+- Personalized insights based on quiz responses
+- Professional formatting and structure
+- Downloadable via the purchase flow

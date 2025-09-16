@@ -75,16 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const page = window.location.pathname.replace(/\.html$/, '') || '/';
     trackEvent('page_view', { page: page });
     
-    // Initialize authentication UI
-    if (window.database) {
-        // Set up auth container in navigation
-        const authContainerNav = document.getElementById('auth-container-nav');
-        if (authContainerNav) {
-            authContainerNav.id = 'auth-container';
-            // Initial auth state will be set by database service
-        }
-    }
-    
     // Add click tracking to all CTA buttons
     const ctaButtons = document.querySelectorAll('.cta-button');
     ctaButtons.forEach(button => {

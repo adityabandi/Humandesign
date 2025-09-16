@@ -73,7 +73,7 @@ class HumanDesignQuiz {
         // Save to localStorage
         saveToLocalStorage('quiz_progress', progressData);
         
-        // Save individual answer to database if available
+        // Save individual answer to database if available and we have a current question
         if (window.database && this.currentQuestion) {
             const questionId = this.currentQuestion.id;
             const answer = this.answers[questionId];
@@ -82,7 +82,7 @@ class HumanDesignQuiz {
                 window.database.saveQuizResponse(this.quizId, questionId, answer)
                     .then(result => {
                         if (result.success) {
-                            console.log('Answer saved to database');
+                            console.log(`Answer saved (${result.storage || 'database'})`);
                         }
                     })
                     .catch(error => {
@@ -352,7 +352,7 @@ async function submitQuiz() {
             try {
                 const dbResult = await window.database.saveQuizResults(results.quiz_id, results);
                 if (dbResult.success) {
-                    console.log('Quiz results saved to database');
+                    console.log(`Quiz results saved (${dbResult.storage || 'database'})`);
                 } else {
                     console.log('Results saved to localStorage only');
                 }
@@ -365,7 +365,8 @@ async function submitQuiz() {
             quiz_id: results.quiz_id,
             type: results.type,
             authority: results.authority,
-            profile: results.profile
+            profile: results.profile,
+            session_id: window.database ? window.database.getCurrentSessionId() : 'local_only'
         });
         
         // Navigate to results page

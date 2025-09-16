@@ -1,4 +1,4 @@
-// Database configuration
+// Database configuration for quiz response storage (no authentication required)
 // IMPORTANT: Replace these with your actual Supabase project credentials
 // See DATABASE_SETUP.md for detailed setup instructions
 const SUPABASE_CONFIG = {
@@ -6,26 +6,31 @@ const SUPABASE_CONFIG = {
     anon_key: 'your-anon-key-here' // Replace with your actual anon key from Supabase dashboard
 };
 
-// Example of real config (replace with your actual values):
-// const SUPABASE_CONFIG = {
-//     url: 'https://xyzabcdefghijk.supabase.co',
-//     anon_key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-// };
+// Configuration for anonymous quiz sessions
+const QUIZ_CONFIG = {
+    enableDatabase: true, // Set to false to use localStorage only
+    sessionExpiration: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+    generateSessionId: () => {
+        return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+};
 
 // Export configuration
 window.SUPABASE_CONFIG = SUPABASE_CONFIG;
+window.QUIZ_CONFIG = QUIZ_CONFIG;
 
-// Database schema design:
+// Database schema design (updated for anonymous sessions):
 // 
-// users table:
+// quiz_sessions table:
 // - id (uuid, primary key)
-// - email (text, unique)
+// - session_id (text, unique)
 // - created_at (timestamp)
 // - updated_at (timestamp)
+// - expires_at (timestamp)
 //
 // quiz_responses table:
 // - id (uuid, primary key) 
-// - user_id (uuid, foreign key to users.id)
+// - session_id (text, foreign key to quiz_sessions.session_id)
 // - quiz_id (text)
 // - question_id (integer)
 // - answer_value (integer, 1-5)
@@ -33,7 +38,7 @@ window.SUPABASE_CONFIG = SUPABASE_CONFIG;
 //
 // quiz_results table:
 // - id (uuid, primary key)
-// - user_id (uuid, foreign key to users.id)
+// - session_id (text, foreign key to quiz_sessions.session_id)
 // - quiz_id (text)
 // - type (text) - Generator, Manifestor, Projector, Reflector
 // - authority (text) - Emotional, Sacral, Splenic, Self-Projected
@@ -44,12 +49,10 @@ window.SUPABASE_CONFIG = SUPABASE_CONFIG;
 // - created_at (timestamp)
 // - updated_at (timestamp)
 //
-// user_reports table:
+// quiz_reports table:
 // - id (uuid, primary key)
-// - user_id (uuid, foreign key to users.id)
+// - session_id (text, foreign key to quiz_sessions.session_id)
 // - quiz_result_id (uuid, foreign key to quiz_results.id)
 // - report_data (jsonb) - complete 40+ page report content
-// - is_purchased (boolean)
-// - purchase_date (timestamp)
 // - created_at (timestamp)
 // - updated_at (timestamp)
