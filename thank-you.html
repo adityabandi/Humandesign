@@ -74,5 +74,25 @@
     </main>
 
     <script src="script.js"></script>
+    <script type="module">
+        // Mark purchase as completed when thank you page loads
+        import { markPurchase } from './assets/db.js';
+        
+        // Get public_id from URL if present
+        const urlParams = new URLSearchParams(window.location.search);
+        const publicId = urlParams.get('id');
+        
+        if (publicId) {
+            try {
+                await markPurchase(publicId, 'paid', {
+                    timestamp: new Date().toISOString(),
+                    page: 'thank-you'
+                });
+                console.log('Purchase marked as paid for:', publicId);
+            } catch (error) {
+                console.warn('Could not mark purchase:', error);
+            }
+        }
+    </script>
 </body>
 </html>

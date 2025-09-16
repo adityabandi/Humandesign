@@ -74,18 +74,77 @@
 
                 <div class="quiz-complete hidden" id="quizComplete">
                     <h2>Assessment Complete!</h2>
-                    <p>Thank you for completing the Human Design assessment. We're now analyzing your responses to generate your personalized report.</p>
-                    <button class="btn btn-primary large" onclick="submitQuiz()">View My Results</button>
+                    <p>Now we need your birth information to calculate your Human Design chart.</p>
+                    <div class="birth-form" id="birthForm">
+                        <h3>Birth Information (Required)</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="birthName">Full Name</label>
+                                <input type="text" id="birthName" required placeholder="Enter your full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="birthEmail">Email (Optional)</label>
+                                <input type="email" id="birthEmail" placeholder="your@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="birthDate">Birth Date</label>
+                                <input type="date" id="birthDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="birthTime">Birth Time</label>
+                                <input type="time" id="birthTime" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="birthPlace">Birth Place</label>
+                                <input type="text" id="birthPlace" required placeholder="City, Country">
+                            </div>
+                            <div class="form-group">
+                                <label for="birthTimezone">Timezone</label>
+                                <select id="birthTimezone" required>
+                                    <option value="">Select timezone...</option>
+                                    <option value="UTC-12:00">UTC-12:00 (Baker Island)</option>
+                                    <option value="UTC-11:00">UTC-11:00 (Hawaii)</option>
+                                    <option value="UTC-10:00">UTC-10:00 (Alaska)</option>
+                                    <option value="UTC-09:00">UTC-09:00 (Pacific)</option>
+                                    <option value="UTC-08:00">UTC-08:00 (Mountain)</option>
+                                    <option value="UTC-07:00">UTC-07:00 (Central)</option>
+                                    <option value="UTC-06:00">UTC-06:00 (Eastern)</option>
+                                    <option value="UTC-05:00">UTC-05:00 (Atlantic)</option>
+                                    <option value="UTC-04:00">UTC-04:00 (Brazil)</option>
+                                    <option value="UTC-03:00">UTC-03:00 (Argentina)</option>
+                                    <option value="UTC-02:00">UTC-02:00 (Mid-Atlantic)</option>
+                                    <option value="UTC-01:00">UTC-01:00 (Azores)</option>
+                                    <option value="UTC+00:00">UTC+00:00 (London, GMT)</option>
+                                    <option value="UTC+01:00">UTC+01:00 (Central Europe)</option>
+                                    <option value="UTC+02:00">UTC+02:00 (Eastern Europe)</option>
+                                    <option value="UTC+03:00">UTC+03:00 (Moscow)</option>
+                                    <option value="UTC+04:00">UTC+04:00 (Gulf)</option>
+                                    <option value="UTC+05:00">UTC+05:00 (Pakistan)</option>
+                                    <option value="UTC+05:30">UTC+05:30 (India)</option>
+                                    <option value="UTC+06:00">UTC+06:00 (Bangladesh)</option>
+                                    <option value="UTC+07:00">UTC+07:00 (Thailand)</option>
+                                    <option value="UTC+08:00">UTC+08:00 (China, Singapore)</option>
+                                    <option value="UTC+09:00">UTC+09:00 (Japan, Korea)</option>
+                                    <option value="UTC+10:00">UTC+10:00 (Australia East)</option>
+                                    <option value="UTC+11:00">UTC+11:00 (Vanuatu)</option>
+                                    <option value="UTC+12:00">UTC+12:00 (Fiji, New Zealand)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn btn-primary large" onclick="submitQuizWithBirth()" id="submitBtn">Generate My Human Design Report</button>
+                        </div>
+                        <p class="form-note">All fields are required to generate your accurate Human Design chart.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Include database -->
+    <!-- Include required scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
-    <script src="database.js"></script>
+    <script type="module" src="assets/quiz.js"></script>
     <script src="script.js"></script>
-    <script src="quiz.js"></script>
 </body>
 </html>
