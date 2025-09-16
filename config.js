@@ -8,7 +8,7 @@ const SUPABASE_CONFIG = {
 
 // Configuration for anonymous quiz sessions
 const QUIZ_CONFIG = {
-    enableDatabase: true, // Set to false to use localStorage only
+    enableDatabase: false, // Set to true when Supabase is configured
     sessionExpiration: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
     generateSessionId: () => {
         return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);

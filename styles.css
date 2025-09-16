@@ -967,6 +967,132 @@ p {
     min-width: 200px;
 }
 
+/* Birth Form Styles */
+.birth-form {
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.birth-form h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--accent-color);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.form-group input.error,
+.form-group select.error {
+    border-color: var(--error-color, #ef4444);
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.form-note {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+}
+
+/* Results Display Enhancements */
+.results-section {
+    margin-bottom: 3rem;
+}
+
+.result-details {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.result-item .label {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.result-item .value {
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.insights-list {
+    list-style: none;
+    padding: 0;
+}
+
+.insight-item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--accent-color);
+}
+
+.purchased-status {
+    text-align: center;
+    padding: 3rem;
+    background-color: var(--success-bg, #dcfce7);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--success-color, #22c55e);
+    color: var(--success-text, #166534);
+}
+
+.error-message {
+    text-align: center;
+    padding: 3rem;
+    background-color: var(--error-bg, #fef2f2);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--error-color, #ef4444);
+    color: var(--error-text, #991b1b);
+}
+
 @media (max-width: 768px) {
     .cta-buttons {
         flex-direction: column;
@@ -976,5 +1102,37 @@ p {
     .cta-buttons .btn {
         width: 100%;
         max-width: 300px;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .result-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 0.5rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .question-card {
+        padding: 2rem 1rem;
+    }
+    
+    .pricing-card {
+        padding: 2rem 1rem;
+    }
+    
+    .birth-form {
+        padding: 0 1rem;
     }
 }
