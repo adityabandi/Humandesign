@@ -1,0 +1,459 @@
+<!-- Authentication Modal -->
+<div id="auth-modal" class="modal hidden">
+    <div class="modal-overlay" onclick="closeAuthModal()"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="auth-modal-title">Sign In</h2>
+            <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+            <div id="auth-form-container">
+                <!-- Sign In Form -->
+                <form id="signin-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="signin-email">Email</label>
+                        <input type="email" id="signin-email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signin-password">Password</label>
+                        <input type="password" id="signin-password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary full-width">Sign In</button>
+                    
+                    <div class="auth-switch">
+                        Don't have an account? 
+                        <a href="#" onclick="switchToSignUp()">Sign Up</a>
+                    </div>
+                </form>
+                
+                <!-- Sign Up Form -->
+                <form id="signup-form" class="auth-form hidden">
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required minlength="6">
+                        <small>Password must be at least 6 characters</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-confirm">Confirm Password</label>
+                        <input type="password" id="signup-confirm" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary full-width">Sign Up</button>
+                    
+                    <div class="auth-switch">
+                        Already have an account? 
+                        <a href="#" onclick="switchToSignIn()">Sign In</a>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="auth-loading" class="hidden">
+                <div class="loading-spinner"></div>
+                <p>Processing...</p>
+            </div>
+            
+            <div id="auth-error" class="error-message hidden"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Auth Container for Navigation -->
+<div id="auth-container" class="auth-container">
+    <!-- Will be populated by JavaScript -->
+</div>
+
+<style>
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    background: var(--card-bg);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+/* Form Styles */
+.auth-form {
+    space-y: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-color);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(77, 163, 255, 0.1);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--text-secondary);
+}
+
+.auth-switch a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#auth-loading {
+    text-align: center;
+    padding: 2rem;
+}
+
+#auth-loading p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Error Message */
+.error-message {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+}
+
+/* Auth Container in Navigation */
+.auth-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-primary);
+}
+
+.user-info span {
+    font-size: 0.9rem;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.auth-buttons .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .auth-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .user-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .user-info span {
+        font-size: 0.8rem;
+    }
+}
+</style>
+
+<script>
+// Authentication UI functions
+function showSignInModal() {
+    const modal = document.getElementById('auth-modal');
+    const title = document.getElementById('auth-modal-title');
+    const signinForm = document.getElementById('signin-form');
+    const signupForm = document.getElementById('signup-form');
+    
+    title.textContent = 'Sign In';
+    signinForm.classList.remove('hidden');
+    signupForm.classList.add('hidden');
+    modal.classList.remove('hidden');
+    
+    // Clear any previous errors
+    clearAuthError();
+}
+
+function showSignUpModal() {
+    const modal = document.getElementById('auth-modal');
+    const title = document.getElementById('auth-modal-title');
+    const signinForm = document.getElementById('signin-form');
+    const signupForm = document.getElementById('signup-form');
+    
+    title.textContent = 'Sign Up';
+    signinForm.classList.add('hidden');
+    signupForm.classList.remove('hidden');
+    modal.classList.remove('hidden');
+    
+    // Clear any previous errors
+    clearAuthError();
+}
+
+function closeAuthModal() {
+    const modal = document.getElementById('auth-modal');
+    modal.classList.add('hidden');
+    clearAuthError();
+    clearAuthForms();
+}
+
+function switchToSignUp() {
+    showSignUpModal();
+}
+
+function switchToSignIn() {
+    showSignInModal();
+}
+
+function showAuthLoading() {
+    document.getElementById('auth-form-container').classList.add('hidden');
+    document.getElementById('auth-loading').classList.remove('hidden');
+}
+
+function hideAuthLoading() {
+    document.getElementById('auth-form-container').classList.remove('hidden');
+    document.getElementById('auth-loading').classList.add('hidden');
+}
+
+function showAuthError(message) {
+    const errorDiv = document.getElementById('auth-error');
+    errorDiv.textContent = message;
+    errorDiv.classList.remove('hidden');
+}
+
+function clearAuthError() {
+    const errorDiv = document.getElementById('auth-error');
+    errorDiv.classList.add('hidden');
+    errorDiv.textContent = '';
+}
+
+function clearAuthForms() {
+    document.getElementById('signin-form').reset();
+    document.getElementById('signup-form').reset();
+}
+
+// Form submission handlers
+document.addEventListener('DOMContentLoaded', function() {
+    // Sign in form handler
+    document.getElementById('signin-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('signin-email').value;
+        const password = document.getElementById('signin-password').value;
+        
+        if (!email || !password) {
+            showAuthError('Please fill in all fields');
+            return;
+        }
+        
+        showAuthLoading();
+        clearAuthError();
+        
+        try {
+            const result = await window.database.signIn(email, password);
+            
+            if (result.success) {
+                closeAuthModal();
+                // Show success message or redirect
+                console.log('Sign in successful');
+            } else {
+                hideAuthLoading();
+                showAuthError(result.error || 'Sign in failed');
+            }
+        } catch (error) {
+            hideAuthLoading();
+            showAuthError('An error occurred. Please try again.');
+            console.error('Sign in error:', error);
+        }
+    });
+    
+    // Sign up form handler
+    document.getElementById('signup-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+        const confirm = document.getElementById('signup-confirm').value;
+        
+        if (!email || !password || !confirm) {
+            showAuthError('Please fill in all fields');
+            return;
+        }
+        
+        if (password !== confirm) {
+            showAuthError('Passwords do not match');
+            return;
+        }
+        
+        if (password.length < 6) {
+            showAuthError('Password must be at least 6 characters');
+            return;
+        }
+        
+        showAuthLoading();
+        clearAuthError();
+        
+        try {
+            const result = await window.database.signUp(email, password);
+            
+            if (result.success) {
+                closeAuthModal();
+                // Show success message
+                alert('Account created successfully! Please check your email to verify your account.');
+            } else {
+                hideAuthLoading();
+                showAuthError(result.error || 'Sign up failed');
+            }
+        } catch (error) {
+            hideAuthLoading();
+            showAuthError('An error occurred. Please try again.');
+            console.error('Sign up error:', error);
+        }
+    });
+});
+
+// Close modal when clicking outside
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('modal-overlay')) {
+        closeAuthModal();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeAuthModal();
+    }
+});
+</script>

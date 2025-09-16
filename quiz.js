@@ -69,7 +69,27 @@ class HumanDesignQuiz {
             currentQuestionIndex: this.currentQuestionIndex,
             timestamp: new Date().toISOString()
         };
+        
+        // Save to localStorage
         saveToLocalStorage('quiz_progress', progressData);
+        
+        // Save individual answer to database if available
+        if (window.database && this.currentQuestion) {
+            const questionId = this.currentQuestion.id;
+            const answer = this.answers[questionId];
+            
+            if (answer) {
+                window.database.saveQuizResponse(this.quizId, questionId, answer)
+                    .then(result => {
+                        if (result.success) {
+                            console.log('Answer saved to database');
+                        }
+                    })
+                    .catch(error => {
+                        console.log('Database save failed, using localStorage only:', error);
+                    });
+            }
+        }
     }
     
     setupEventListeners() {
@@ -320,12 +340,26 @@ class HumanDesignQuiz {
 }
 
 // Submit quiz and navigate to results
-function submitQuiz() {
+async function submitQuiz() {
     if (window.quiz) {
         const results = window.quiz.calculateResults();
         
-        // Save results
+        // Save results to localStorage
         saveToLocalStorage('quiz_results', results);
+        
+        // Save results to database if available
+        if (window.database) {
+            try {
+                const dbResult = await window.database.saveQuizResults(results.quiz_id, results);
+                if (dbResult.success) {
+                    console.log('Quiz results saved to database');
+                } else {
+                    console.log('Results saved to localStorage only');
+                }
+            } catch (error) {
+                console.log('Database save failed, using localStorage only:', error);
+            }
+        }
         
         trackEvent('quiz_submitted', {
             quiz_id: results.quiz_id,

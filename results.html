@@ -16,8 +16,10 @@
             <ul class="nav-menu">
                 <li><a href="/" class="nav-link">Home</a></li>
                 <li><a href="/quiz.html" class="nav-link">Quiz</a></li>
+                <li><a href="/preview.html" class="nav-link">Preview</a></li>
                 <li><a href="/blog.html" class="nav-link">Blog</a></li>
                 <li><a href="/buy.html" class="nav-link cta-button">Get Full Report</a></li>
+                <li id="auth-container-nav"></li>
             </ul>
         </div>
     </nav>
@@ -82,13 +84,36 @@
                         <li>Relationship compatibility insights</li>
                         <li>Decision-making strategies</li>
                     </ul>
-                    <a href="/buy.html" class="btn btn-primary large" onclick="trackEvent('buy_click')">Get Full Report - $47</a>
+                    <div class="cta-buttons">
+                        <a href="/preview.html" class="btn btn-secondary large" onclick="trackEvent('preview_click')">
+                            Preview Full Report
+                        </a>
+                        <a href="/buy.html" class="btn btn-primary large" onclick="trackEvent('buy_click')">
+                            Get Full Report - $47
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
+    <!-- Include authentication and database -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="database.js"></script>
     <script src="script.js"></script>
     <script src="results.js"></script>
+    
+    <!-- Load auth modal -->
+    <div id="auth-modal-container"></div>
+    <script>
+        // Load auth modal
+        fetch('auth-modal.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('auth-modal-container').innerHTML = html;
+            })
+            .catch(error => console.log('Auth modal not loaded:', error));
+    </script>
 </body>
 </html>

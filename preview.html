@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Preview - Human Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">HumanDesign</a>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/quiz.html" class="nav-link">Quiz</a></li>
+                <li><a href="/blog.html" class="nav-link">Blog</a></li>
+                <li><a href="/buy.html" class="nav-link cta-button">Get Full Report</a></li>
+                <li id="auth-container-nav"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content preview-page">
+        <div class="container">
+            <div class="preview-header">
+                <h1>Your Complete Human Design Report Preview</h1>
+                <p class="preview-subtitle">Get a glimpse of your comprehensive 40+ page personalized analysis</p>
+            </div>
+
+            <div class="preview-navigation">
+                <div class="section-tabs">
+                    <button class="tab-button active" onclick="showSection('introduction')">Introduction</button>
+                    <button class="tab-button" onclick="showSection('type-analysis')">Type Analysis</button>
+                    <button class="tab-button" onclick="showSection('authority')">Authority</button>
+                    <button class="tab-button" onclick="showSection('centers')">Energy Centers</button>
+                    <button class="tab-button" onclick="showSection('career')">Career Guide</button>
+                    <button class="tab-button" onclick="showSection('relationships')">Relationships</button>
+                </div>
+            </div>
+
+            <div class="preview-content">
+                <!-- Introduction Section -->
+                <div id="introduction-section" class="section-content active">
+                    <div class="section-header">
+                        <h2>Section 1: Welcome to Your Human Design</h2>
+                        <span class="page-count">Pages 1-3</span>
+                    </div>
+                    
+                    <div class="preview-pages">
+                        <div class="page-preview">
+                            <div class="page-header">
+                                <h3>Page 1: Your Unique Blueprint</h3>
+                            </div>
+                            <div class="page-content">
+                                <p class="preview-text">
+                                    Welcome to your personalized Human Design journey. As a <span id="preview-type" class="highlight">Generator</span> 
+                                    with <span id="preview-authority" class="highlight">Sacral</span> authority and a 
+                                    <span id="preview-profile" class="highlight">1/3</span> profile, you have a unique way of moving through the world.
+                                </p>
+                                <p class="preview-text">
+                                    This comprehensive report will help you understand not just who you are, but how to make decisions, 
+                                    build relationships, pursue your purpose, and live in alignment with your authentic nature.
+                                </p>
+                                <div class="blur-overlay">
+                                    <div class="unlock-text">
+                                        <i class="lock-icon">🔒</i>
+                                        <p>Unlock full content with complete report</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="page-preview">
+                            <div class="page-header">
+                                <h3>Page 2: What is Human Design?</h3>
+                            </div>
+                            <div class="page-content">
+                                <p class="preview-text">
+                                    Human Design is a revolutionary system that reveals your unique energetic blueprint. 
+                                    Created by Ra Uru Hu in 1987, it synthesizes ancient and modern wisdom traditions...
+                                </p>
+                                <div class="blur-overlay">
+                                    <div class="unlock-text">
+                                        <i class="lock-icon">🔒</i>
+                                        <p>Continue reading in your full report</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Type Analysis Section -->
+                <div id="type-analysis-section" class="section-content">
+                    <div class="section-header">
+                        <h2>Section 2: Deep Dive - The <span id="type-title">Generator</span></h2>
+                        <span class="page-count">Pages 4-9</span>
+                    </div>
+                    
+                    <div class="preview-pages">
+                        <div class="page-preview">
+                            <div class="page-header">
+                                <h3>Your Type Strategy</h3>
+                            </div>
+                            <div class="page-content">
+                                <p class="preview-text" id="type-strategy">
+                                    Your strategy is to RESPOND. This means waiting for life to come to you and then 
+                                    responding with your gut feeling...
+                                </p>
+                                <div class="blur-overlay">
+                                    <div class="unlock-text">
+                                        <i class="lock-icon">🔒</i>
+                                        <p>Unlock detailed type analysis</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="page-preview">
+                            <div class="page-header">
+                                <h3>Famous Examples of Your Type</h3>
+                            </div>
+                            <div class="page-content">
+                                <div class="famous-examples" id="famous-examples">
+                                    <div class="example-grid">
+                                        <div class="example-card">Albert Einstein</div>
+                                        <div class="example-card">Oprah Winfrey</div>
+                                        <div class="example-card">Madonna</div>
+                                    </div>
+                                </div>
+                                <div class="blur-overlay">
+                                    <div class="unlock-text">
+                                        <i class="lock-icon">🔒</i>
+                                        <p>See complete analysis and examples</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Authority Section -->
+                <div id="authority-section" class="section-content">
+                    <div class="section-header">
+                        <h2>Section 3: Your Inner Authority - <span id="authority-title">Sacral</span></h2>
+                        <span class="page-count">Pages 10-13</span>
+                    </div>
+                    
+                    <div class="preview-pages">
+                        <div class="page-preview">
+                            <div class="page-header">
+                                <h3>How to Access Your Authority</h3>
+                            </div>
+                            <div class="page-content">
+                                <p class="preview-text" id="authority-guidance">
+                                    Your authority is in your gut response - that immediate 'uh-huh' or 'uh-uh' sound 
+                                    that comes from your belly before your mind can interfere...
+                                </p>
+                                <div class="blur-overlay">
+                                    <div class="unlock-text">
+                                        <i class="lock-icon">🔒</i>
+                                        <p>Get complete decision-making guide</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Centers Section -->
+                <div id="centers-section" class="section-content">
+                    <div class="section-header">
+                        <h2>Section 4: Your Energy Centers Deep Dive</h2>
+                        <span class="page-count">Pages 14-22</span>
+                    </div>
+                    
+                    <div class="preview-pages">
+                        <div class="page-preview">
+                            <div class="page-header">
+                                <h3>Your Center Configuration</h3>
+                            </div>
+                            <div class="page-content">
+                                <div class="centers-visual">
+                                    <div class="center-grid">
+                                        <div class="center defined" data-center="sacral">Sacral</div>
+                                        <div class="center undefined" data-center="emotional">Emotional</div>
+                                        <div class="center defined" data-center="throat">Throat</div>
+                                        <div class="center undefined" data-center="identity">Identity</div>
+                                        <div class="center defined" data-center="will">Will</div>
+                                    </div>
+                                </div>
+                                <div class="blur-overlay">
+                                    <div class="unlock-text">
+                                        <i class="lock-icon">🔒</i>
+                                        <p>Detailed analysis of all 9 centers</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Career Section -->
+                <div id="career-section" class="section-content">
+                    <div class="section-header">
+                        <h2>Section 8: Career and Professional Guidance</h2>
+                        <span class="page-count">Pages 28-31</span>
+                    </div>
+                    
+                    <div class="preview-pages">
+                        <div class="page-preview">
+                            <div class="page-header">
+                                <h3>Your Ideal Work Environment</h3>
+                            </div>
+                            <div class="page-content">
+                                <p class="preview-text" id="career-guidance">
+                                    Your career should light you up and allow you to respond to opportunities that excite you. 
+                                    You have the sustainable energy to master your craft...
+                                </p>
+                                <div class="blur-overlay">
+                                    <div class="unlock-text">
+                                        <i class="lock-icon">🔒</i>
+                                        <p>Complete career strategy guide</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Relationships Section -->
+                <div id="relationships-section" class="section-content">
+                    <div class="section-header">
+                        <h2>Section 9: Relationships and Compatibility</h2>
+                        <span class="page-count">Pages 32-35</span>
+                    </div>
+                    
+                    <div class="preview-pages">
+                        <div class="page-preview">
+                            <div class="page-header">
+                                <h3>Your Relationship Style</h3>
+                            </div>
+                            <div class="page-content">
+                                <p class="preview-text" id="relationship-guidance">
+                                    As a Generator, you bring unique gifts to relationships. Understanding your design 
+                                    helps you connect more authentically...
+                                </p>
+                                <div class="blur-overlay">
+                                    <div class="unlock-text">
+                                        <i class="lock-icon">🔒</i>
+                                        <p>Comprehensive relationship guide</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-footer">
+                <div class="report-summary">
+                    <h3>Complete Report Includes:</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <span class="feature-icon">📊</span>
+                            <span>40+ personalized pages</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🎯</span>
+                            <span>Life purpose guidance</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">💼</span>
+                            <span>Career optimization</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">❤️</span>
+                            <span>Relationship insights</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🧘</span>
+                            <span>Daily practices</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔮</span>
+                            <span>Yearly forecast</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cta-container">
+                    <p class="cta-text">Ready to unlock your complete Human Design blueprint?</p>
+                    <a href="/buy.html" class="btn btn-primary large" onclick="trackEvent('preview_to_buy')">
+                        Get Your Complete Report - $47
+                    </a>
+                    <p class="guarantee">30-day money-back guarantee</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Include authentication modal -->
+    <div id="auth-modal-container"></div>
+
+    <script src="config.js"></script>
+    <script src="database.js"></script>
+    <script src="report-generator.js"></script>
+    <script src="script.js"></script>
+    <script src="preview.js"></script>
+    
+    <script>
+        // Load auth modal
+        fetch('auth-modal.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('auth-modal-container').innerHTML = html;
+            });
+    </script>
+</body>
+</html>
