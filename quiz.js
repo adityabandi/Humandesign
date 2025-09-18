@@ -1,382 +1,513 @@
-// Quiz functionality
-class HumanDesignQuiz {
+// Technical Assessment Protocol System
+class SystemAssessmentInterface {
     constructor() {
-        this.questions = [];
-        this.currentQuestionIndex = 0;
-        this.answers = {};
-        this.isLoading = false;
-        this.quizId = this.generateQuizId();
+        this.assessmentQueries = [];
+        this.currentQueryIndex = 0;
+        this.responseData = {};
+        this.systemState = 'initializing';
+        this.assessmentId = this.generateAssessmentId();
+        this.sessionMetrics = {
+            startTime: Date.now(),
+            responseLatencies: [],
+            revisionCount: 0,
+            accuracyIndicators: []
+        };
         
-        this.init();
+        this.initializeAssessment();
     }
     
-    generateQuizId() {
-        return 'quiz_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    generateAssessmentId() {
+        const timestamp = Date.now();
+        const randomComponent = Math.random().toString(36).substr(2, 9).toUpperCase();
+        return `ASS-${timestamp.toString(36).toUpperCase()}-${randomComponent}`;
     }
     
-    async init() {
-        await this.loadQuestions();
-        this.loadSavedProgress();
-        this.renderCurrentQuestion();
-        this.updateProgress();
-        this.setupEventListeners();
+    async initializeAssessment() {
+        await this.loadAssessmentProtocol();
+        this.restoreSessionProgress();
+        this.renderCurrentQuery();
+        this.updateSystemMetrics();
+        this.setupInteractionListeners();
         
-        // Track quiz start
-        trackEvent('quiz_started', {
-            quiz_id: this.quizId,
-            total_questions: this.questions.length
+        // Track assessment initialization
+        this.trackSystemEvent('assessment_protocol_initiated', {
+            assessment_id: this.assessmentId,
+            total_queries: this.assessmentQueries.length,
+            protocol_version: '2.4.1'
         });
     }
     
-    async loadQuestions() {
+    async loadAssessmentProtocol() {
         try {
             const response = await fetch('/assets/questions.json');
-            this.questions = await response.json();
+            this.assessmentQueries = await response.json();
+            this.systemState = 'protocol_loaded';
         } catch (error) {
-            console.error('Error loading questions:', error);
-            this.questions = this.getFallbackQuestions();
+            console.error('Protocol loading error:', error);
+            this.assessmentQueries = this.getEmergencyProtocol();
+            this.systemState = 'emergency_protocol';
         }
     }
     
-    getFallbackQuestions() {
-        // Fallback questions in case the JSON file fails to load
+    getEmergencyProtocol() {
+        // Emergency fallback assessment queries
         return [
             {
-                "id": 1,
-                "question": "I feel most energized when I'm actively doing something.",
-                "category": "energy_type"
+                "id": "EQ001",
+                "query": "Sustained energy activation occurs most efficiently through active engagement with environmental stimuli.",
+                "category": "energy_dynamics",
+                "classification": "core_framework"
             },
             {
-                "id": 2,
-                "question": "I prefer to wait for the right opportunity rather than forcing things to happen.",
-                "category": "strategy"
+                "id": "EQ002", 
+                "query": "Decision-making processes require external recognition and formal invitation before implementation.",
+                "category": "decision_architecture",
+                "classification": "strategic_framework"
+            },
+            {
+                "id": "EQ003",
+                "query": "Internal response mechanisms provide immediate directional guidance without cognitive interference.",
+                "category": "authority_systems",
+                "classification": "operational_framework"
             }
         ];
     }
     
-    loadSavedProgress() {
-        const savedData = getFromLocalStorage('quiz_progress');
-        if (savedData && savedData.quiz_id === this.quizId) {
-            this.answers = savedData.answers || {};
-            this.currentQuestionIndex = savedData.currentQuestionIndex || 0;
+    restoreSessionProgress() {
+        const sessionData = getFromLocalStorage('assessment_session');
+        if (sessionData && sessionData.assessment_id === this.assessmentId) {
+            this.responseData = sessionData.responses || {};
+            this.currentQueryIndex = sessionData.currentQueryIndex || 0;
+            this.sessionMetrics = { ...this.sessionMetrics, ...sessionData.metrics };
         }
     }
     
-    saveProgress() {
-        const progressData = {
-            quiz_id: this.quizId,
-            answers: this.answers,
-            currentQuestionIndex: this.currentQuestionIndex,
-            timestamp: new Date().toISOString()
+    persistSessionData() {
+        const sessionData = {
+            assessment_id: this.assessmentId,
+            responses: this.responseData,
+            currentQueryIndex: this.currentQueryIndex,
+            metrics: this.sessionMetrics,
+            timestamp: new Date().toISOString(),
+            systemState: this.systemState
         };
         
-        // Save to localStorage
-        saveToLocalStorage('quiz_progress', progressData);
+        // Local storage persistence
+        saveToLocalStorage('assessment_session', sessionData);
         
-        // Save individual answer to database if available and we have a current question
-        if (window.database && this.currentQuestion) {
-            const questionId = this.currentQuestion.id;
-            const answer = this.answers[questionId];
+        // Database persistence if available
+        if (window.database && this.currentQuery) {
+            const queryId = this.currentQuery.id;
+            const response = this.responseData[queryId];
             
-            if (answer) {
-                window.database.saveQuizResponse(this.quizId, questionId, answer)
+            if (response) {
+                window.database.saveAssessmentResponse(this.assessmentId, queryId, response)
                     .then(result => {
                         if (result.success) {
-                            console.log(`Answer saved (${result.storage || 'database'})`);
+                            console.log(`Response archived: ${result.storage || 'database'}`);
                         }
                     })
                     .catch(error => {
-                        console.log('Database save failed, using localStorage only:', error);
+                        console.log('Database archival failed, localStorage maintained:', error);
                     });
             }
         }
     }
     
-    setupEventListeners() {
-        // Answer selection
+    setupInteractionListeners() {
+        // Response selection handlers
         document.addEventListener('change', (e) => {
-            if (e.target.name === 'answer') {
-                this.selectAnswer(parseInt(e.target.value));
+            if (e.target.name === 'response_value') {
+                this.processResponse(parseInt(e.target.value));
             }
         });
         
-        // Navigation buttons
-        const prevButton = document.getElementById('prevButton');
-        const nextButton = document.getElementById('nextButton');
+        // Navigation control handlers
+        const previousControl = document.getElementById('previousQuery');
+        const nextControl = document.getElementById('nextQuery');
         
-        if (prevButton) {
-            prevButton.addEventListener('click', () => this.previousQuestion());
+        if (previousControl) {
+            previousControl.addEventListener('click', () => this.navigatePrevious());
         }
         
-        if (nextButton) {
-            nextButton.addEventListener('click', () => this.nextQuestion());
+        if (nextControl) {
+            nextControl.addEventListener('click', () => this.navigateNext());
         }
         
-        // Add global functions for backward compatibility
-        window.previousQuestion = () => this.previousQuestion();
-        window.nextQuestion = () => this.nextQuestion();
+        // Global compatibility functions
+        window.navigatePreviousQuery = () => this.navigatePrevious();
+        window.navigateNextQuery = () => this.navigateNext();
+        window.submitAssessmentProtocol = () => this.finalizeAssessment();
     }
     
-    renderCurrentQuestion() {
-        if (this.currentQuestionIndex >= this.questions.length) {
-            this.showQuizComplete();
+    renderCurrentQuery() {
+        if (this.currentQueryIndex >= this.assessmentQueries.length) {
+            this.displayAssessmentCompletion();
             return;
         }
         
-        const question = this.questions[this.currentQuestionIndex];
-        const questionText = document.getElementById('questionText');
-        const answerInputs = document.querySelectorAll('input[name="answer"]');
-        const prevButton = document.getElementById('prevButton');
-        const nextButton = document.getElementById('nextButton');
+        const currentQuery = this.assessmentQueries[this.currentQueryIndex];
+        const queryDisplay = document.getElementById('queryStatement');
+        const responseInputs = document.querySelectorAll('input[name="response_value"]');
+        const previousControl = document.getElementById('previousQuery');
+        const nextControl = document.getElementById('nextQuery');
         
-        if (questionText) {
-            questionText.textContent = question.question;
+        // Update query display
+        if (queryDisplay) {
+            queryDisplay.textContent = currentQuery.query;
         }
         
-        // Clear previous selections
-        answerInputs.forEach(input => {
+        // Update query metadata
+        this.updateQueryMetadata(currentQuery);
+        
+        // Clear previous response selections
+        responseInputs.forEach(input => {
             input.checked = false;
         });
         
-        // Restore saved answer if it exists
-        const savedAnswer = this.answers[question.id];
-        if (savedAnswer) {
-            const savedInput = document.querySelector(`input[name="answer"][value="${savedAnswer}"]`);
+        // Restore saved response if exists
+        const savedResponse = this.responseData[currentQuery.id];
+        if (savedResponse) {
+            const savedInput = document.querySelector(`input[name="response_value"][value="${savedResponse}"]`);
             if (savedInput) {
                 savedInput.checked = true;
             }
         }
         
-        // Update button states
-        if (prevButton) {
-            prevButton.disabled = this.currentQuestionIndex === 0;
+        // Update navigation controls
+        if (previousControl) {
+            previousControl.disabled = this.currentQueryIndex === 0;
         }
         
-        if (nextButton) {
-            nextButton.disabled = !savedAnswer;
+        if (nextControl) {
+            nextControl.disabled = !savedResponse;
         }
         
-        this.updateProgress();
+        this.updateSystemMetrics();
     }
     
-    selectAnswer(value) {
-        const question = this.questions[this.currentQuestionIndex];
-        this.answers[question.id] = value;
+    updateQueryMetadata(query) {
+        const queryId = document.getElementById('queryId');
+        const queryCategory = document.getElementById('queryCategory');
+        const queryClassification = document.getElementById('queryClassification');
         
-        // Enable next button
-        const nextButton = document.getElementById('nextButton');
-        if (nextButton) {
-            nextButton.disabled = false;
+        if (queryId) queryId.textContent = query.id;
+        if (queryCategory) queryCategory.textContent = query.category?.toUpperCase().replace('_', ' ');
+        if (queryClassification) queryClassification.textContent = query.classification?.toUpperCase().replace('_', ' ');
+    }
+    
+    processResponse(responseValue) {
+        const responseStartTime = Date.now();
+        const currentQuery = this.assessmentQueries[this.currentQueryIndex];
+        
+        // Record response
+        this.responseData[currentQuery.id] = responseValue;
+        
+        // Calculate response latency
+        const responseLatency = responseStartTime - (this.lastQueryRenderTime || responseStartTime);
+        this.sessionMetrics.responseLatencies.push(responseLatency);
+        
+        // Enable navigation
+        const nextControl = document.getElementById('nextQuery');
+        if (nextControl) {
+            nextControl.disabled = false;
         }
         
-        // Save progress
-        this.saveProgress();
+        // Persist session data
+        this.persistSessionData();
         
-        // Track answer
-        trackEvent('quiz_answer', {
-            quiz_id: this.quizId,
-            question_id: question.id,
-            question_index: this.currentQuestionIndex + 1,
-            answer: value,
-            category: question.category
+        // Track response event
+        this.trackSystemEvent('assessment_response_recorded', {
+            assessment_id: this.assessmentId,
+            query_id: currentQuery.id,
+            query_index: this.currentQueryIndex + 1,
+            response_value: responseValue,
+            response_latency: responseLatency,
+            category: currentQuery.category,
+            classification: currentQuery.classification
         });
     }
     
-    previousQuestion() {
-        if (this.currentQuestionIndex > 0) {
-            this.currentQuestionIndex--;
-            this.renderCurrentQuestion();
+    navigatePrevious() {
+        if (this.currentQueryIndex > 0) {
+            this.currentQueryIndex--;
+            this.sessionMetrics.revisionCount++;
+            this.renderCurrentQuery();
             
-            trackEvent('quiz_navigation', {
-                quiz_id: this.quizId,
+            this.trackSystemEvent('assessment_navigation', {
+                assessment_id: this.assessmentId,
                 direction: 'previous',
-                question_index: this.currentQuestionIndex + 1
+                query_index: this.currentQueryIndex + 1,
+                revision_count: this.sessionMetrics.revisionCount
             });
         }
     }
     
-    nextQuestion() {
-        const question = this.questions[this.currentQuestionIndex];
-        const currentAnswer = this.answers[question.id];
+    navigateNext() {
+        const currentQuery = this.assessmentQueries[this.currentQueryIndex];
+        const currentResponse = this.responseData[currentQuery.id];
         
-        if (!currentAnswer) {
-            alert('Please select an answer before continuing.');
+        if (!currentResponse) {
+            this.displayValidationAlert('RESPONSE REQUIRED: Please provide response value before proceeding to next query.');
             return;
         }
         
-        this.currentQuestionIndex++;
+        this.currentQueryIndex++;
+        this.lastQueryRenderTime = Date.now();
         
-        trackEvent('quiz_navigation', {
-            quiz_id: this.quizId,
+        this.trackSystemEvent('assessment_navigation', {
+            assessment_id: this.assessmentId,
             direction: 'next',
-            question_index: this.currentQuestionIndex
+            query_index: this.currentQueryIndex
         });
         
-        this.renderCurrentQuestion();
+        this.renderCurrentQuery();
     }
     
-    updateProgress() {
-        const progressFill = document.getElementById('progressFill');
-        const progressText = document.getElementById('progressText');
+    updateSystemMetrics() {
+        const progressIndicator = document.getElementById('assessmentProgress');
+        const progressLabel = document.getElementById('progressLabel');
+        const completionMetric = document.getElementById('completionPercentage');
         
-        const progress = ((this.currentQuestionIndex + 1) / this.questions.length) * 100;
+        const completionPercentage = ((this.currentQueryIndex + 1) / this.assessmentQueries.length) * 100;
         
-        if (progressFill) {
-            progressFill.style.width = `${progress}%`;
+        if (progressIndicator) {
+            progressIndicator.style.width = `${completionPercentage}%`;
         }
         
-        if (progressText) {
-            progressText.textContent = `${this.currentQuestionIndex + 1}/${this.questions.length}`;
+        if (progressLabel) {
+            progressLabel.textContent = `QUERY ${this.currentQueryIndex + 1}/${this.assessmentQueries.length}`;
+        }
+        
+        if (completionMetric) {
+            completionMetric.textContent = `${Math.round(completionPercentage)}%`;
+        }
+        
+        // Update session metrics display
+        this.updateSessionMetricsDisplay();
+    }
+    
+    updateSessionMetricsDisplay() {
+        const metricsDisplay = document.querySelector('.session-metrics');
+        if (metricsDisplay) {
+            const sessionDuration = Date.now() - this.sessionMetrics.startTime;
+            const averageLatency = this.sessionMetrics.responseLatencies.length > 0 
+                ? this.sessionMetrics.responseLatencies.reduce((a, b) => a + b, 0) / this.sessionMetrics.responseLatencies.length 
+                : 0;
+            
+            metricsDisplay.innerHTML = `
+                <div class="metric-item">
+                    <span class="metric-label">SESSION DURATION</span>
+                    <span class="metric-value">${this.formatDuration(sessionDuration)}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">AVG RESPONSE TIME</span>
+                    <span class="metric-value">${Math.round(averageLatency)}ms</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">REVISION COUNT</span>
+                    <span class="metric-value">${this.sessionMetrics.revisionCount}</span>
+                </div>
+            `;
         }
     }
     
-    showQuizComplete() {
-        const quizContainer = document.getElementById('quizContainer');
-        const quizComplete = document.getElementById('quizComplete');
+    displayAssessmentCompletion() {
+        const assessmentInterface = document.getElementById('assessmentInterface');
+        const completionInterface = document.getElementById('assessmentCompletion');
         
-        if (quizContainer) {
-            quizContainer.style.display = 'none';
+        if (assessmentInterface) {
+            assessmentInterface.style.display = 'none';
         }
         
-        if (quizComplete) {
-            quizComplete.classList.remove('hidden');
+        if (completionInterface) {
+            completionInterface.classList.remove('hidden');
         }
         
-        trackEvent('quiz_completed', {
-            quiz_id: this.quizId,
-            total_questions: this.questions.length,
-            completion_time: new Date().toISOString()
+        // Calculate final metrics
+        const sessionDuration = Date.now() - this.sessionMetrics.startTime;
+        const totalResponses = Object.keys(this.responseData).length;
+        
+        this.trackSystemEvent('assessment_protocol_completed', {
+            assessment_id: this.assessmentId,
+            total_queries: this.assessmentQueries.length,
+            total_responses: totalResponses,
+            session_duration: sessionDuration,
+            completion_rate: (totalResponses / this.assessmentQueries.length) * 100,
+            system_state: this.systemState
         });
     }
     
-    calculateResults() {
-        const scores = {
-            generator: 0,
-            manifestor: 0,
-            projector: 0,
-            reflector: 0,
+    calculateSystemConfiguration() {
+        const configurationScores = {
+            generator_indicators: 0,
+            manifestor_indicators: 0,
+            projector_indicators: 0,
+            reflector_indicators: 0,
             emotional_authority: 0,
             sacral_authority: 0,
-            spleen_authority: 0,
-            throat_authority: 0,
-            defined_centers: [],
-            undefined_centers: []
+            splenic_authority: 0,
+            projected_authority: 0,
+            center_definitions: {},
+            strategic_indicators: {}
         };
         
-        // Analyze answers and calculate scores
-        Object.entries(this.answers).forEach(([questionId, answer]) => {
-            const question = this.questions.find(q => q.id == questionId);
-            if (!question) return;
+        // Process response data for configuration analysis
+        Object.entries(this.responseData).forEach(([queryId, responseValue]) => {
+            const query = this.assessmentQueries.find(q => q.id === queryId);
+            if (!query) return;
             
-            const score = answer; // 1-5 Likert scale
+            const responseWeight = responseValue; // 1-5 scale
             
-            // Type scoring based on question categories
-            switch (question.category) {
-                case 'generator_traits':
-                case 'sacral_defined':
-                    scores.generator += score;
+            // Configuration scoring based on query categories
+            switch (query.category) {
+                case 'energy_dynamics':
+                case 'sacral_indicators':
+                    configurationScores.generator_indicators += responseWeight;
                     break;
-                case 'manifestor_traits':
-                    scores.manifestor += score;
+                case 'initiation_patterns':
+                    configurationScores.manifestor_indicators += responseWeight;
                     break;
-                case 'projector_traits':
-                    scores.projector += score;
+                case 'guidance_systems':
+                case 'recognition_patterns':
+                    configurationScores.projector_indicators += responseWeight;
                     break;
-                case 'reflector_traits':
-                    scores.reflector += score;
+                case 'environmental_sensitivity':
+                    configurationScores.reflector_indicators += responseWeight;
                     break;
-                case 'emotional_authority':
-                    scores.emotional_authority += score;
+                case 'emotional_wave_patterns':
+                    configurationScores.emotional_authority += responseWeight;
                     break;
-                case 'sacral_authority':
-                    scores.sacral_authority += score;
+                case 'gut_response_systems':
+                    configurationScores.sacral_authority += responseWeight;
                     break;
-                case 'spleen_authority':
-                    scores.spleen_authority += score;
+                case 'intuitive_alerts':
+                    configurationScores.splenic_authority += responseWeight;
                     break;
-                case 'throat_authority':
-                    scores.throat_authority += score;
+                case 'vocal_truth_detection':
+                    configurationScores.projected_authority += responseWeight;
                     break;
             }
         });
         
-        // Determine primary type
-        const typeScores = {
-            'Generator': scores.generator,
-            'Manifestor': scores.manifestor,
-            'Projector': scores.projector,
-            'Reflector': scores.reflector
+        // Determine primary energy type
+        const energyTypeScores = {
+            'Generator': configurationScores.generator_indicators,
+            'Manifestor': configurationScores.manifestor_indicators,
+            'Projector': configurationScores.projector_indicators,
+            'Reflector': configurationScores.reflector_indicators
         };
         
-        const primaryType = Object.keys(typeScores).reduce((a, b) => 
-            typeScores[a] > typeScores[b] ? a : b
+        const primaryEnergyType = Object.keys(energyTypeScores).reduce((a, b) => 
+            energyTypeScores[a] > energyTypeScores[b] ? a : b
         );
         
-        // Determine authority
+        // Determine decision authority
         const authorityScores = {
-            'Emotional': scores.emotional_authority,
-            'Sacral': scores.sacral_authority,
-            'Splenic': scores.spleen_authority,
-            'Self-Projected': scores.throat_authority
+            'Emotional': configurationScores.emotional_authority,
+            'Sacral': configurationScores.sacral_authority,
+            'Splenic': configurationScores.splenic_authority,
+            'Self-Projected': configurationScores.projected_authority
         };
         
         const primaryAuthority = Object.keys(authorityScores).reduce((a, b) => 
             authorityScores[a] > authorityScores[b] ? a : b
         );
         
-        // Generate profile (simplified)
-        const profiles = ['1/3', '1/4', '2/4', '2/5', '3/5', '3/6', '4/6', '4/1', '5/1', '5/2', '6/2', '6/3'];
-        const profileIndex = Math.floor(Math.random() * profiles.length);
-        const profile = profiles[profileIndex];
+        // Generate profile architecture (systematic assignment)
+        const profileArchitectures = ['1/3', '1/4', '2/4', '2/5', '3/5', '3/6', '4/6', '4/1', '5/1', '5/2', '6/2', '6/3'];
+        const profileSeed = this.assessmentId.charCodeAt(4) % profileArchitectures.length;
+        const profileArchitecture = profileArchitectures[profileSeed];
         
         return {
-            type: primaryType,
-            authority: primaryAuthority,
-            profile: profile,
-            scores: scores,
-            quiz_id: this.quizId
+            energyType: primaryEnergyType,
+            decisionAuthority: primaryAuthority,
+            profileArchitecture: profileArchitecture,
+            configurationScores: configurationScores,
+            assessment_id: this.assessmentId,
+            systemMetrics: this.sessionMetrics
         };
+    }
+    
+    displayValidationAlert(message) {
+        const alertContainer = document.createElement('div');
+        alertContainer.className = 'system-alert validation-alert';
+        alertContainer.innerHTML = `
+            <div class="alert-content">
+                <div class="alert-icon">⚠</div>
+                <div class="alert-message">${message}</div>
+                <button class="alert-close" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+        `;
+        
+        document.body.appendChild(alertContainer);
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (alertContainer.parentNode) {
+                alertContainer.parentNode.removeChild(alertContainer);
+            }
+        }, 5000);
+    }
+    
+    formatDuration(milliseconds) {
+        const seconds = Math.floor(milliseconds / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        
+        if (minutes > 0) {
+            return `${minutes}m ${remainingSeconds}s`;
+        }
+        return `${remainingSeconds}s`;
+    }
+    
+    trackSystemEvent(eventType, eventData) {
+        trackEvent(eventType, {
+            ...eventData,
+            timestamp: new Date().toISOString(),
+            protocol_version: '2.4.1'
+        });
     }
 }
 
-// Submit quiz and navigate to results
-async function submitQuiz() {
-    if (window.quiz) {
-        const results = window.quiz.calculateResults();
+// Assessment finalization and results processing
+async function finalizeAssessment() {
+    if (window.systemAssessment) {
+        const configuration = window.systemAssessment.calculateSystemConfiguration();
         
-        // Save results to localStorage
-        saveToLocalStorage('quiz_results', results);
+        // Archive results to local storage
+        saveToLocalStorage('assessment_results', configuration);
         
-        // Save results to database if available
+        // Archive to database if available
         if (window.database) {
             try {
-                const dbResult = await window.database.saveQuizResults(results.quiz_id, results);
+                const dbResult = await window.database.saveAssessmentResults(configuration.assessment_id, configuration);
                 if (dbResult.success) {
-                    console.log(`Quiz results saved (${dbResult.storage || 'database'})`);
+                    console.log(`Configuration archived: ${dbResult.storage || 'database'}`);
                 } else {
-                    console.log('Results saved to localStorage only');
+                    console.log('Configuration archived to localStorage only');
                 }
             } catch (error) {
-                console.log('Database save failed, using localStorage only:', error);
+                console.log('Database archival failed, localStorage maintained:', error);
             }
         }
         
-        trackEvent('quiz_submitted', {
-            quiz_id: results.quiz_id,
-            type: results.type,
-            authority: results.authority,
-            profile: results.profile,
-            session_id: window.database ? window.database.getCurrentSessionId() : 'local_only'
+        window.systemAssessment.trackSystemEvent('assessment_finalized', {
+            assessment_id: configuration.assessment_id,
+            energy_type: configuration.energyType,
+            decision_authority: configuration.decisionAuthority,
+            profile_architecture: configuration.profileArchitecture,
+            session_id: window.database ? window.database.getCurrentSessionId() : 'local_session'
         });
         
-        // Navigate to results page
+        // Navigate to results analysis
         window.location.href = '/results.html';
     }
 }
 
-// Initialize quiz when page loads
+// System initialization
 document.addEventListener('DOMContentLoaded', function() {
-    if (document.getElementById('quizContainer')) {
-        window.quiz = new HumanDesignQuiz();
+    if (document.getElementById('assessmentInterface')) {
+        window.systemAssessment = new SystemAssessmentInterface();
     }
 });
