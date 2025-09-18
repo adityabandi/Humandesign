@@ -26,10 +26,10 @@
     <main class="main-content quiz-page">
         <div class="container">
             <div class="quiz-header">
-                <h1 class="quiz-title">Assessment Protocol</h1>
+                <h1 class="quiz-title">Human Design Assessment</h1>
                 <p class="quiz-subtitle">
-                    Systematic behavioral pattern analysis through validated assessment matrix. 
-                    Respond based on authentic patterns, not idealized behaviors.
+                    Discover your unique Human Design through this comprehensive questionnaire. 
+                    Answer honestly based on your natural tendencies and authentic self.
                 </p>
                 <div class="progress-container">
                     <div class="progress-wrapper">
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="progress-motivation" id="progressMotivation">
-                        <span class="motivation-text">INITIALIZING ASSESSMENT PROTOCOL</span>
+                        <span class="motivation-text">Starting your Human Design journey...</span>
                     </div>
                 </div>
             </div>
@@ -50,8 +50,8 @@
             <div class="quiz-container" id="quizContainer">
                 <div class="question-card" id="questionCard">
                     <div class="question-header">
-                        <div class="question-category" id="questionCategory">BEHAVIORAL ANALYSIS</div>
-                        <div class="question-number" id="questionNumber">QUERY 01</div>
+                        <div class="question-category" id="questionCategory">Energy Type</div>
+                        <div class="question-number" id="questionNumber">Question 1</div>
                     </div>
                     <h2 class="question-text" id="questionText">Loading assessment protocol...</h2>
                     <div class="likert-scale">
@@ -99,23 +99,23 @@
                         </div>
                     </div>
                     <div class="question-tips">
-                        <div class="tip-item">PROTOCOL: RESPOND BASED ON NATURAL BEHAVIORAL PATTERNS</div>
-                        <div class="tip-item">OBJECTIVE: AUTHENTIC SELF-ASSESSMENT WITHOUT IDEALIZATION</div>
+                        <div class="tip-item">TIP: Answer based on your natural tendencies and instincts</div>
+                        <div class="tip-item">GOAL: Be honest about who you really are, not who you think you should be</div>
                     </div>
                 </div>
 
                 <div class="quiz-complete hidden" id="quizComplete">
                     <div class="completion-celebration">
                         <div class="celebration-icon">✓</div>
-                        <h2>Assessment Protocol Complete</h2>
+                        <h2>Quiz Complete!</h2>
                         <p class="completion-message">
-                            Behavioral pattern analysis successfully captured. Birth data input required 
-                            for astronomical calculation engine to generate comprehensive analysis report.
+                            Great job! You've completed all 100 questions. Now we need your birth information 
+                            to create your personalized Human Design chart and generate your detailed report.
                         </p>
                         <div class="completion-stats">
                             <div class="stat-item">
                                 <span class="stat-number">100</span>
-                                <span class="stat-label">DATA POINTS CAPTURED</span>
+                                <span class="stat-label">QUESTIONS ANSWERED</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-number" id="completionTime">15</span>
@@ -125,37 +125,38 @@
                     </div>
                     
                     <div class="birth-form" id="birthForm">
-                        <h3>Birth Data Input <span class="required-indicator">[REQUIRED FOR CALCULATION]</span></h3>
+                        <h3>Your Birth Information <span class="required-indicator">[REQUIRED FOR ACCURATE RESULTS]</span></h3>
                         <p class="birth-form-description">
-                            Precise temporal and geographical coordinates required for astronomical calculation engine. 
-                            Sub-degree precision essential for accurate energetic imprint generation.
+                            We need your exact birth details to create your personalized Human Design chart. 
+                            The more precise your information, the more accurate your reading will be.
                         </p>
                         
                         <div class="form-grid">
                             <div class="form-group">
                                 <label for="birthName">FULL NAME</label>
-                                <input type="text" id="birthName" required placeholder="Enter complete name">
-                                <small class="field-help">IDENTIFIER FOR REPORT GENERATION</small>
+                                <input type="text" id="birthName" required placeholder="Enter your full name">
+                                <small class="field-help">Used to personalize your Human Design report</small>
                             </div>
                             <div class="form-group">
-                                <label for="birthEmail">EMAIL ADDRESS <span class="optional">[OPTIONAL]</span></label>
-                                <input type="email" id="birthEmail" placeholder="name@domain.com">
-                                <small class="field-help">BACKUP TRANSMISSION PROTOCOL</small>
+                                <label for="birthEmail">EMAIL ADDRESS</label>
+                                <input type="email" id="birthEmail" required placeholder="name@domain.com">
+                                <small class="field-help">Your email for receiving your personalized report</small>
                             </div>
                             <div class="form-group">
                                 <label for="birthDate">BIRTH DATE</label>
                                 <input type="date" id="birthDate" required>
-                                <small class="field-help">TEMPORAL COORDINATE REFERENCE</small>
+                                <small class="field-help">Your exact date of birth</small>
                             </div>
                             <div class="form-group">
                                 <label for="birthTime">BIRTH TIME</label>
                                 <input type="time" id="birthTime" required>
-                                <small class="field-help">PRECISE TEMPORAL MARKER [HH:MM]</small>
+                                <small class="field-help">Your exact time of birth (24-hour format)</small>
                             </div>
                             <div class="form-group">
                                 <label for="birthPlace">BIRTH LOCATION</label>
-                                <input type="text" id="birthPlace" required placeholder="City, State/Province, Country">
-                                <small class="field-help">GEOGRAPHICAL COORDINATE REFERENCE</small>
+                                <input type="text" id="birthPlace" required placeholder="City, State/Province, Country" autocomplete="address-level2">
+                                <small class="field-help">Your birth city and country (e.g., "New York, NY, USA")</small>
+                                <div id="locationSuggestions" class="location-suggestions hidden"></div>
                             </div>
                             <div class="form-group">
                                 <label for="birthTimezone">TIMEZONE</label>
@@ -188,22 +189,22 @@
                                     <option value="UTC+11:00">UTC+11:00 [PACIFIC]</option>
                                     <option value="UTC+12:00">UTC+12:00 [NEW ZEALAND]</option>
                                 </select>
-                                <small class="field-help">TEMPORAL ZONE NORMALIZATION</small>
+                                <small class="field-help">Your local timezone at birth</small>
                             </div>
                         </div>
                         
                         <div class="birth-form-actions">
                             <div class="form-security">
-                                <span class="security-icon">⚡</span>
-                                <span class="security-text">SECURE PROCESSING • NO DATA RETENTION</span>
+                                <span class="security-icon">🔒</span>
+                                <span class="security-text">SECURE & PRIVATE • YOUR DATA IS SAFE</span>
                             </div>
                             <button class="btn btn-primary btn-large" onclick="submitQuizWithBirth()" id="submitBtn">
-                                EXECUTE ANALYSIS
+                                GENERATE MY HUMAN DESIGN REPORT
                             </button>
                         </div>
                         <p class="form-note">
-                            ALL FIELDS REQUIRED FOR ASTRONOMICAL CALCULATION ENGINE • 
-                            DATA PROCESSED LOCALLY • ZERO RETENTION POLICY
+                            All fields are required to generate your personalized Human Design chart • 
+                            Your information is processed securely and privately
                         </p>
                     </div>
                 </div>
