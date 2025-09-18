@@ -1,34 +1,34 @@
-// Results page functionality
-class HumanDesignResults {
+// System Configuration Analysis Interface
+class ConfigurationAnalysisSystem {
     constructor() {
-        this.results = null;
-        this.typeDescriptions = {
+        this.configurationData = null;
+        this.systemConfigurations = {
             'Generator': {
-                description: "You're a Generator, the life force of the planet. You have consistent access to energy for work that excites you. Your strategy is to respond to life rather than initiate, and when you follow your passions, you create satisfaction and success.",
-                traits: ['Sustainable energy', 'Masters of their craft', 'Natural builders', 'Need satisfaction in work']
+                analysis: "GENERATOR CONFIGURATION DETECTED: Sustainable energy generation system with consistent operational capacity. Primary function involves responsive activation through environmental stimuli engagement. Strategic protocol: Response-based activation sequences optimize satisfaction metrics and operational efficiency.",
+                characteristics: ['Sustained Energy Generation', 'Mastery-Oriented Processing', 'Systematic Construction Protocols', 'Satisfaction-Based Optimization']
             },
             'Manifestor': {
-                description: "You're a Manifestor, the initiators and pioneers. You have the power to start new things and create impact. Your strategy is to inform others before you act, allowing your natural leadership to flow smoothly.",
-                traits: ['Natural initiators', 'Independent spirits', 'Create impact', 'Need freedom to act']
+                analysis: "MANIFESTOR CONFIGURATION DETECTED: Autonomous initiation system with high-impact generation capabilities. Primary function involves independent action sequences and strategic impact creation. Strategic protocol: Information distribution before action implementation ensures optimal operational flow.",
+                characteristics: ['Autonomous Initiation Systems', 'Independent Operation Protocols', 'High-Impact Generation', 'Freedom-Based Architecture']
             },
             'Projector': {
-                description: "You're a Projector, the natural guides and system optimizers. You have wisdom about managing energy and guiding others. Your strategy is to wait for recognition and invitation before sharing your gifts.",
-                traits: ['Natural guides', 'System optimizers', 'Deep wisdom', 'Need recognition']
+                analysis: "PROJECTOR CONFIGURATION DETECTED: System optimization and guidance architecture with specialized energy management protocols. Primary function involves efficiency analysis and directional guidance systems. Strategic protocol: Recognition-based activation through formal invitation protocols.",
+                characteristics: ['System Optimization Protocols', 'Efficiency Analysis Systems', 'Strategic Guidance Architecture', 'Recognition-Based Activation']
             },
             'Reflector': {
-                description: "You're a Reflector, the mirrors of humanity. You're deeply wise about community and reflect the health of your environment. Your strategy is to wait a full lunar cycle before making major decisions.",
-                traits: ['Community mirrors', 'Environmental wisdom', 'Unique perspective', 'Need healthy community']
+                analysis: "REFLECTOR CONFIGURATION DETECTED: Environmental monitoring and community health assessment system. Primary function involves collective reflection and environmental quality evaluation. Strategic protocol: Lunar cycle analysis for major decision implementation.",
+                characteristics: ['Environmental Assessment Systems', 'Community Health Monitoring', 'Collective Reflection Protocols', 'Temporal Decision Architecture']
             }
         };
         
-        this.authorityDescriptions = {
-            'Emotional': "Your authority is Emotional. You need to ride your emotional wave and wait for clarity before making decisions. Don't decide in emotional highs or lows - wait for the calm center.",
-            'Sacral': "Your authority is Sacral. Trust your gut response - that immediate 'uh-huh' or 'uh-uh' sound that comes from your belly. This is your body's wisdom speaking.",
-            'Splenic': "Your authority is Splenic. Trust your intuitive hits and spontaneous knowing. Your spleen speaks in the moment - listen to that first instinct.",
-            'Self-Projected': "Your authority is Self-Projected. You need to hear yourself talk through decisions. Find a trusted friend or mirror to speak with - you'll know what's right as you hear yourself."
+        this.authorityProtocols = {
+            'Emotional': "EMOTIONAL WAVE AUTHORITY: Decision-making requires emotional spectrum analysis through complete wave cycles. Implementation protocol: Avoid decisions during emotional peaks or valleys. Optimal timing occurs during wave neutrality points.",
+            'Sacral': "SACRAL RESPONSE AUTHORITY: Instantaneous gut response system provides binary directional guidance. Implementation protocol: Monitor for immediate 'affirmative' or 'negative' somatic responses. First response maintains highest accuracy.",
+            'Splenic': "SPLENIC INTUITION AUTHORITY: Real-time intuitive alert system providing immediate environmental awareness. Implementation protocol: Trust instantaneous knowing signals. Secondary analysis may compromise accuracy.",
+            'Self-Projected': "SELF-PROJECTED AUTHORITY: Vocal truth detection through external mirror engagement. Implementation protocol: Verbalize decision scenarios to trusted operators. Truth recognition occurs through vocal expression analysis."
         };
         
-        this.profileDescriptions = {
+        this.profileArchitectures = {
             '1/3': "Investigator/Martyr - You're here to deeply understand foundations and learn through trial and error.",
             '1/4': "Investigator/Opportunist - You build solid foundations and share wisdom through your network.",
             '2/4': "Hermit/Opportunist - You have natural gifts that emerge through relationships and networks.",
