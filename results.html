@@ -27,57 +27,263 @@
         <div class="container">
             <div class="results-header">
                 <h1>Your Human Design Results</h1>
-                <p class="results-subtitle">Based on your assessment responses, here's your personalized Human Design preview</p>
+                <p class="results-subtitle">Based on your assessment and birth data, here's your complete Human Design analysis</p>
+                <div class="results-badges">
+                    <span class="badge">Birth Chart Calculated</span>
+                    <span class="badge">100 Questions Analyzed</span>
+                    <span class="badge">Personalized Report Ready</span>
+                </div>
             </div>
 
-            <div class="results-grid">
-                <div class="result-card primary">
-                    <h2>Your Type</h2>
-                    <div class="result-value" id="resultType">Calculating...</div>
-                    <p class="result-description" id="typeDescription">Loading your type description...</p>
-                </div>
-
-                <div class="result-card">
-                    <h3>Your Authority</h3>
-                    <div class="result-value secondary" id="resultAuthority">Calculating...</div>
-                    <p class="result-description" id="authorityDescription">Loading your authority description...</p>
-                </div>
-
-                <div class="result-card">
-                    <h3>Your Profile</h3>
-                    <div class="result-value secondary" id="resultProfile">Calculating...</div>
-                    <p class="result-description" id="profileDescription">Loading your profile description...</p>
-                </div>
-
-                <div class="result-card">
-                    <h3>Your Centers</h3>
-                    <div class="centers-grid" id="centersGrid">
-                        <div class="center defined" data-center="sacral">Sacral</div>
-                        <div class="center undefined" data-center="emotional">Emotional</div>
-                        <div class="center defined" data-center="throat">Throat</div>
-                        <div class="center undefined" data-center="identity">Identity</div>
-                        <div class="center defined" data-center="will">Will</div>
-                        <div class="center undefined" data-center="head">Head</div>
-                        <div class="center defined" data-center="ajna">Ajna</div>
-                        <div class="center undefined" data-center="spleen">Spleen</div>
-                        <div class="center undefined" data-center="root">Root</div>
+            <!-- Human Design Chart Visualization -->
+            <div class="chart-section">
+                <h2>Your Human Design Chart</h2>
+                <div class="chart-container">
+                    <div class="bodygraph-chart" id="bodygraphChart">
+                        <!-- Head Center -->
+                        <div class="center head-center" data-center="head">
+                            <div class="center-shape triangle">
+                                <div class="center-label">Head</div>
+                                <div class="center-number">64</div>
+                                <div class="gates-indicator"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Ajna Center -->
+                        <div class="center ajna-center" data-center="ajna">
+                            <div class="center-shape triangle">
+                                <div class="center-label">Ajna</div>
+                                <div class="center-number">47</div>
+                                <div class="gates-indicator"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Throat Center -->
+                        <div class="center throat-center" data-center="throat">
+                            <div class="center-shape square">
+                                <div class="center-label">Throat</div>
+                                <div class="center-number">31</div>
+                                <div class="gates-indicator"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- G Center (Identity) -->
+                        <div class="center g-center" data-center="g">
+                            <div class="center-shape diamond">
+                                <div class="center-label">G</div>
+                                <div class="center-number">7</div>
+                                <div class="gates-indicator"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Heart Center (Ego/Will) -->
+                        <div class="center heart-center" data-center="heart">
+                            <div class="center-shape triangle">
+                                <div class="center-label">Heart</div>
+                                <div class="center-number">21</div>
+                                <div class="gates-indicator"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Spleen Center -->
+                        <div class="center spleen-center" data-center="spleen">
+                            <div class="center-shape triangle">
+                                <div class="center-label">Spleen</div>
+                                <div class="center-number">50</div>
+                                <div class="gates-indicator"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sacral Center -->
+                        <div class="center sacral-center" data-center="sacral">
+                            <div class="center-shape square">
+                                <div class="center-label">Sacral</div>
+                                <div class="center-number">34</div>
+                                <div class="gates-indicator"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Solar Plexus Center -->
+                        <div class="center solar-center" data-center="solar">
+                            <div class="center-shape triangle">
+                                <div class="center-label">Solar Plexus</div>
+                                <div class="center-number">36</div>
+                                <div class="gates-indicator"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Root Center -->
+                        <div class="center root-center" data-center="root">
+                            <div class="center-shape square">
+                                <div class="center-label">Root</div>
+                                <div class="center-number">58</div>
+                                <div class="gates-indicator"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Channels (connections between centers) -->
+                        <div class="channels-container" id="channelsContainer">
+                            <!-- Channels will be dynamically added based on activated gates -->
+                        </div>
+                        
+                        <!-- Chart Background Elements -->
+                        <div class="chart-background">
+                            <div class="chart-glow"></div>
+                            <div class="energy-lines"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-legend">
+                        <h3>Chart Legend</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <div class="legend-color defined"></div>
+                                <span>Defined Centers (Consistent Energy)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color undefined"></div>
+                                <span>Undefined Centers (Variable Energy)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color channel-active"></div>
+                                <span>Active Channels</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color gate-active"></div>
+                                <span>Active Gates</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="results-summary">
-                <h2>Your Personal Summary</h2>
-                <div class="summary-content" id="summaryContent">
-                    <p>Generating your personalized Human Design summary...</p>
+            <!-- Main Results Grid -->
+            <div class="results-grid">
+                <div class="result-card primary">
+                    <div class="card-icon">🎭</div>
+                    <h2>Your Type</h2>
+                    <div class="result-value" id="resultType">Calculating...</div>
+                    <p class="result-description" id="typeDescription">Loading your type description...</p>
+                    <div class="result-details" id="typeDetails"></div>
+                </div>
+
+                <div class="result-card">
+                    <div class="card-icon">🧭</div>
+                    <h3>Your Authority</h3>
+                    <div class="result-value secondary" id="resultAuthority">Calculating...</div>
+                    <p class="result-description" id="authorityDescription">Loading your authority description...</p>
+                    <div class="result-details" id="authorityDetails"></div>
+                </div>
+
+                <div class="result-card">
+                    <div class="card-icon">🌟</div>
+                    <h3>Your Profile</h3>
+                    <div class="result-value secondary" id="resultProfile">Calculating...</div>
+                    <p class="result-description" id="profileDescription">Loading your profile description...</p>
+                    <div class="result-details" id="profileDetails"></div>
+                </div>
+
+                <div class="result-card span-full">
+                    <div class="card-icon">⚡</div>
+                    <h3>Your Energy Centers</h3>
+                    <div class="centers-analysis" id="centersAnalysis">
+                        <div class="centers-summary" id="centersSummary">Loading centers analysis...</div>
+                        <div class="centers-grid-detailed" id="centersGridDetailed">
+                            <!-- Centers will be populated by JavaScript -->
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <!-- Detailed Analysis -->
+            <div class="detailed-analysis">
+                <h2>Complete Analysis</h2>
+                <div class="analysis-tabs">
+                    <button class="tab-button active" data-tab="overview">Overview</button>
+                    <button class="tab-button" data-tab="gates">Gates & Channels</button>
+                    <button class="tab-button" data-tab="strategy">Strategy & Decision Making</button>
+                    <button class="tab-button" data-tab="relationships">Relationships</button>
+                </div>
+                
+                <div class="tab-content">
+                    <div class="tab-panel active" id="overview">
+                        <div class="overview-content" id="overviewContent">
+                            <p>Loading your comprehensive overview...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="gates">
+                        <div class="gates-content" id="gatesContent">
+                            <p>Loading your gates and channels analysis...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="strategy">
+                        <div class="strategy-content" id="strategyContent">
+                            <p>Loading your strategy and decision making guidance...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="relationships">
+                        <div class="relationships-content" id="relationshipsContent">
+                            <p>Loading your relationships insights...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integration Insights -->
+            <div class="integration-insights">
+                <h2>Integration Insights</h2>
+                <p class="insights-subtitle">How your quiz responses align with your birth chart</p>
+                <div class="insights-content" id="insightsContent">
+                    <p>Loading your personalized integration insights...</p>
+                </div>
+            </div>
+
+            <!-- Upgrade CTA -->
             <div class="upgrade-cta">
                 <div class="cta-content">
-                    <h2>Want the Complete Picture?</h2>
+                    <h2>Want the Complete 40+ Page Report?</h2>
                     <p>This is just a preview of your Human Design. Get your full detailed PDF report with:</p>
-                    <ul>
-                        <li>Complete 40+ page personalized analysis</li>
+                    <div class="upgrade-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">📊</span>
+                            <span>Complete birth chart with all planetary positions</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🎯</span>
+                            <span>Detailed analysis of all 64 gates and your channels</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">💡</span>
+                            <span>Career guidance and life strategy recommendations</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">❤️</span>
+                            <span>Relationship compatibility and communication style</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🌱</span>
+                            <span>Personal growth opportunities and deconditioning guide</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔮</span>
+                            <span>Yearly forecast and timing guidance</span>
+                        </div>
+                    </div>
+                    <div class="cta-buttons">
+                        <a href="/preview.html" class="btn btn-secondary large" onclick="trackEvent('preview_click')">
+                            Preview Full Report
+                        </a>
+                        <a href="/buy.html" class="btn btn-primary large" onclick="trackEvent('buy_click')">
+                            Get Complete PDF Report - $47
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
                         <li>Detailed bodygraph chart with all gates and channels</li>
                         <li>Life purpose and career guidance</li>
                         <li>Relationship compatibility insights</li>

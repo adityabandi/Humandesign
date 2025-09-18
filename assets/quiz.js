@@ -86,11 +86,25 @@ class HumanDesignQuiz {
         
         const question = this.questions[this.currentQuestionIndex];
         const questionText = document.getElementById('questionText');
+        const questionCategory = document.getElementById('questionCategory');
+        const questionNumber = document.getElementById('questionNumber');
         const questionCard = document.getElementById('questionCard');
         const quizComplete = document.getElementById('quizComplete');
         
         if (questionText) {
             questionText.textContent = question.question;
+        }
+        
+        if (questionCategory) {
+            // Format category for display
+            const categoryDisplay = question.category
+                .replace(/_/g, ' ')
+                .replace(/\b\w/g, l => l.toUpperCase());
+            questionCategory.textContent = categoryDisplay;
+        }
+        
+        if (questionNumber) {
+            questionNumber.textContent = `Question ${this.currentQuestionIndex + 1}`;
         }
         
         if (questionCard) {
@@ -158,6 +172,8 @@ class HumanDesignQuiz {
         
         const progressFill = document.getElementById('progressFill');
         const progressText = document.getElementById('progressText');
+        const progressPercentageEl = document.getElementById('progressPercentage');
+        const progressMotivation = document.getElementById('progressMotivation');
         
         if (progressFill) {
             progressFill.style.width = `${progressPercentage}%`;
@@ -165,6 +181,34 @@ class HumanDesignQuiz {
         
         if (progressText) {
             progressText.textContent = `${answeredQuestions}/${totalQuestions}`;
+        }
+        
+        if (progressPercentageEl) {
+            progressPercentageEl.textContent = `${Math.round(progressPercentage)}%`;
+        }
+        
+        // Update motivation message based on progress
+        if (progressMotivation) {
+            const motivationMessages = [
+                "Every answer brings you closer to your true self ✨",
+                "You're doing great! Keep discovering yourself 🌟",
+                "Amazing progress! Your authentic design is emerging 🎯",
+                "Fantastic! You're more than halfway there 🚀",
+                "Outstanding! Your Human Design is almost complete 💫",
+                "Incredible! Just a few more questions to go 🎉",
+                "Wow! You're so close to your breakthrough 🔥",
+                "Almost there! Your transformation awaits ⭐"
+            ];
+            
+            const messageIndex = Math.min(
+                Math.floor(progressPercentage / 12.5),
+                motivationMessages.length - 1
+            );
+            
+            const motivationText = progressMotivation.querySelector('.motivation-text');
+            if (motivationText) {
+                motivationText.textContent = motivationMessages[messageIndex];
+            }
         }
     }
     
