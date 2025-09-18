@@ -1,6 +1,14 @@
 ## ✅ Objective
 
-Static client app (HTML/JS). Collect **100-Q psychology quiz + REQUIRED birth data**, compute **quiz + HD chart** in the browser, then **persist everything to Supabase**. Results are fetched by **public\_id + secret** via **RPCs** (no direct table reads). Render **integrated preview** and a **printable full report**. Stripe checkout is separate; purchase state stored in DB.
+Static client app (HTML/JS). Collect **100-Q psychology quiz + REQUIRED birth data** including email, compute **quiz + HD chart** in the browser, then **persist everything to Supabase and SheetDB**. Results are fetched by **public\_id + secret** via **RPCs** (no direct table reads). Render **integrated preview** and a **printable full report**. Stripe checkout is separate; purchase state stored in DB.
+
+### ✨ Recent Enhancements
+
+- **Email Required**: Email field is now mandatory for all submissions
+- **User-Friendly Language**: Replaced technical jargon with accessible language
+- **Location API**: Added location autocomplete with geocoding support
+- **SheetDB Integration**: Added Google Sheets data collection (see SHEETDB_SETUP.md)
+- **Enhanced UX**: Improved form validation and user guidance
 
 ---
 

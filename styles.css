@@ -794,6 +794,7 @@ p {
 .form-group {
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .form-group label {
@@ -856,6 +857,42 @@ p {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     line-height: 1.5;
+}
+
+/* Location Suggestions */
+.location-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: var(--card-bg);
+    border: var(--border-width) solid var(--border-color);
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.location-suggestion {
+    padding: var(--space-sm) var(--space-md);
+    cursor: pointer;
+    border-bottom: var(--border-width) solid var(--border-color);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.location-suggestion:hover {
+    background-color: var(--accent-border);
+    color: var(--text-primary);
+}
+
+.location-suggestion:last-child {
+    border-bottom: none;
+}
+
+.hidden {
+    display: none;
 }
 
 /* Results Page */

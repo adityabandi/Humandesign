@@ -2,6 +2,8 @@ import { createFullResult } from './db.js';
 import { scoreQuiz } from './scoring.js';
 import { computeChart } from './hdcalc.js';
 import { deriveIntegration } from './insights.js';
+import { submitToSheetDB } from './sheetdb.js';
+import { initializeLocationAPI, getLocationCoordinates } from './location-api.js';
 
 // Initialize Supabase configuration
 const SUPABASE_URL = window.SUPABASE_CONFIG?.url || 'https://your-project-id.supabase.co';
@@ -28,6 +30,9 @@ class HumanDesignQuiz {
         this.renderCurrentQuestion();
         this.updateProgress();
         this.setupEventListeners();
+        
+        // Initialize location API functionality
+        initializeLocationAPI();
         
         // Track quiz start
         this.trackEvent('quiz_started', {
@@ -259,7 +264,7 @@ class HumanDesignQuiz {
     }
     
     validateBirthForm() {
-        const requiredFields = ['birthName', 'birthDate', 'birthTime', 'birthPlace', 'birthTimezone'];
+        const requiredFields = ['birthName', 'birthEmail', 'birthDate', 'birthTime', 'birthPlace', 'birthTimezone'];
         const formData = {};
         let isValid = true;
         
@@ -277,14 +282,8 @@ class HumanDesignQuiz {
             }
         });
         
-        // Email is optional
-        const emailField = document.getElementById('birthEmail');
-        if (emailField && emailField.value.trim()) {
-            formData.email = emailField.value.trim();
-        }
-        
         if (!isValid) {
-            alert('Please fill in all required birth information fields.');
+            alert('Please fill in all required fields including your email address.');
             return null;
         }
         
@@ -318,13 +317,16 @@ class HumanDesignQuiz {
             // Score the quiz
             const quizDerived = scoreQuiz(answersArray, { quizId: this.quizId });
             
-            // Calculate the chart
+            // Calculate the chart with enhanced location data
+            const locationData = getLocationCoordinates();
             const birth = {
                 name: birthData.name,
                 date: birthData.date,
                 time: birthData.time,
                 tz: birthData.timezone,
-                place: birthData.place
+                place: birthData.place,
+                latitude: locationData.latitude,
+                longitude: locationData.longitude
             };
             
             const chartDerived = await computeChart(birth);
@@ -342,6 +344,22 @@ class HumanDesignQuiz {
                 chartDerived,
                 insights
             });
+            
+            // Submit to SheetDB for data collection
+            try {
+                const sheetdbResult = await submitToSheetDB({
+                    name: birth.name,
+                    email: birthData.email,
+                    birth,
+                    quizDerived,
+                    chartDerived,
+                    insights
+                });
+                console.log('SheetDB submission result:', sheetdbResult);
+            } catch (sheetdbError) {
+                console.warn('SheetDB submission failed, but continuing:', sheetdbError);
+                // Don't fail the entire process if SheetDB fails
+            }
             
             // Track completion
             this.trackEvent('quiz_completed', {
