@@ -618,6 +618,90 @@ class ResultsDisplay {
         `;
     }
     
+    setupBuyButtons() {
+        // Set up buy button functionality
+        const buyButtons = document.querySelectorAll('.buy-button, .cta-button[href*="buy"]');
+        buyButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                // Add the result ID to the buy URL for tracking
+                const href = button.getAttribute('href');
+                if (href && !href.includes('result_id=')) {
+                    const separator = href.includes('?') ? '&' : '?';
+                    button.setAttribute('href', `${href}${separator}result_id=${this.publicId}`);
+                }
+            });
+        });
+    }
+
+    setupTabs() {
+        // Set up tab functionality if tabs exist
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.dataset.tab;
+                
+                // Remove active class from all buttons and panels
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabPanels.forEach(panel => panel.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding panel
+                button.classList.add('active');
+                const targetPanel = document.getElementById(targetTab);
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                    
+                    // Load content for specific tabs
+                    this.loadTabContent(targetTab);
+                }
+            });
+        });
+    }
+
+    loadTabContent(tabId) {
+        // Load specific content based on tab
+        switch(tabId) {
+            case 'chartTab':
+                this.loadChartContent(this.resultData.chart);
+                break;
+            case 'strategyTab':
+                this.loadStrategyContent(this.resultData.chart, this.resultData.quiz);
+                break;
+            case 'relationshipsTab':
+                this.loadRelationshipsContent(this.resultData.chart);
+                break;
+        }
+    }
+
+    updatePurchaseStatus(purchased) {
+        // Update purchase-related UI elements
+        const purchaseElements = document.querySelectorAll('.purchase-required');
+        const fullReportElements = document.querySelectorAll('.full-report-only');
+        const purchaseButtons = document.querySelectorAll('.purchase-button');
+        
+        if (purchased) {
+            // User has purchased, show full content
+            purchaseElements.forEach(el => el.style.display = 'block');
+            fullReportElements.forEach(el => el.style.display = 'block');
+            purchaseButtons.forEach(btn => btn.style.display = 'none');
+            
+            // Add purchased badge
+            const resultsHeader = document.querySelector('.results-header');
+            if (resultsHeader && !resultsHeader.querySelector('.purchased-badge')) {
+                const badge = document.createElement('div');
+                badge.className = 'purchased-badge';
+                badge.innerHTML = '✓ Full Report Activated';
+                resultsHeader.appendChild(badge);
+            }
+        } else {
+            // User hasn't purchased, show preview with purchase prompts
+            purchaseElements.forEach(el => el.style.display = 'none');
+            fullReportElements.forEach(el => el.style.display = 'none');
+            purchaseButtons.forEach(btn => btn.style.display = 'block');
+        }
+    }
+
     setupPrintButton() {
         // Add print functionality
         const printButton = document.createElement('button');
