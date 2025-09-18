@@ -79,27 +79,70 @@ class ResultsDisplay {
     renderChartVisualization(chart) {
         if (!chart) return;
         
-        // Update chart centers
+        // Update chart centers with gates and channels
         this.updateChartCenters(chart);
+        
+        // Render active gates
+        this.renderActiveGates(chart);
         
         // Render channels
         this.renderChannels(chart);
+        
+        // Update chart details panel
+        this.updateChartDetails(chart);
         
         // Update centers analysis
         this.renderCentersAnalysis(chart);
     }
     
     updateChartCenters(chart) {
+        // Define all centers with their complete gate arrays
         const centersData = {
-            head: { defined: chart.centers?.head?.defined || false, gates: ['64', '61'] },
-            ajna: { defined: chart.centers?.ajna?.defined || false, gates: ['47', '24'] },
-            throat: { defined: chart.centers?.throat?.defined || false, gates: ['31', '8'] },
-            g: { defined: chart.centers?.g?.defined || false, gates: ['7', '1'] },
-            heart: { defined: chart.centers?.heart?.defined || false, gates: ['21', '40'] },
-            spleen: { defined: chart.centers?.spleen?.defined || false, gates: ['50', '32'] },
-            sacral: { defined: chart.centers?.sacral?.defined || false, gates: ['34', '5'] },
-            solar: { defined: chart.centers?.solar?.defined || false, gates: ['36', '22'] },
-            root: { defined: chart.centers?.root?.defined || false, gates: ['58', '38'] }
+            head: { 
+                defined: chart.centers?.head?.defined || false, 
+                gates: ['64', '61'],
+                activeGates: chart.activatedGates?.filter(g => ['64', '61'].includes(g.toString())) || []
+            },
+            ajna: { 
+                defined: chart.centers?.ajna?.defined || false, 
+                gates: ['47', '24', '4', '17', '43', '11'],
+                activeGates: chart.activatedGates?.filter(g => ['47', '24', '4', '17', '43', '11'].includes(g.toString())) || []
+            },
+            throat: { 
+                defined: chart.centers?.throat?.defined || false, 
+                gates: ['62', '23', '56', '35', '12', '45', '33', '8', '31', '20', '16'],
+                activeGates: chart.activatedGates?.filter(g => ['62', '23', '56', '35', '12', '45', '33', '8', '31', '20', '16'].includes(g.toString())) || []
+            },
+            g: { 
+                defined: chart.centers?.g?.defined || false, 
+                gates: ['7', '1', '13', '10', '15', '2', '46', '25'],
+                activeGates: chart.activatedGates?.filter(g => ['7', '1', '13', '10', '15', '2', '46', '25'].includes(g.toString())) || []
+            },
+            heart: { 
+                defined: chart.centers?.heart?.defined || false, 
+                gates: ['21', '40', '26', '51'],
+                activeGates: chart.activatedGates?.filter(g => ['21', '40', '26', '51'].includes(g.toString())) || []
+            },
+            spleen: { 
+                defined: chart.centers?.spleen?.defined || false, 
+                gates: ['50', '32', '28', '18', '57', '44', '48'],
+                activeGates: chart.activatedGates?.filter(g => ['50', '32', '28', '18', '57', '44', '48'].includes(g.toString())) || []
+            },
+            sacral: { 
+                defined: chart.centers?.sacral?.defined || false, 
+                gates: ['5', '14', '29', '59', '9', '3', '42', '27', '34'],
+                activeGates: chart.activatedGates?.filter(g => ['5', '14', '29', '59', '9', '3', '42', '27', '34'].includes(g.toString())) || []
+            },
+            solar: { 
+                defined: chart.centers?.solar?.defined || false, 
+                gates: ['6', '37', '63', '22', '36', '30', '55'],
+                activeGates: chart.activatedGates?.filter(g => ['6', '37', '63', '22', '36', '30', '55'].includes(g.toString())) || []
+            },
+            root: { 
+                defined: chart.centers?.root?.defined || false, 
+                gates: ['54', '58', '38', '39', '53', '60', '52', '19', '41'],
+                activeGates: chart.activatedGates?.filter(g => ['54', '58', '38', '39', '53', '60', '52', '19', '41'].includes(g.toString())) || []
+            }
         };
         
         // Update each center in the visualization
@@ -108,6 +151,7 @@ class ResultsDisplay {
             const centerData = centersData[centerName];
             
             if (centerElement) {
+                // Set defined/undefined state
                 if (centerData.defined) {
                     centerElement.classList.add('defined');
                     centerElement.classList.remove('undefined');
@@ -116,10 +160,212 @@ class ResultsDisplay {
                     centerElement.classList.remove('defined');
                 }
                 
+                // Add click handler for center details
+                centerElement.addEventListener('click', () => {
+                    this.showCenterModal(centerName, centerData, chart);
+                });
+                
                 // Add tooltip with center information
                 this.addCenterTooltip(centerElement, centerName, centerData);
             }
         });
+    }
+
+    renderActiveGates(chart) {
+        // Get activated gates from chart data
+        const activatedGates = chart.activatedGates || this.generateSampleActivatedGates(chart);
+        
+        // Mark all gates as active that are in the activated gates list
+        activatedGates.forEach(gateNumber => {
+            const gateElement = document.querySelector(`.gate-${gateNumber}`);
+            if (gateElement) {
+                gateElement.classList.add('active');
+                gateElement.title = `Gate ${gateNumber} - ${this.getGateName(gateNumber)}`;
+            }
+        });
+    }
+
+    generateSampleActivatedGates(chart) {
+        // Generate sample activated gates based on defined centers
+        const activatedGates = [];
+        const centers = chart.centers || {};
+        
+        // Add some sample gates for defined centers
+        Object.keys(centers).forEach(centerName => {
+            if (centers[centerName]?.defined) {
+                switch(centerName) {
+                    case 'sacral':
+                        activatedGates.push(34, 5, 14, 29);
+                        break;
+                    case 'throat':
+                        activatedGates.push(31, 8, 33, 20);
+                        break;
+                    case 'g':
+                        activatedGates.push(7, 1, 10, 25);
+                        break;
+                    case 'spleen':
+                        activatedGates.push(50, 32, 57, 48);
+                        break;
+                    case 'root':
+                        activatedGates.push(58, 38, 54, 19);
+                        break;
+                    case 'heart':
+                        activatedGates.push(21, 40);
+                        break;
+                    case 'solar':
+                        activatedGates.push(22, 36, 6);
+                        break;
+                    case 'ajna':
+                        activatedGates.push(24, 47, 4);
+                        break;
+                    case 'head':
+                        activatedGates.push(64, 61);
+                        break;
+                }
+            }
+        });
+        
+        return activatedGates;
+    }
+
+    updateChartDetails(chart) {
+        // Update the chart details panel with comprehensive information
+        const chartType = document.getElementById('chartType');
+        const chartAuthority = document.getElementById('chartAuthority');
+        const chartProfile = document.getElementById('chartProfile');
+        const chartStrategy = document.getElementById('chartStrategy');
+        const chartDefinition = document.getElementById('chartDefinition');
+        
+        if (chartType) chartType.textContent = chart.type || 'Generator';
+        if (chartAuthority) chartAuthority.textContent = chart.authority || 'Sacral';
+        if (chartProfile) chartProfile.textContent = chart.profile || '1/3';
+        if (chartStrategy) chartStrategy.textContent = this.getStrategyText(chart.type);
+        if (chartDefinition) chartDefinition.textContent = this.getDefinitionText(chart);
+    }
+
+    getDefinitionText(chart) {
+        const definedCenters = Object.keys(chart.centers || {}).filter(center => 
+            chart.centers[center]?.defined
+        );
+        
+        const totalCenters = 9;
+        const definedCount = definedCenters.length;
+        
+        if (definedCount === 0) return 'No Definition';
+        if (definedCount === 1) return 'Single Definition';
+        if (definedCount <= 3) return 'Simple Definition';
+        if (definedCount <= 6) return 'Complex Definition';
+        return 'Quad Definition';
+    }
+
+    showCenterModal(centerName, centerData, chart) {
+        // Create detailed modal for center information
+        const modal = document.createElement('div');
+        modal.className = 'center-modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>${centerName.charAt(0).toUpperCase() + centerName.slice(1)} Center</h3>
+                    <button class="modal-close" onclick="this.closest('.center-modal').remove()">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="center-status ${centerData.defined ? 'defined' : 'undefined'}">
+                        ${centerData.defined ? 'Defined' : 'Undefined'}
+                    </div>
+                    <p>${this.getCenterDescription(centerName)}</p>
+                    
+                    <div class="center-gates">
+                        <h4>Gates in this Center:</h4>
+                        <div class="gates-list">
+                            ${centerData.gates.map(gate => `
+                                <span class="gate-detail ${centerData.activeGates && centerData.activeGates.includes(gate) ? 'active' : ''}">
+                                    ${gate} - ${this.getGateName(gate)}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    ${centerData.defined ? `
+                        <div class="center-guidance">
+                            <h4>Living Your Design:</h4>
+                            <p>${this.getCenterGuidance(centerName, true)}</p>
+                        </div>
+                    ` : `
+                        <div class="center-guidance">
+                            <h4>Wisdom & Conditioning:</h4>
+                            <p>${this.getCenterGuidance(centerName, false)}</p>
+                        </div>
+                    `}
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+    }
+
+    getCenterDescription(centerName) {
+        const descriptions = {
+            'head': 'The center of mental pressure, inspiration, and the drive to answer questions. This is where concepts and ideas are born.',
+            'ajna': 'The center of mental processing, analysis, and conceptualization. This is where you process information and form opinions.',
+            'throat': 'The center of communication, manifestation, and expression. This is how you bring your inner world into reality.',
+            'g': 'The center of identity, direction, and love. This is your sense of self and your direction in life.',
+            'heart': 'The center of willpower, ego, and the material world. This is your capacity for commitment and promises.',
+            'spleen': 'The center of intuition, survival instincts, and health. This is your body wisdom and spontaneous knowing.',
+            'sacral': 'The center of life force energy, sexuality, and work. This is your vital energy and capacity for sustainable work.',
+            'solar': 'The center of emotions, feelings, and sensitivity. This is your emotional wave and depth of feeling.',
+            'root': 'The center of pressure, stress, and adrenaline. This is your driving force and motivation to act.'
+        };
+        return descriptions[centerName] || 'Energy center governing specific life themes.';
+    }
+
+    getCenterGuidance(centerName, defined) {
+        const guidance = {
+            'head': {
+                defined: 'Trust your natural mental pressure and inspiration. You have consistent access to questions that need answering.',
+                undefined: 'Be selective about what questions you take on. Your open head amplifies mental pressure from others.'
+            },
+            'ajna': {
+                defined: 'Trust your consistent way of processing information and forming concepts. Your mental processing is reliable.',
+                undefined: 'Stay flexible in your thinking. Your open mind can see from many different perspectives.'
+            },
+            'throat': {
+                defined: 'You have a consistent way of communicating and expressing yourself. Trust your voice.',
+                undefined: 'Wait for the right timing and invitation to speak. Your throat amplifies the voices of others.'
+            },
+            'g': {
+                defined: 'Trust your consistent sense of identity and direction. You know who you are and where you\'re going.',
+                undefined: 'Your identity is fluid and adaptive. You find yourself through relationships and environments.'
+            },
+            'heart': {
+                defined: 'Trust your willpower and only make promises you can keep. Your ego energy is consistent.',
+                undefined: 'Be careful about making promises and commitments. Your will varies and can be influenced by others.'
+            },
+            'spleen': {
+                defined: 'Trust your intuitive insights and body wisdom. Your survival instincts are reliable.',
+                undefined: 'Pay attention to what feels healthy vs unhealthy. Your intuition is enhanced by being around others.'
+            },
+            'sacral': {
+                defined: 'Trust your gut responses to life. You have consistent life force energy for work and creativity.',
+                undefined: 'Don\'t overcommit your energy. Rest when you need to and be selective about your involvements.'
+            },
+            'solar': {
+                defined: 'Honor your emotional wave. Wait for emotional clarity before making important decisions.',
+                undefined: 'Don\'t take on others\' emotions as your own. Create space to feel your own emotional truth.'
+            },
+            'root': {
+                defined: 'You have consistent access to pressure and drive. Use this energy to fuel your actions.',
+                undefined: 'Don\'t let external pressures rush you. Take time to feel what pressure is truly yours.'
+            }
+        };
+        
+        return guidance[centerName]?.[defined ? 'defined' : 'undefined'] || 'Follow your strategy and authority.';
     }
     
     addCenterTooltip(element, centerName, centerData) {
