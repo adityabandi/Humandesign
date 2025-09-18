@@ -140,12 +140,20 @@ class HumanDesignQuiz {
             const question = this.questions[this.currentQuestionIndex];
             this.answers[question.id] = parseInt(selectedAnswer.value);
             this.saveProgress();
-            this.enableNextButton();
+            this.updateProgress();
+            
+            // Add visual feedback
+            const selectedOption = selectedAnswer.closest('.scale-option');
+            selectedOption.classList.add('selected-animation');
             
             // Auto-advance after a short delay
             setTimeout(() => {
-                this.nextQuestion();
-            }, 800); // 800ms delay to show selection feedback
+                if (this.currentQuestionIndex < this.questions.length - 1) {
+                    this.nextQuestion();
+                } else {
+                    this.showQuizComplete();
+                }
+            }, 600); // Reduced delay for faster flow
         }
     }
     
@@ -185,34 +193,37 @@ class HumanDesignQuiz {
         }
         
         if (progressText) {
-            progressText.textContent = `${answeredQuestions}/${totalQuestions}`;
+            const formattedCurrent = String(answeredQuestions).padStart(2, '0');
+            const formattedTotal = String(totalQuestions).padStart(2, '0');
+            progressText.textContent = `${formattedCurrent}/${formattedTotal}`;
         }
         
         if (progressPercentageEl) {
-            progressPercentageEl.textContent = `${Math.round(progressPercentage)}%`;
+            const formattedPercentage = String(Math.round(progressPercentage)).padStart(2, '0');
+            progressPercentageEl.textContent = `${formattedPercentage}%`;
         }
         
-        // Update motivation message based on progress
+        // Update technical motivation messages
         if (progressMotivation) {
-            const motivationMessages = [
-                "Every answer brings you closer to your true self ✨",
-                "You're doing great! Keep discovering yourself 🌟",
-                "Amazing progress! Your authentic design is emerging 🎯",
-                "Fantastic! You're more than halfway there 🚀",
-                "Outstanding! Your Human Design is almost complete 💫",
-                "Incredible! Just a few more questions to go 🎉",
-                "Wow! You're so close to your breakthrough 🔥",
-                "Almost there! Your transformation awaits ⭐"
+            const technicalMessages = [
+                "INITIALIZING ASSESSMENT PROTOCOL",
+                "BEHAVIORAL PATTERN RECOGNITION ACTIVE",
+                "DATA ACQUISITION IN PROGRESS",
+                "PATTERN ANALYSIS 50% COMPLETE",
+                "ADVANCED BEHAVIORAL MAPPING ACTIVE",
+                "ASSESSMENT FRAMEWORK 75% COMPLETE",
+                "FINALIZING PATTERN RECOGNITION",
+                "ASSESSMENT PROTOCOL NEARING COMPLETION"
             ];
             
             const messageIndex = Math.min(
                 Math.floor(progressPercentage / 12.5),
-                motivationMessages.length - 1
+                technicalMessages.length - 1
             );
             
             const motivationText = progressMotivation.querySelector('.motivation-text');
             if (motivationText) {
-                motivationText.textContent = motivationMessages[messageIndex];
+                motivationText.textContent = technicalMessages[messageIndex];
             }
         }
     }

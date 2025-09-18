@@ -655,6 +655,95 @@ class ResultsDisplay {
     }
 }
 
+// Tab functionality for detailed analysis
+document.addEventListener('DOMContentLoaded', function() {
+    // Tab switching
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetTab = button.dataset.tab;
+            
+            // Remove active class from all buttons and panels
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanels.forEach(panel => panel.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding panel
+            button.classList.add('active');
+            document.getElementById(targetTab).classList.add('active');
+        });
+    });
+
+    // Center hover effects
+    const centers = document.querySelectorAll('.center');
+    centers.forEach(center => {
+        center.addEventListener('click', () => {
+            const centerName = center.dataset.center;
+            showCenterModal(centerName);
+        });
+    });
+});
+
+function showCenterModal(centerName) {
+    // Create modal for center details
+    const modal = document.createElement('div');
+    modal.className = 'center-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>${centerName.charAt(0).toUpperCase() + centerName.slice(1)} Center</h3>
+                <button class="modal-close" onclick="this.closest('.center-modal').remove()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="center-status ${Math.random() > 0.5 ? 'defined' : 'undefined'}">
+                    ${Math.random() > 0.5 ? 'Defined' : 'Undefined'}
+                </div>
+                <p>This center governs ${getCenterDescription(centerName)}.</p>
+                <div class="center-gates">
+                    <h4>Active Gates:</h4>
+                    <div class="gates-list">
+                        ${generateRandomGates().map(gate => `<span class="gate-number">${gate}</span>`).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Close modal when clicking outside
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+
+function getCenterDescription(centerName) {
+    const descriptions = {
+        'head': 'mental pressure, inspiration, and conceptual thinking',
+        'ajna': 'mental processing, analysis, and conceptualization',
+        'throat': 'communication, manifestation, and expression',
+        'g': 'identity, direction, and love',
+        'heart': 'willpower, ego, and material world',
+        'spleen': 'intuition, survival instincts, and health',
+        'sacral': 'life force energy, sexuality, and work',
+        'solar': 'emotions, feelings, and sensitivity',
+        'root': 'pressure, stress, and adrenaline'
+    };
+    return descriptions[centerName] || 'energy and consciousness';
+}
+
+function generateRandomGates() {
+    const gates = [];
+    const numGates = Math.floor(Math.random() * 4) + 1;
+    for (let i = 0; i < numGates; i++) {
+        gates.push(Math.floor(Math.random() * 64) + 1);
+    }
+    return gates;
+}
+
 // Make markPurchase globally available for buy flow
 window.markPurchase = markPurchase;
 

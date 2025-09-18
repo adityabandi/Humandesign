@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Human Design Quiz - Discover Your Type</title>
+    <title>Assessment Protocol - Human Design Analysis</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <a href="/" class="nav-logo">HumanDesign</a>
+            <a href="/" class="nav-logo">HUMANDESIGN</a>
             <ul class="nav-menu">
-                <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="/quiz.html" class="nav-link">Quiz</a></li>
-                <li><a href="/preview.html" class="nav-link">Preview</a></li>
-                <li><a href="/blog.html" class="nav-link">Blog</a></li>
-                <li><a href="/buy.html" class="nav-link cta-button">Get Full Report</a></li>
+                <li><a href="/" class="nav-link">INDEX</a></li>
+                <li><a href="/quiz.html" class="nav-link">ASSESSMENT</a></li>
+                <li><a href="/preview.html" class="nav-link">PREVIEW</a></li>
+                <li><a href="/blog.html" class="nav-link">ANALYSIS</a></li>
+                <li><a href="/quiz.html" class="nav-link cta-button">BEGIN TEST</a></li>
             </ul>
         </div>
     </nav>
@@ -26,20 +26,23 @@
     <main class="main-content quiz-page">
         <div class="container">
             <div class="quiz-header">
-                <h1>Human Design Assessment</h1>
-                <p class="quiz-subtitle">Discover your authentic self through 100 carefully crafted questions. Your journey to understanding begins here.</p>
+                <h1 class="quiz-title">Assessment Protocol</h1>
+                <p class="quiz-subtitle">
+                    Systematic behavioral pattern analysis through validated assessment matrix. 
+                    Respond based on authentic patterns, not idealized behaviors.
+                </p>
                 <div class="progress-container">
                     <div class="progress-wrapper">
                         <div class="progress-bar">
                             <div class="progress-fill" id="progressFill"></div>
                         </div>
                         <div class="progress-info">
-                            <span class="progress-text" id="progressText">0/100</span>
-                            <span class="progress-percentage" id="progressPercentage">0%</span>
+                            <span class="progress-text" id="progressText">00/100</span>
+                            <span class="progress-percentage" id="progressPercentage">00%</span>
                         </div>
                     </div>
                     <div class="progress-motivation" id="progressMotivation">
-                        <span class="motivation-text">Every answer brings you closer to your true self ✨</span>
+                        <span class="motivation-text">INITIALIZING ASSESSMENT PROTOCOL</span>
                     </div>
                 </div>
             </div>
@@ -47,15 +50,15 @@
             <div class="quiz-container" id="quizContainer">
                 <div class="question-card" id="questionCard">
                     <div class="question-header">
-                        <div class="question-category" id="questionCategory">Getting to know you</div>
-                        <div class="question-number" id="questionNumber">Question 1</div>
+                        <div class="question-category" id="questionCategory">BEHAVIORAL ANALYSIS</div>
+                        <div class="question-number" id="questionNumber">QUERY 01</div>
                     </div>
-                    <h2 class="question-text" id="questionText">Loading question...</h2>
+                    <h2 class="question-text" id="questionText">Loading assessment protocol...</h2>
                     <div class="likert-scale">
                         <div class="scale-labels">
-                            <span class="scale-label-left">Strongly Disagree</span>
-                            <span class="scale-label-center">Neutral</span>
-                            <span class="scale-label-right">Strongly Agree</span>
+                            <span class="scale-label-left">STRONGLY DISAGREE</span>
+                            <span class="scale-label-center">NEUTRAL</span>
+                            <span class="scale-label-right">STRONGLY AGREE</span>
                         </div>
                         <div class="scale-options">
                             <label class="scale-option" data-value="1">
@@ -63,141 +66,145 @@
                                 <span class="scale-circle">
                                     <span class="scale-number">1</span>
                                 </span>
-                                <span class="scale-description">Strongly<br>Disagree</span>
+                                <span class="scale-description">STRONGLY<br>DISAGREE</span>
                             </label>
                             <label class="scale-option" data-value="2">
                                 <input type="radio" name="answer" value="2">
                                 <span class="scale-circle">
                                     <span class="scale-number">2</span>
                                 </span>
-                                <span class="scale-description">Disagree</span>
+                                <span class="scale-description">DISAGREE</span>
                             </label>
                             <label class="scale-option" data-value="3">
                                 <input type="radio" name="answer" value="3">
                                 <span class="scale-circle">
                                     <span class="scale-number">3</span>
                                 </span>
-                                <span class="scale-description">Neutral</span>
+                                <span class="scale-description">NEUTRAL</span>
                             </label>
                             <label class="scale-option" data-value="4">
                                 <input type="radio" name="answer" value="4">
                                 <span class="scale-circle">
                                     <span class="scale-number">4</span>
                                 </span>
-                                <span class="scale-description">Agree</span>
+                                <span class="scale-description">AGREE</span>
                             </label>
                             <label class="scale-option" data-value="5">
                                 <input type="radio" name="answer" value="5">
                                 <span class="scale-circle">
                                     <span class="scale-number">5</span>
                                 </span>
-                                <span class="scale-description">Strongly<br>Agree</span>
+                                <span class="scale-description">STRONGLY<br>AGREE</span>
                             </label>
                         </div>
                     </div>
                     <div class="question-tips">
-                        <div class="tip-item">💡 Answer based on your natural instincts, not how you think you should be</div>
-                        <div class="tip-item">🎯 There are no right or wrong answers - this is about discovering your authentic self</div>
-                    </div>
-                    <div class="question-actions">
-                        <!-- Navigation buttons removed - quiz now auto-advances -->
+                        <div class="tip-item">PROTOCOL: RESPOND BASED ON NATURAL BEHAVIORAL PATTERNS</div>
+                        <div class="tip-item">OBJECTIVE: AUTHENTIC SELF-ASSESSMENT WITHOUT IDEALIZATION</div>
                     </div>
                 </div>
 
                 <div class="quiz-complete hidden" id="quizComplete">
                     <div class="completion-celebration">
-                        <div class="celebration-icon">🎉</div>
-                        <h2>Assessment Complete!</h2>
-                        <p class="completion-message">Congratulations! You've taken the first step toward understanding your Human Design. Now we need your birth information to calculate your precise chart.</p>
+                        <div class="celebration-icon">✓</div>
+                        <h2>Assessment Protocol Complete</h2>
+                        <p class="completion-message">
+                            Behavioral pattern analysis successfully captured. Birth data input required 
+                            for astronomical calculation engine to generate comprehensive analysis report.
+                        </p>
                         <div class="completion-stats">
                             <div class="stat-item">
                                 <span class="stat-number">100</span>
-                                <span class="stat-label">Questions Completed</span>
+                                <span class="stat-label">DATA POINTS CAPTURED</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-number" id="completionTime">15</span>
-                                <span class="stat-label">Minutes Invested</span>
+                                <span class="stat-label">MINUTES ELAPSED</span>
                             </div>
                         </div>
                     </div>
                     
                     <div class="birth-form" id="birthForm">
-                        <h3>Birth Information <span class="required-indicator">(Required for Chart Calculation)</span></h3>
-                        <p class="birth-form-description">Your exact birth time and location are essential for calculating your precise Human Design chart. Even a few minutes can make a difference in your results.</p>
+                        <h3>Birth Data Input <span class="required-indicator">[REQUIRED FOR CALCULATION]</span></h3>
+                        <p class="birth-form-description">
+                            Precise temporal and geographical coordinates required for astronomical calculation engine. 
+                            Sub-degree precision essential for accurate energetic imprint generation.
+                        </p>
                         
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="birthName">Full Name</label>
-                                <input type="text" id="birthName" required placeholder="Enter your full name">
-                                <small class="field-help">This will appear on your personalized report</small>
+                                <label for="birthName">FULL NAME</label>
+                                <input type="text" id="birthName" required placeholder="Enter complete name">
+                                <small class="field-help">IDENTIFIER FOR REPORT GENERATION</small>
                             </div>
                             <div class="form-group">
-                                <label for="birthEmail">Email Address <span class="optional">(Optional)</span></label>
-                                <input type="email" id="birthEmail" placeholder="your@email.com">
-                                <small class="field-help">For sending your report backup (optional but recommended)</small>
+                                <label for="birthEmail">EMAIL ADDRESS <span class="optional">[OPTIONAL]</span></label>
+                                <input type="email" id="birthEmail" placeholder="name@domain.com">
+                                <small class="field-help">BACKUP TRANSMISSION PROTOCOL</small>
                             </div>
                             <div class="form-group">
-                                <label for="birthDate">Birth Date</label>
+                                <label for="birthDate">BIRTH DATE</label>
                                 <input type="date" id="birthDate" required>
-                                <small class="field-help">Your exact date of birth</small>
+                                <small class="field-help">TEMPORAL COORDINATE REFERENCE</small>
                             </div>
                             <div class="form-group">
-                                <label for="birthTime">Birth Time</label>
+                                <label for="birthTime">BIRTH TIME</label>
                                 <input type="time" id="birthTime" required>
-                                <small class="field-help">Exact time of birth (check birth certificate if unsure)</small>
+                                <small class="field-help">PRECISE TEMPORAL MARKER [HH:MM]</small>
                             </div>
                             <div class="form-group">
-                                <label for="birthPlace">Birth Place</label>
+                                <label for="birthPlace">BIRTH LOCATION</label>
                                 <input type="text" id="birthPlace" required placeholder="City, State/Province, Country">
-                                <small class="field-help">City and country where you were born</small>
+                                <small class="field-help">GEOGRAPHICAL COORDINATE REFERENCE</small>
                             </div>
                             <div class="form-group">
-                                <label for="birthTimezone">Timezone</label>
+                                <label for="birthTimezone">TIMEZONE</label>
                                 <select id="birthTimezone" required>
-                                    <option value="">Select your timezone...</option>
-                                    <option value="UTC-12:00">UTC-12:00 (Baker Island)</option>
-                                    <option value="UTC-11:00">UTC-11:00 (Hawaii)</option>
-                                    <option value="UTC-10:00">UTC-10:00 (Alaska)</option>
-                                    <option value="UTC-09:00">UTC-09:00 (Pacific Standard Time)</option>
-                                    <option value="UTC-08:00">UTC-08:00 (Mountain Standard Time)</option>
-                                    <option value="UTC-07:00">UTC-07:00 (Central Standard Time)</option>
-                                    <option value="UTC-06:00">UTC-06:00 (Eastern Standard Time)</option>
-                                    <option value="UTC-05:00">UTC-05:00 (Atlantic)</option>
-                                    <option value="UTC-04:00">UTC-04:00 (Brazil)</option>
-                                    <option value="UTC-03:00">UTC-03:00 (Argentina)</option>
-                                    <option value="UTC-02:00">UTC-02:00 (Mid-Atlantic)</option>
-                                    <option value="UTC-01:00">UTC-01:00 (Azores)</option>
-                                    <option value="UTC+00:00">UTC+00:00 (London, GMT)</option>
-                                    <option value="UTC+01:00">UTC+01:00 (Central Europe)</option>
-                                    <option value="UTC+02:00">UTC+02:00 (Eastern Europe)</option>
-                                    <option value="UTC+03:00">UTC+03:00 (Moscow)</option>
-                                    <option value="UTC+04:00">UTC+04:00 (Dubai)</option>
-                                    <option value="UTC+05:00">UTC+05:00 (Pakistan)</option>
-                                    <option value="UTC+05:30">UTC+05:30 (India)</option>
-                                    <option value="UTC+06:00">UTC+06:00 (Bangladesh)</option>
-                                    <option value="UTC+07:00">UTC+07:00 (Thailand)</option>
-                                    <option value="UTC+08:00">UTC+08:00 (China, Singapore)</option>
-                                    <option value="UTC+09:00">UTC+09:00 (Japan, Korea)</option>
-                                    <option value="UTC+10:00">UTC+10:00 (Australia East)</option>
-                                    <option value="UTC+11:00">UTC+11:00 (Pacific)</option>
-                                    <option value="UTC+12:00">UTC+12:00 (New Zealand)</option>
+                                    <option value="">SELECT TIMEZONE OFFSET...</option>
+                                    <option value="UTC-12:00">UTC-12:00 [BAKER ISLAND]</option>
+                                    <option value="UTC-11:00">UTC-11:00 [HAWAII]</option>
+                                    <option value="UTC-10:00">UTC-10:00 [ALASKA]</option>
+                                    <option value="UTC-09:00">UTC-09:00 [PACIFIC STANDARD]</option>
+                                    <option value="UTC-08:00">UTC-08:00 [MOUNTAIN STANDARD]</option>
+                                    <option value="UTC-07:00">UTC-07:00 [CENTRAL STANDARD]</option>
+                                    <option value="UTC-06:00">UTC-06:00 [EASTERN STANDARD]</option>
+                                    <option value="UTC-05:00">UTC-05:00 [ATLANTIC]</option>
+                                    <option value="UTC-04:00">UTC-04:00 [BRAZIL]</option>
+                                    <option value="UTC-03:00">UTC-03:00 [ARGENTINA]</option>
+                                    <option value="UTC-02:00">UTC-02:00 [MID-ATLANTIC]</option>
+                                    <option value="UTC-01:00">UTC-01:00 [AZORES]</option>
+                                    <option value="UTC+00:00">UTC+00:00 [LONDON, GMT]</option>
+                                    <option value="UTC+01:00">UTC+01:00 [CENTRAL EUROPE]</option>
+                                    <option value="UTC+02:00">UTC+02:00 [EASTERN EUROPE]</option>
+                                    <option value="UTC+03:00">UTC+03:00 [MOSCOW]</option>
+                                    <option value="UTC+04:00">UTC+04:00 [DUBAI]</option>
+                                    <option value="UTC+05:00">UTC+05:00 [PAKISTAN]</option>
+                                    <option value="UTC+05:30">UTC+05:30 [INDIA]</option>
+                                    <option value="UTC+06:00">UTC+06:00 [BANGLADESH]</option>
+                                    <option value="UTC+07:00">UTC+07:00 [THAILAND]</option>
+                                    <option value="UTC+08:00">UTC+08:00 [CHINA, SINGAPORE]</option>
+                                    <option value="UTC+09:00">UTC+09:00 [JAPAN, KOREA]</option>
+                                    <option value="UTC+10:00">UTC+10:00 [AUSTRALIA EAST]</option>
+                                    <option value="UTC+11:00">UTC+11:00 [PACIFIC]</option>
+                                    <option value="UTC+12:00">UTC+12:00 [NEW ZEALAND]</option>
                                 </select>
-                                <small class="field-help">Timezone where you were born at the time of birth</small>
+                                <small class="field-help">TEMPORAL ZONE NORMALIZATION</small>
                             </div>
                         </div>
                         
                         <div class="birth-form-actions">
                             <div class="form-security">
-                                <span class="security-icon">🔒</span>
-                                <span class="security-text">Your information is 100% secure and private</span>
+                                <span class="security-icon">⚡</span>
+                                <span class="security-text">SECURE PROCESSING • NO DATA RETENTION</span>
                             </div>
-                            <button class="btn btn-primary large" onclick="submitQuizWithBirth()" id="submitBtn">
-                                <span class="btn-icon">✨</span>
-                                Generate My Human Design Report
-                                <span class="btn-subtext">Free comprehensive analysis</span>
+                            <button class="btn btn-primary btn-large" onclick="submitQuizWithBirth()" id="submitBtn">
+                                EXECUTE ANALYSIS
                             </button>
                         </div>
-                        <p class="form-note">All fields are required to generate your accurate Human Design chart. Don't worry - we never share your personal information.</p>
+                        <p class="form-note">
+                            ALL FIELDS REQUIRED FOR ASTRONOMICAL CALCULATION ENGINE • 
+                            DATA PROCESSED LOCALLY • ZERO RETENTION POLICY
+                        </p>
                     </div>
                 </div>
             </div>

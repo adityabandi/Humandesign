@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Preview - Human Design</title>
+    <title>Extended Analysis Preview - Human Design Platform</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <a href="/" class="nav-logo">HumanDesign</a>
+            <a href="/" class="nav-logo">HUMANDESIGN</a>
             <ul class="nav-menu">
-                <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="/quiz.html" class="nav-link">Quiz</a></li>
-                <li><a href="/preview.html" class="nav-link">Preview</a></li>
-                <li><a href="/blog.html" class="nav-link">Blog</a></li>
-                <li><a href="/buy.html" class="nav-link cta-button">Get Full Report</a></li>
+                <li><a href="/" class="nav-link">INDEX</a></li>
+                <li><a href="/quiz.html" class="nav-link">ASSESSMENT</a></li>
+                <li><a href="/preview.html" class="nav-link">PREVIEW</a></li>
+                <li><a href="/blog.html" class="nav-link">ANALYSIS</a></li>
+                <li><a href="/quiz.html" class="nav-link cta-button">BEGIN TEST</a></li>
             </ul>
         </div>
     </nav>
@@ -27,48 +27,59 @@
     <main class="main-content preview-page">
         <div class="container">
             <div class="preview-header">
-                <h1>Your Complete Human Design Report Preview</h1>
-                <p class="preview-subtitle">Get a glimpse of your comprehensive 40+ page personalized analysis</p>
+                <h1>Extended Analysis Preview</h1>
+                <p class="preview-subtitle">
+                    Comprehensive systematic analysis framework demonstrating 40+ pages of structured individual assessment
+                </p>
             </div>
 
             <div class="preview-navigation">
                 <div class="section-tabs">
-                    <button class="tab-button active" onclick="showSection('introduction')">Introduction</button>
-                    <button class="tab-button" onclick="showSection('type-analysis')">Type Analysis</button>
-                    <button class="tab-button" onclick="showSection('authority')">Authority</button>
-                    <button class="tab-button" onclick="showSection('centers')">Energy Centers</button>
-                    <button class="tab-button" onclick="showSection('career')">Career Guide</button>
-                    <button class="tab-button" onclick="showSection('relationships')">Relationships</button>
+                    <button class="tab-button active" onclick="showSection('introduction')">SYSTEM OVERVIEW</button>
+                    <button class="tab-button" onclick="showSection('type-analysis')">TYPE CLASSIFICATION</button>
+                    <button class="tab-button" onclick="showSection('authority')">DECISION FRAMEWORK</button>
+                    <button class="tab-button" onclick="showSection('centers')">ENERGY MAPPING</button>
+                    <button class="tab-button" onclick="showSection('career')">STRATEGIC OPTIMIZATION</button>
+                    <button class="tab-button" onclick="showSection('relationships')">INTERACTION PROTOCOLS</button>
                 </div>
             </div>
 
             <div class="preview-content">
-                <!-- Introduction Section -->
+                <!-- System Overview Section -->
                 <div id="introduction-section" class="section-content active">
                     <div class="section-header">
-                        <h2>Section 1: Welcome to Your Human Design</h2>
-                        <span class="page-count">Pages 1-3</span>
+                        <h2>Module 01: System Overview</h2>
+                        <span class="page-count">PAGES 001-003</span>
                     </div>
                     
                     <div class="preview-pages">
                         <div class="page-preview">
                             <div class="page-header">
-                                <h3>Page 1: Your Unique Blueprint</h3>
+                                <h3>PAGE 001: INDIVIDUAL BLUEPRINT IDENTIFICATION</h3>
                             </div>
                             <div class="page-content">
+                                <div class="technical-readout">
+                                    <div class="data-line">
+                                        <span class="label">ENERGY TYPE:</span>
+                                        <span class="value" id="preview-type">GENERATOR</span>
+                                    </div>
+                                    <div class="data-line">
+                                        <span class="label">DECISION AUTHORITY:</span>
+                                        <span class="value" id="preview-authority">SACRAL</span>
+                                    </div>
+                                    <div class="data-line">
+                                        <span class="label">PROFILE ARCHITECTURE:</span>
+                                        <span class="value" id="preview-profile">1/3</span>
+                                    </div>
+                                </div>
                                 <p class="preview-text">
-                                    Welcome to your personalized Human Design journey. As a <span id="preview-type" class="highlight">Generator</span> 
-                                    with <span id="preview-authority" class="highlight">Sacral</span> authority and a 
-                                    <span id="preview-profile" class="highlight">1/3</span> profile, you have a unique way of moving through the world.
-                                </p>
-                                <p class="preview-text">
-                                    This comprehensive report will help you understand not just who you are, but how to make decisions, 
-                                    build relationships, pursue your purpose, and live in alignment with your authentic nature.
+                                    Systematic analysis framework based on astronomical calculations and behavioral pattern recognition. 
+                                    Individual energetic imprint derived from precise birth coordinates and assessment matrix responses.
                                 </p>
                                 <div class="blur-overlay">
                                     <div class="unlock-text">
-                                        <i class="lock-icon">🔒</i>
-                                        <p>Unlock full content with complete report</p>
+                                        <div class="lock-icon">⚡</div>
+                                        <p>ACCESS COMPLETE TECHNICAL SPECIFICATIONS</p>
                                     </div>
                                 </div>
                             </div>
@@ -76,17 +87,22 @@
 
                         <div class="page-preview">
                             <div class="page-header">
-                                <h3>Page 2: What is Human Design?</h3>
+                                <h3>PAGE 002: METHODOLOGY FRAMEWORK</h3>
                             </div>
                             <div class="page-content">
                                 <p class="preview-text">
-                                    Human Design is a revolutionary system that reveals your unique energetic blueprint. 
-                                    Created by Ra Uru Hu in 1987, it synthesizes ancient and modern wisdom traditions...
+                                    Human Design synthesis protocol combining I-Ching hexagram system, Kabbalistic Tree of Life, 
+                                    Hindu-Brahmin chakra model, and quantum physics principles for comprehensive individual mapping...
                                 </p>
+                                <div class="technical-specs">
+                                    <div class="spec-item">• 64 GATE ACTIVATION MATRIX</div>
+                                    <div class="spec-item">• 9 CENTER ENERGY CONFIGURATION</div>
+                                    <div class="spec-item">• 36 CHANNEL DEFINITION PROTOCOL</div>
+                                </div>
                                 <div class="blur-overlay">
                                     <div class="unlock-text">
-                                        <i class="lock-icon">🔒</i>
-                                        <p>Continue reading in your full report</p>
+                                        <div class="lock-icon">⚡</div>
+                                        <p>CONTINUE TECHNICAL DOCUMENTATION</p>
                                     </div>
                                 </div>
                             </div>
@@ -94,27 +110,32 @@
                     </div>
                 </div>
 
-                <!-- Type Analysis Section -->
+                <!-- Type Classification Section -->
                 <div id="type-analysis-section" class="section-content">
                     <div class="section-header">
-                        <h2>Section 2: Deep Dive - The <span id="type-title">Generator</span></h2>
-                        <span class="page-count">Pages 4-9</span>
+                        <h2>Module 02: Energy Type Classification - <span id="type-title">GENERATOR</span></h2>
+                        <span class="page-count">PAGES 004-009</span>
                     </div>
                     
                     <div class="preview-pages">
                         <div class="page-preview">
                             <div class="page-header">
-                                <h3>Your Type Strategy</h3>
+                                <h3>STRATEGIC PROTOCOL IMPLEMENTATION</h3>
                             </div>
                             <div class="page-content">
-                                <p class="preview-text" id="type-strategy">
-                                    Your strategy is to RESPOND. This means waiting for life to come to you and then 
-                                    responding with your gut feeling...
-                                </p>
+                                <div class="strategy-framework">
+                                    <div class="framework-header">PRIMARY STRATEGY: RESPONSE PROTOCOL</div>
+                                    <div class="framework-details">
+                                        <p class="preview-text" id="type-strategy">
+                                            Generator classification requires systematic response to external stimuli. 
+                                            Wait-and-respond mechanism optimizes energy expenditure and maximizes satisfaction metrics...
+                                        </p>
+                                    </div>
+                                </div>
                                 <div class="blur-overlay">
                                     <div class="unlock-text">
-                                        <i class="lock-icon">🔒</i>
-                                        <p>Unlock detailed type analysis</p>
+                                        <div class="lock-icon">⚡</div>
+                                        <p>DETAILED STRATEGIC IMPLEMENTATION GUIDE</p>
                                     </div>
                                 </div>
                             </div>
@@ -122,20 +143,20 @@
 
                         <div class="page-preview">
                             <div class="page-header">
-                                <h3>Famous Examples of Your Type</h3>
+                                <h3>REFERENCE CASE STUDIES</h3>
                             </div>
                             <div class="page-content">
-                                <div class="famous-examples" id="famous-examples">
-                                    <div class="example-grid">
-                                        <div class="example-card">Albert Einstein</div>
-                                        <div class="example-card">Oprah Winfrey</div>
-                                        <div class="example-card">Madonna</div>
+                                <div class="case-studies" id="famous-examples">
+                                    <div class="study-grid">
+                                        <div class="study-item">CASE 001: A. EINSTEIN</div>
+                                        <div class="study-item">CASE 002: O. WINFREY</div>
+                                        <div class="study-item">CASE 003: M. CICCONE</div>
                                     </div>
                                 </div>
                                 <div class="blur-overlay">
                                     <div class="unlock-text">
-                                        <i class="lock-icon">🔒</i>
-                                        <p>See complete analysis and examples</p>
+                                        <div class="lock-icon">⚡</div>
+                                        <p>COMPREHENSIVE CASE STUDY ANALYSIS</p>
                                     </div>
                                 </div>
                             </div>
@@ -143,27 +164,34 @@
                     </div>
                 </div>
 
-                <!-- Authority Section -->
+                <!-- Decision Framework Section -->
                 <div id="authority-section" class="section-content">
                     <div class="section-header">
-                        <h2>Section 3: Your Inner Authority - <span id="authority-title">Sacral</span></h2>
-                        <span class="page-count">Pages 10-13</span>
+                        <h2>Module 03: Decision Authority Framework - <span id="authority-title">SACRAL</span></h2>
+                        <span class="page-count">PAGES 010-013</span>
                     </div>
                     
                     <div class="preview-pages">
                         <div class="page-preview">
                             <div class="page-header">
-                                <h3>How to Access Your Authority</h3>
+                                <h3>AUTHORITY ACCESS PROTOCOL</h3>
                             </div>
                             <div class="page-content">
-                                <p class="preview-text" id="authority-guidance">
-                                    Your authority is in your gut response - that immediate 'uh-huh' or 'uh-uh' sound 
-                                    that comes from your belly before your mind can interfere...
-                                </p>
+                                <div class="authority-framework">
+                                    <div class="protocol-steps">
+                                        <div class="step">01. SOMATIC RESPONSE RECOGNITION</div>
+                                        <div class="step">02. COGNITIVE BYPASS PROCEDURES</div>
+                                        <div class="step">03. INTUITIVE SIGNAL PROCESSING</div>
+                                    </div>
+                                    <p class="preview-text" id="authority-guidance">
+                                        Sacral authority operates through immediate somatic response mechanisms. 
+                                        Gut-level recognition protocols provide optimal decision-making frameworks...
+                                    </p>
+                                </div>
                                 <div class="blur-overlay">
                                     <div class="unlock-text">
-                                        <i class="lock-icon">🔒</i>
-                                        <p>Get complete decision-making guide</p>
+                                        <div class="lock-icon">⚡</div>
+                                        <p>COMPLETE DECISION IMPLEMENTATION GUIDE</p>
                                     </div>
                                 </div>
                             </div>
@@ -171,32 +199,34 @@
                     </div>
                 </div>
 
-                <!-- Centers Section -->
+                <!-- Energy Mapping Section -->
                 <div id="centers-section" class="section-content">
                     <div class="section-header">
-                        <h2>Section 4: Your Energy Centers Deep Dive</h2>
-                        <span class="page-count">Pages 14-22</span>
+                        <h2>Module 04: Energy Center Configuration Analysis</h2>
+                        <span class="page-count">PAGES 014-022</span>
                     </div>
                     
                     <div class="preview-pages">
                         <div class="page-preview">
                             <div class="page-header">
-                                <h3>Your Center Configuration</h3>
+                                <h3>CENTER ACTIVATION MAPPING</h3>
                             </div>
                             <div class="page-content">
-                                <div class="centers-visual">
-                                    <div class="center-grid">
-                                        <div class="center defined" data-center="sacral">Sacral</div>
-                                        <div class="center undefined" data-center="emotional">Emotional</div>
-                                        <div class="center defined" data-center="throat">Throat</div>
-                                        <div class="center undefined" data-center="identity">Identity</div>
-                                        <div class="center defined" data-center="will">Will</div>
-                                    </div>
+                                <div class="centers-grid-technical">
+                                    <div class="center-item defined" data-center="sacral">SC [DEFINED]</div>
+                                    <div class="center-item undefined" data-center="emotional">SL [UNDEFINED]</div>
+                                    <div class="center-item defined" data-center="throat">TH [DEFINED]</div>
+                                    <div class="center-item undefined" data-center="identity">G [UNDEFINED]</div>
+                                    <div class="center-item defined" data-center="will">HT [DEFINED]</div>
+                                    <div class="center-item undefined" data-center="head">HD [UNDEFINED]</div>
+                                    <div class="center-item defined" data-center="ajna">AJ [DEFINED]</div>
+                                    <div class="center-item undefined" data-center="spleen">SP [UNDEFINED]</div>
+                                    <div class="center-item defined" data-center="root">RT [DEFINED]</div>
                                 </div>
                                 <div class="blur-overlay">
                                     <div class="unlock-text">
-                                        <i class="lock-icon">🔒</i>
-                                        <p>Detailed analysis of all 9 centers</p>
+                                        <div class="lock-icon">⚡</div>
+                                        <p>COMPREHENSIVE 9-CENTER ANALYSIS MATRIX</p>
                                     </div>
                                 </div>
                             </div>
@@ -204,27 +234,32 @@
                     </div>
                 </div>
 
-                <!-- Career Section -->
+                <!-- Strategic Optimization Section -->
                 <div id="career-section" class="section-content">
                     <div class="section-header">
-                        <h2>Section 8: Career and Professional Guidance</h2>
-                        <span class="page-count">Pages 28-31</span>
+                        <h2>Module 08: Strategic Career Optimization</h2>
+                        <span class="page-count">PAGES 028-031</span>
                     </div>
                     
                     <div class="preview-pages">
                         <div class="page-preview">
                             <div class="page-header">
-                                <h3>Your Ideal Work Environment</h3>
+                                <h3>PROFESSIONAL OPTIMIZATION PROTOCOLS</h3>
                             </div>
                             <div class="page-content">
+                                <div class="optimization-framework">
+                                    <div class="framework-category">OPTIMAL WORK ENVIRONMENTS</div>
+                                    <div class="framework-category">ENERGY SUSTAINABILITY METRICS</div>
+                                    <div class="framework-category">MASTERY DEVELOPMENT PATHWAYS</div>
+                                </div>
                                 <p class="preview-text" id="career-guidance">
-                                    Your career should light you up and allow you to respond to opportunities that excite you. 
-                                    You have the sustainable energy to master your craft...
+                                    Professional engagement requires alignment with natural response mechanisms. 
+                                    Sustainable energy utilization through authentic engagement protocols...
                                 </p>
                                 <div class="blur-overlay">
                                     <div class="unlock-text">
-                                        <i class="lock-icon">🔒</i>
-                                        <p>Complete career strategy guide</p>
+                                        <div class="lock-icon">⚡</div>
+                                        <p>COMPLETE STRATEGIC CAREER FRAMEWORK</p>
                                     </div>
                                 </div>
                             </div>
@@ -232,27 +267,32 @@
                     </div>
                 </div>
 
-                <!-- Relationships Section -->
+                <!-- Interaction Protocols Section -->
                 <div id="relationships-section" class="section-content">
                     <div class="section-header">
-                        <h2>Section 9: Relationships and Compatibility</h2>
-                        <span class="page-count">Pages 32-35</span>
+                        <h2>Module 09: Interpersonal Interaction Protocols</h2>
+                        <span class="page-count">PAGES 032-035</span>
                     </div>
                     
                     <div class="preview-pages">
                         <div class="page-preview">
                             <div class="page-header">
-                                <h3>Your Relationship Style</h3>
+                                <h3>RELATIONAL CONFIGURATION ANALYSIS</h3>
                             </div>
                             <div class="page-content">
+                                <div class="interaction-matrix">
+                                    <div class="matrix-item">ENERGY EXCHANGE PROTOCOLS</div>
+                                    <div class="matrix-item">COMPATIBILITY FRAMEWORKS</div>
+                                    <div class="matrix-item">COMMUNICATION OPTIMIZATION</div>
+                                </div>
                                 <p class="preview-text" id="relationship-guidance">
-                                    As a Generator, you bring unique gifts to relationships. Understanding your design 
-                                    helps you connect more authentically...
+                                    Generator-type interaction protocols require authentic response mechanisms within relational contexts. 
+                                    Sustainable relationship frameworks through energetic compatibility assessment...
                                 </p>
                                 <div class="blur-overlay">
                                     <div class="unlock-text">
-                                        <i class="lock-icon">🔒</i>
-                                        <p>Comprehensive relationship guide</p>
+                                        <div class="lock-icon">⚡</div>
+                                        <p>COMPREHENSIVE INTERACTION ANALYSIS</p>
                                     </div>
                                 </div>
                             </div>
@@ -262,42 +302,51 @@
             </div>
 
             <div class="preview-footer">
-                <div class="report-summary">
-                    <h3>Complete Report Includes:</h3>
-                    <div class="features-grid">
-                        <div class="feature-item">
-                            <span class="feature-icon">📊</span>
-                            <span>40+ personalized pages</span>
+                <div class="report-specifications">
+                    <h3>Complete Analysis Framework Includes:</h3>
+                    <div class="specs-grid">
+                        <div class="spec-module">
+                            <div class="module-id">MOD01</div>
+                            <span>40+ PAGE SYSTEMATIC ANALYSIS</span>
                         </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">🎯</span>
-                            <span>Life purpose guidance</span>
+                        <div class="spec-module">
+                            <div class="module-id">MOD02</div>
+                            <span>STRATEGIC OPTIMIZATION PROTOCOLS</span>
                         </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">💼</span>
-                            <span>Career optimization</span>
+                        <div class="spec-module">
+                            <div class="module-id">MOD03</div>
+                            <span>PROFESSIONAL DEVELOPMENT FRAMEWORK</span>
                         </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">❤️</span>
-                            <span>Relationship insights</span>
+                        <div class="spec-module">
+                            <div class="module-id">MOD04</div>
+                            <span>INTERPERSONAL COMPATIBILITY ANALYSIS</span>
                         </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">🧘</span>
-                            <span>Daily practices</span>
+                        <div class="spec-module">
+                            <div class="module-id">MOD05</div>
+                            <span>DECONDITIONING IMPLEMENTATION GUIDE</span>
                         </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">🔮</span>
-                            <span>Yearly forecast</span>
+                        <div class="spec-module">
+                            <div class="module-id">MOD06</div>
+                            <span>TEMPORAL OPTIMIZATION STRATEGIES</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="cta-container">
-                    <p class="cta-text">Ready to unlock your complete Human Design blueprint?</p>
-                    <a href="/buy.html" class="btn btn-primary large" onclick="trackEvent('preview_to_buy')">
-                        Get Your Complete Report - $47
-                    </a>
-                    <p class="guarantee">30-day money-back guarantee</p>
+                <div class="access-interface">
+                    <div class="access-header">
+                        <h3>Access Complete Analysis Framework</h3>
+                        <p>Comprehensive systematic individual assessment protocol with strategic implementation guidelines</p>
+                    </div>
+                    <div class="access-controls">
+                        <a href="/buy.html" class="btn btn-primary btn-large" onclick="trackEvent('preview_to_acquisition')">
+                            ACCESS EXTENDED ANALYSIS • $47
+                        </a>
+                        <div class="access-guarantee">
+                            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">
+                                30-DAY SATISFACTION PROTOCOL • ZERO RISK ACQUISITION
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
