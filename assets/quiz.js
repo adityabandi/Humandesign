@@ -208,27 +208,27 @@ class HumanDesignQuiz {
             progressPercentageEl.textContent = `${formattedPercentage}%`;
         }
         
-        // Update technical motivation messages
+        // Update motivation messages
         if (progressMotivation) {
-            const technicalMessages = [
-                "INITIALIZING ASSESSMENT PROTOCOL",
-                "BEHAVIORAL PATTERN RECOGNITION ACTIVE",
-                "DATA ACQUISITION IN PROGRESS",
-                "PATTERN ANALYSIS 50% COMPLETE",
-                "ADVANCED BEHAVIORAL MAPPING ACTIVE",
-                "ASSESSMENT FRAMEWORK 75% COMPLETE",
-                "FINALIZING PATTERN RECOGNITION",
-                "ASSESSMENT PROTOCOL NEARING COMPLETION"
+            const motivationMessages = [
+                "Starting your Human Design journey...",
+                "Understanding your unique patterns...",
+                "Discovering your authentic self...",
+                "Halfway through your assessment...",
+                "Exploring your decision-making style...",
+                "Almost done with your questionnaire...",
+                "Completing your personality profile...",
+                "Ready to create your Human Design chart!"
             ];
             
             const messageIndex = Math.min(
                 Math.floor(progressPercentage / 12.5),
-                technicalMessages.length - 1
+                motivationMessages.length - 1
             );
             
             const motivationText = progressMotivation.querySelector('.motivation-text');
             if (motivationText) {
-                motivationText.textContent = technicalMessages[messageIndex];
+                motivationText.textContent = motivationMessages[messageIndex];
             }
         }
     }
