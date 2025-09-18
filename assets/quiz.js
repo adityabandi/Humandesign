@@ -141,6 +141,11 @@ class HumanDesignQuiz {
             this.answers[question.id] = parseInt(selectedAnswer.value);
             this.saveProgress();
             this.enableNextButton();
+            
+            // Auto-advance after a short delay
+            setTimeout(() => {
+                this.nextQuestion();
+            }, 800); // 800ms delay to show selection feedback
         }
     }
     
