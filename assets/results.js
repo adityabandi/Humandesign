@@ -65,6 +65,9 @@ class ResultsDisplay {
         this.renderChartResults(chart);
         this.renderInsights(insights);
         
+        // Render mismatch analysis preview
+        this.renderMismatchAnalysis(quiz, chart);
+        
         // Set up interactive features
         this.setupTabs();
         this.setupChartInteractions();
@@ -958,6 +961,121 @@ class ResultsDisplay {
         const actions = document.querySelector('.cta-buttons');
         if (actions) {
             actions.appendChild(printButton);
+        }
+    }
+    
+    renderMismatchAnalysis(quiz, chart) {
+        // Render psychological profile with more compelling descriptions
+        if (quiz) {
+            const psychType = document.getElementById('psychType');
+            const psychAuthority = document.getElementById('psychAuthority');
+            const psychPattern = document.getElementById('psychPattern');
+            
+            if (psychType) psychType.textContent = this.getConditionedType(quiz.type) || 'Operating from conditioning';
+            if (psychAuthority) psychAuthority.textContent = this.getConditionedAuthority(quiz.authority) || 'Mind-based decisions';
+            if (psychPattern) psychPattern.textContent = quiz.energyPattern || 'Struggling with energy flow';
+        }
+        
+        // Render actual design with authentic descriptions
+        if (chart) {
+            const designType = document.getElementById('designType');
+            const designAuthority = document.getElementById('designAuthority');
+            const designStrategy = document.getElementById('designStrategy');
+            
+            if (designType) designType.textContent = chart.type || 'Authentic Type Revealed';
+            if (designAuthority) designAuthority.textContent = chart.authority || 'True Decision-Making';
+            if (designStrategy) designStrategy.textContent = this.getStrategy(chart.type) || 'Natural Life Strategy';
+        }
+        
+        // Render breakthrough insights with specific nuggets
+        this.renderBreakthroughInsights(quiz, chart);
+    }
+    
+    getConditionedType(type) {
+        const conditioned = {
+            'Generator': 'Pushing and forcing instead of responding',
+            'Manifestor': 'Waiting for permission instead of initiating',
+            'Projector': 'Working like a Generator instead of waiting for invitation',
+            'Reflector': 'Making quick decisions instead of waiting a lunar cycle'
+        };
+        return conditioned[type] || 'Living from mental conditioning';
+    }
+    
+    getConditionedAuthority(authority) {
+        const conditioned = {
+            'Emotional': 'Making decisions when emotional',
+            'Sacral': 'Ignoring gut feelings',
+            'Splenic': 'Overthinking intuitive hits',
+            'Ego': 'Making promises you can\'t keep',
+            'Self-Projected': 'Not trusting your voice',
+            'Mental': 'Trying to know everything'
+        };
+        return conditioned[authority] || 'Making decisions from the mind';
+    }
+    
+    getStrategy(type) {
+        const strategies = {
+            'Generator': 'Respond to Life',
+            'Manifestor': 'Initiate & Inform',
+            'Projector': 'Wait for Invitation',
+            'Reflector': 'Wait a Lunar Cycle'
+        };
+        return strategies[type] || 'Align with Your Nature';
+    }
+    
+    renderBreakthroughInsights(quiz, chart) {
+        const mismatchContent = document.getElementById('mismatchContent');
+        const previewNuggets = document.getElementById('previewNuggets');
+        
+        if (!mismatchContent || !quiz || !chart) return;
+        
+        const insights = [];
+        const nuggets = [];
+        
+        // Generate specific breakthrough insights
+        if (quiz.type && chart.type && quiz.type !== chart.type) {
+            insights.push(`🔥 <strong>Major Discovery:</strong> Your quiz shows you're operating like a ${quiz.type}, but your birth chart reveals you're actually a ${chart.type}. This explains why forcing things feels so exhausting!`);
+            nuggets.push(`Your energy type determines how you're meant to interact with opportunities`);
+        }
+        
+        if (quiz.authority && chart.authority && quiz.authority !== chart.authority) {
+            insights.push(`⚡ <strong>Decision-Making Revolution:</strong> You've been making decisions with ${quiz.authority} energy, but your true authority is ${chart.authority}. No wonder some choices haven't worked out!`);
+            nuggets.push(`Your inner authority is your personal GPS for making correct decisions`);
+        }
+        
+        // Add location-specific insights
+        if (chart.positions && chart.positions.sun) {
+            insights.push(`🌟 <strong>Your Unique Gift:</strong> Gate ${Math.floor(chart.positions.sun.gate)} is activated by your Sun, giving you a specific life theme that most people don't understand about you.`);
+            nuggets.push(`Your Sun gate reveals your core life purpose and how you're meant to shine`);
+        }
+        
+        // Add general breakthrough insights if no specific mismatches
+        if (insights.length === 0) {
+            insights.push(`🎯 <strong>Alignment Opportunity:</strong> Your responses reveal conditioning patterns that are masking your natural gifts. Your birth chart shows exactly how to break free from these patterns.`);
+            insights.push(`💎 <strong>Hidden Potential:</strong> You have specific gates and channels that activate when you align with your design - creating effortless success and fulfillment.`);
+        }
+        
+        // Add powerful deconditioning insights
+        insights.push(`🚀 <strong>Your Transformation Path:</strong> Your complete report reveals the exact conditioning patterns blocking your success and the specific steps to reclaim your authentic power.`);
+        
+        mismatchContent.innerHTML = insights.map(insight => `<p>${insight}</p>`).join('');
+        
+        // Update nuggets with dynamic content
+        if (previewNuggets) {
+            const nuggetElements = previewNuggets.querySelectorAll('.nugget span:last-child');
+            nuggetElements.forEach((element, index) => {
+                if (nuggets[index]) {
+                    element.textContent = nuggets[index];
+                } else {
+                    // Default compelling nuggets
+                    const defaultNuggets = [
+                        `Your chart reveals the exact centers where you've been conditioned away from your truth`,
+                        `You have unique gifts that only emerge when you stop trying to be someone else`,
+                        `There's a specific way you're designed to make decisions that bypasses mental confusion`
+                    ];
+                    element.textContent = defaultNuggets[index] || defaultNuggets[0];
+                }
+            });
         }
     }
     

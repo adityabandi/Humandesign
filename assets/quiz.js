@@ -351,6 +351,7 @@ class HumanDesignQuiz {
                     name: birth.name,
                     email: birthData.email,
                     birth,
+                    answers: answersArray,
                     quizDerived,
                     chartDerived,
                     insights

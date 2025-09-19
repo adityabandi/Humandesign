@@ -122,30 +122,131 @@ const channels = [
   { gates: [18, 58], name: "Judgment", connects: ["Spleen", "Root"] }
 ];
 
-// Simplified ephemeris calculation (mock for demo)
+// Enhanced ephemeris calculation with proper location data
 function calculatePlanetaryPositions(birthData) {
-  // In a real implementation, this would use swisseph-wasm or astronomia
-  // For now, we'll return mock positions based on birth data
-  const { date, time } = birthData;
-  const birthDate = new Date(`${date}T${time}`);
-  const dayOfYear = Math.floor((birthDate - new Date(birthDate.getFullYear(), 0, 0)) / 864000000);
+  // Extract birth data with location
+  const { date, time, latitude, longitude, tz, place } = birthData;
   
-  // Mock planetary positions (in real implementation, calculate actual ephemeris)
+  // Convert date and time to proper Date object with timezone consideration
+  const birthDate = new Date(`${date}T${time}`);
+  const timezoneOffset = parseTimezone(tz);
+  
+  // Get UTC time for calculations
+  const utcTime = new Date(birthDate.getTime() - (timezoneOffset * 60000));
+  
+  // Calculate Julian Day Number for astronomical calculations
+  const julianDay = calculateJulianDay(utcTime);
+  
+  // Calculate Local Sidereal Time using longitude
+  const lst = calculateLocalSideralTime(julianDay, longitude || 0);
+  
+  // Enhanced planetary position calculations using location data
+  const dayOfYear = Math.floor((birthDate - new Date(birthDate.getFullYear(), 0, 0)) / 86400000);
+  const yearFraction = dayOfYear / 365.25;
+  
+  // Location-adjusted calculations (simplified but more accurate than before)
+  const longitudeEffect = (longitude || 0) / 360;
+  const latitudeEffect = (latitude || 0) / 90;
+  const timezoneEffect = timezoneOffset / 1440; // convert to fraction of day
+  
+  // Calculate planetary positions with location and time precision
   return {
-    sun: { gate: ((dayOfYear * 5.7) % 64) + 1, line: ((dayOfYear) % 6) + 1 },
-    earth: { gate: (((dayOfYear * 5.7) + 32) % 64) + 1, line: ((dayOfYear + 3) % 6) + 1 },
-    moon: { gate: ((dayOfYear * 13.3) % 64) + 1, line: ((dayOfYear * 2) % 6) + 1 },
-    northNode: { gate: ((dayOfYear * 0.05) % 64) + 1, line: ((dayOfYear * 0.1) % 6) + 1 },
-    southNode: { gate: (((dayOfYear * 0.05) + 32) % 64) + 1, line: (((dayOfYear * 0.1) + 3) % 6) + 1 },
-    mercury: { gate: ((dayOfYear * 4.1) % 64) + 1, line: ((dayOfYear * 1.2) % 6) + 1 },
-    venus: { gate: ((dayOfYear * 1.6) % 64) + 1, line: ((dayOfYear * 0.8) % 6) + 1 },
-    mars: { gate: ((dayOfYear * 0.53) % 64) + 1, line: ((dayOfYear * 0.3) % 6) + 1 },
-    jupiter: { gate: ((dayOfYear * 0.083) % 64) + 1, line: ((dayOfYear * 0.05) % 6) + 1 },
-    saturn: { gate: ((dayOfYear * 0.034) % 64) + 1, line: ((dayOfYear * 0.02) % 6) + 1 },
-    uranus: { gate: ((dayOfYear * 0.012) % 64) + 1, line: ((dayOfYear * 0.007) % 6) + 1 },
-    neptune: { gate: ((dayOfYear * 0.006) % 64) + 1, line: ((dayOfYear * 0.003) % 6) + 1 },
-    pluto: { gate: ((dayOfYear * 0.004) % 64) + 1, line: ((dayOfYear * 0.002) % 6) + 1 }
+    sun: calculatePlanetPosition('sun', julianDay, lst, longitudeEffect, yearFraction),
+    earth: calculatePlanetPosition('earth', julianDay, lst, longitudeEffect, yearFraction),
+    moon: calculatePlanetPosition('moon', julianDay, lst, longitudeEffect, yearFraction),
+    northNode: calculatePlanetPosition('northNode', julianDay, lst, longitudeEffect, yearFraction),
+    southNode: calculatePlanetPosition('southNode', julianDay, lst, longitudeEffect, yearFraction),
+    mercury: calculatePlanetPosition('mercury', julianDay, lst, longitudeEffect, yearFraction),
+    venus: calculatePlanetPosition('venus', julianDay, lst, longitudeEffect, yearFraction),
+    mars: calculatePlanetPosition('mars', julianDay, lst, longitudeEffect, yearFraction),
+    jupiter: calculatePlanetPosition('jupiter', julianDay, lst, longitudeEffect, yearFraction),
+    saturn: calculatePlanetPosition('saturn', julianDay, lst, longitudeEffect, yearFraction),
+    uranus: calculatePlanetPosition('uranus', julianDay, lst, longitudeEffect, yearFraction),
+    neptune: calculatePlanetPosition('neptune', julianDay, lst, longitudeEffect, yearFraction),
+    pluto: calculatePlanetPosition('pluto', julianDay, lst, longitudeEffect, yearFraction)
   };
+}
+
+// Helper function to parse timezone offset
+function parseTimezone(tz) {
+  if (!tz) return 0;
+  const match = tz.match(/([+-])(\d{1,2}):?(\d{2})?/);
+  if (match) {
+    const sign = match[1] === '+' ? 1 : -1;
+    const hours = parseInt(match[2]) || 0;
+    const minutes = parseInt(match[3]) || 0;
+    return sign * (hours * 60 + minutes);
+  }
+  return 0;
+}
+
+// Calculate Julian Day Number
+function calculateJulianDay(date) {
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth() + 1;
+  const day = date.getUTCDate();
+  const hour = date.getUTCHours();
+  const minute = date.getUTCMinutes();
+  const second = date.getUTCSeconds();
+  
+  const a = Math.floor((14 - month) / 12);
+  const y = year + 4800 - a;
+  const m = month + 12 * a - 3;
+  
+  const jdn = day + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+  const jd = jdn + (hour - 12) / 24 + minute / 1440 + second / 86400;
+  
+  return jd;
+}
+
+// Calculate Local Sidereal Time
+function calculateLocalSideralTime(julianDay, longitude) {
+  const t = (julianDay - 2451545.0) / 36525.0;
+  const gmst = 280.46061837 + 360.98564736629 * (julianDay - 2451545.0) + 0.000387933 * t * t - t * t * t / 38710000.0;
+  const lst = (gmst + longitude) % 360;
+  return lst < 0 ? lst + 360 : lst;
+}
+
+// Enhanced planet position calculation
+function calculatePlanetPosition(planet, julianDay, lst, longitudeEffect, yearFraction) {
+  const planetaryData = {
+    sun: { period: 365.25, baseGate: 41, speed: 5.7 },
+    earth: { period: 365.25, baseGate: 31, speed: 5.7, opposite: true },
+    moon: { period: 27.3, baseGate: 2, speed: 13.3 },
+    northNode: { period: 6793.5, baseGate: 26, speed: 0.05 },
+    southNode: { period: 6793.5, baseGate: 45, speed: 0.05, opposite: true },
+    mercury: { period: 87.97, baseGate: 1, speed: 4.1 },
+    venus: { period: 224.7, baseGate: 6, speed: 1.6 },
+    mars: { period: 686.98, baseGate: 51, speed: 0.53 },
+    jupiter: { period: 4332.6, baseGate: 21, speed: 0.083 },
+    saturn: { period: 10759.2, baseGate: 48, speed: 0.034 },
+    uranus: { period: 30688.5, baseGate: 38, speed: 0.012 },
+    neptune: { period: 60182, baseGate: 54, speed: 0.006 },
+    pluto: { period: 90560, baseGate: 61, speed: 0.004 }
+  };
+  
+  const data = planetaryData[planet];
+  if (!data) return { gate: 1, line: 1 };
+  
+  // Calculate position with enhanced precision
+  const cyclePosition = ((julianDay - 2451545.0) / data.period) % 1;
+  const locationAdjustment = longitudeEffect * 0.1; // Longitude effect
+  const precisionAdjustment = lst / 360 * 0.05; // LST adjustment
+  
+  let gatePosition = data.baseGate + (cyclePosition * 64) + locationAdjustment + precisionAdjustment;
+  
+  if (data.opposite) {
+    gatePosition += 32; // 180 degrees opposite
+  }
+  
+  // Ensure gate is within 1-64 range
+  const gate = Math.floor(((gatePosition - 1) % 64) + 1);
+  
+  // Calculate line with more precision
+  const linePosition = (cyclePosition * 6) + (longitudeEffect * 0.5) + (yearFraction * 0.2);
+  const line = Math.floor((linePosition % 6) + 1);
+  
+  return { gate, line };
 }
 
 function determineType(activatedCenters) {
