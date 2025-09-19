@@ -1086,7 +1086,7 @@ class ResultsDisplay {
                 <div class="error-message">
                     <h2>Unable to Load Results</h2>
                     <p>${message}</p>
-                    <a href="/quiz.html" class="btn btn-primary">Take Quiz Again</a>
+                    <a href="quiz.html" class="btn btn-primary">Take Quiz Again</a>
                 </div>
             `;
         }
