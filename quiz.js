@@ -40,8 +40,18 @@ class SystemAssessmentInterface {
     async loadAssessmentProtocol() {
         try {
             const response = await fetch('/assets/questions.json');
-            this.assessmentQueries = await response.json();
+            const rawQuestions = await response.json();
+            
+            // Transform questions to match expected format
+            this.assessmentQueries = rawQuestions.map(q => ({
+                id: q.id.toString(), // Convert to string
+                query: q.question || q.query, // Support both formats
+                category: q.category,
+                classification: q.classification || 'standard'
+            }));
+            
             this.systemState = 'protocol_loaded';
+            console.log(`Loaded ${this.assessmentQueries.length} assessment queries`);
         } catch (error) {
             console.error('Protocol loading error:', error);
             this.assessmentQueries = this.getEmergencyProtocol();
@@ -252,16 +262,22 @@ class SystemAssessmentInterface {
             return;
         }
         
-        this.currentQueryIndex++;
-        this.lastQueryRenderTime = Date.now();
-        
+        // Track navigation before moving
         this.trackSystemEvent('assessment_navigation', {
             assessment_id: this.assessmentId,
             direction: 'next',
-            query_index: this.currentQueryIndex
+            query_index: this.currentQueryIndex + 1
         });
         
-        this.renderCurrentQuery();
+        // Only increment AFTER we know we're not on the last question
+        if (this.currentQueryIndex < this.assessmentQueries.length - 1) {
+            this.currentQueryIndex++;
+            this.lastQueryRenderTime = Date.now();
+            this.renderCurrentQuery();
+        } else {
+            // We're on the last question, go to completion
+            this.displayAssessmentCompletion();
+        }
     }
     
     updateSystemMetrics() {
@@ -359,31 +375,47 @@ class SystemAssessmentInterface {
             
             const responseWeight = responseValue; // 1-5 scale
             
-            // Configuration scoring based on query categories
+            // Configuration scoring based on actual question categories
             switch (query.category) {
-                case 'energy_dynamics':
-                case 'sacral_indicators':
+                case 'energy_type':
+                case 'generator_traits':
+                case 'sacral_defined':
                     configurationScores.generator_indicators += responseWeight;
                     break;
-                case 'initiation_patterns':
+                case 'manifestor_traits':
+                case 'throat_defined':
                     configurationScores.manifestor_indicators += responseWeight;
                     break;
+                case 'projector_traits':
                 case 'guidance_systems':
                 case 'recognition_patterns':
+                case 'systems_thinking':
                     configurationScores.projector_indicators += responseWeight;
                     break;
+                case 'reflector_traits':
                 case 'environmental_sensitivity':
+                case 'energy_sensitivity':
                     configurationScores.reflector_indicators += responseWeight;
                     break;
-                case 'emotional_wave_patterns':
+                case 'emotional_authority':
+                case 'emotional_response':
+                case 'emotional_expression':
+                case 'emotional_undefined':
                     configurationScores.emotional_authority += responseWeight;
                     break;
+                case 'sacral_authority':
                 case 'gut_response_systems':
+                case 'sacral_undefined':
                     configurationScores.sacral_authority += responseWeight;
                     break;
-                case 'intuitive_alerts':
+                case 'spleen_authority':
+                case 'spleen_defined':
+                case 'intuitive_authority':
+                case 'intuitive_perception':
+                case 'intuitive_trust':
                     configurationScores.splenic_authority += responseWeight;
                     break;
+                case 'throat_authority':
                 case 'vocal_truth_detection':
                     configurationScores.projected_authority += responseWeight;
                     break;
@@ -424,8 +456,11 @@ class SystemAssessmentInterface {
             decisionAuthority: primaryAuthority,
             profileArchitecture: profileArchitecture,
             configurationScores: configurationScores,
+            energyTypeScores: energyTypeScores,
+            authorityScores: authorityScores,
             assessment_id: this.assessmentId,
-            systemMetrics: this.sessionMetrics
+            systemMetrics: this.sessionMetrics,
+            totalResponses: Object.keys(this.responseData).length
         };
     }
     
