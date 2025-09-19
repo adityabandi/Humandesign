@@ -23,7 +23,7 @@ function initiateAnalysisAcquisition() {
     trackSystemEvent('analysis_acquisition_initiated', {
         source: 'acquisition_interface',
         product_code: 'COMPLETE_SYSTEM_ANALYSIS',
-        price_point: 47,
+        price_point: 29,
         currency: 'USD'
     });
     
@@ -35,6 +35,29 @@ function initiateAnalysisAcquisition() {
     setTimeout(() => {
         window.location.href = '/thank-you.html';
     }, 1500);
+}
+
+// Stripe payment processing for acquisition
+function proceedToAcquisition() {
+    trackSystemEvent('stripe_acquisition_initiated', {
+        source: 'buy_page',
+        product_code: 'HUMAN_DESIGN_INTEGRATION_REPORT',
+        price_point: 29,
+        currency: 'USD'
+    });
+    
+    // Get the public_id from URL if present (for tracking purposes)
+    const urlParams = new URLSearchParams(window.location.search);
+    const publicId = urlParams.get('id');
+    
+    // Construct Stripe checkout URL with return URL
+    const stripeUrl = 'https://buy.stripe.com/9B66oIemgfE8djoeeR5J61r';
+    const returnUrl = publicId ? 
+        `${window.location.origin}/thank-you.html?id=${publicId}` :
+        `${window.location.origin}/thank-you.html`;
+    
+    // Redirect to Stripe checkout
+    window.location.href = stripeUrl;
 }
 
 // Social network distribution protocols

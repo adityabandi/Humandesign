@@ -65,6 +65,9 @@ class ResultsDisplay {
         this.renderChartResults(chart);
         this.renderInsights(insights);
         
+        // Render mismatch analysis preview
+        this.renderMismatchAnalysis(quiz, chart);
+        
         // Set up interactive features
         this.setupTabs();
         this.setupChartInteractions();
@@ -959,6 +962,70 @@ class ResultsDisplay {
         if (actions) {
             actions.appendChild(printButton);
         }
+    }
+    
+    renderMismatchAnalysis(quiz, chart) {
+        // Render psychological profile
+        if (quiz) {
+            const psychType = document.getElementById('psychType');
+            const psychAuthority = document.getElementById('psychAuthority');
+            const psychPattern = document.getElementById('psychPattern');
+            
+            if (psychType) psychType.textContent = quiz.type || 'Analysis Complete';
+            if (psychAuthority) psychAuthority.textContent = quiz.authority || 'Decision-making style identified';
+            if (psychPattern) psychPattern.textContent = quiz.energyPattern || 'Energy pattern detected';
+        }
+        
+        // Render actual design
+        if (chart) {
+            const designType = document.getElementById('designType');
+            const designAuthority = document.getElementById('designAuthority');
+            const designStrategy = document.getElementById('designStrategy');
+            
+            if (designType) designType.textContent = chart.type || 'Design Complete';
+            if (designAuthority) designAuthority.textContent = chart.authority || 'Inner authority identified';
+            if (designStrategy) designStrategy.textContent = this.getStrategy(chart.type) || 'Strategy revealed';
+        }
+        
+        // Render mismatch insights
+        this.renderMismatchInsights(quiz, chart);
+    }
+    
+    getStrategy(type) {
+        const strategies = {
+            'Generator': 'To Respond',
+            'Manifestor': 'To Inform',
+            'Projector': 'To Wait for Invitation',
+            'Reflector': 'To Wait a Lunar Cycle'
+        };
+        return strategies[type] || 'Strategy Revealed';
+    }
+    
+    renderMismatchInsights(quiz, chart) {
+        const mismatchContent = document.getElementById('mismatchContent');
+        if (!mismatchContent || !quiz || !chart) return;
+        
+        const insights = [];
+        
+        // Compare types
+        if (quiz.type && chart.type && quiz.type !== chart.type) {
+            insights.push(`🔄 <strong>Type Conditioning:</strong> Your quiz suggests ${quiz.type} behavior, but your design is ${chart.type}. This indicates areas where you may be operating from learned patterns rather than your natural flow.`);
+        }
+        
+        // Compare authorities
+        if (quiz.authority && chart.authority && quiz.authority !== chart.authority) {
+            insights.push(`⚡ <strong>Decision-Making Gap:</strong> You're using ${quiz.authority} decision-making, but your inner authority is ${chart.authority}. Aligning these could dramatically improve your choices.`);
+        }
+        
+        // Add general mismatch insight
+        if (insights.length === 0) {
+            insights.push(`🎯 <strong>Integration Opportunity:</strong> Your responses show strong conditioning patterns that differ from your natural design. Understanding these differences is key to authentic living.`);
+        }
+        
+        // Add specific areas for improvement
+        insights.push(`📈 <strong>Growth Areas:</strong> Your full report reveals specific deconditioning strategies and authentic decision-making processes tailored to your unique design.`);
+        
+        mismatchContent.innerHTML = insights.map(insight => `<p>${insight}</p>`).join('');
     }
     
     showError(message) {

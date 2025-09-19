@@ -1,9 +1,9 @@
 // SheetDB Integration for Human Design Quiz Data Collection
 // Configuration for SheetDB API
 const SHEETDB_CONFIG = {
-    // Replace with your actual SheetDB API URL
-    url: 'https://sheetdb.io/api/v1/your-sheet-id',
-    enabled: false // Set to true when configured with real SheetDB URL
+    // SheetDB API URL as specified in requirements
+    url: 'https://sheetdb.io/api/v1/wlp0w5nfo35g5',
+    enabled: true // Enabled with the provided SheetDB URL
 };
 
 /**
@@ -25,11 +25,31 @@ export async function submitToSheetDB(data) {
             birth_time: data.birth?.time || '',
             location: data.birth?.place || '',
             human_design_output: JSON.stringify({
-                type: data.quizDerived?.type || '',
-                authority: data.quizDerived?.authority || '',
-                profile: data.quizDerived?.profile || '',
-                centers: data.chartDerived?.centers || {},
-                insights: data.insights || []
+                // Psychology test outputs
+                psychological_profile: {
+                    type: data.quizDerived?.type || '',
+                    authority: data.quizDerived?.authority || '',
+                    profile: data.quizDerived?.profile || '',
+                    detailed_answers: data.quizDerived?.detailed || {},
+                    strengths: data.quizDerived?.strengths || [],
+                    challenges: data.quizDerived?.challenges || [],
+                    decision_making: data.quizDerived?.decisionMaking || '',
+                    energy_pattern: data.quizDerived?.energyPattern || ''
+                },
+                // Human Design chart outputs
+                chart_design: {
+                    type: data.chartDerived?.type || '',
+                    authority: data.chartDerived?.authority || '',
+                    profile: data.chartDerived?.profile || '',
+                    definition: data.chartDerived?.definition || '',
+                    centers: data.chartDerived?.centers || {},
+                    gates: data.chartDerived?.gates || {},
+                    channels: data.chartDerived?.channels || []
+                },
+                // Integration analysis
+                insights: data.insights || [],
+                // Raw quiz answers for analysis
+                raw_answers: data.answers || []
             }),
             created_at: new Date().toISOString()
         };
