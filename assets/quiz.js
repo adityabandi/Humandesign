@@ -219,14 +219,14 @@ class HumanDesignQuiz {
         // Update motivation messages
         if (progressMotivation) {
             const motivationMessages = [
-                "Starting your Human Design journey...",
-                "Understanding your unique patterns...",
-                "Discovering your authentic self...",
-                "Halfway through your assessment...",
-                "Exploring your decision-making style...",
-                "Almost done with your questionnaire...",
-                "Completing your personality profile...",
-                "Ready to create your Human Design chart!"
+                "Starting your personality assessment...",
+                "Understanding your unique psychological patterns...",
+                "Discovering your personality traits...",
+                "Halfway through your psychology profile...",
+                "Exploring your behavioral tendencies...",
+                "Almost done with your personality questionnaire...",
+                "Completing your Big 5 psychology profile...",
+                "Ready to create your integrated personality report!"
             ];
             
             const messageIndex = Math.min(

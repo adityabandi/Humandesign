@@ -54,10 +54,13 @@ class ResultsDisplay {
         
         // Update page title with user name
         if (user.name) {
-            document.title = `${user.name}'s Human Design Report`;
+            document.title = `${user.name}'s Personality Report`;
         }
         
-        // Render chart visualization first
+        // Render Big 5 personality results first
+        this.renderBig5Results(quiz);
+        
+        // Render chart visualization
         this.renderChartVisualization(chart);
         
         // Render main results
@@ -77,6 +80,65 @@ class ResultsDisplay {
         
         // Add print functionality
         this.setupPrintButton();
+    }
+    
+    renderBig5Results(quiz) {
+        if (!quiz || !quiz.detailed || !quiz.detailed.percentileScores) {
+            console.log('No Big 5 data available:', quiz);
+            return;
+        }
+        
+        const scores = quiz.detailed.percentileScores;
+        const interpretations = quiz.detailed.interpretations;
+        
+        // Update personality summary
+        const personalitySummary = document.getElementById('personalitySummary');
+        if (personalitySummary && quiz.summary) {
+            personalitySummary.innerHTML = `
+                <h3>Your Personality Profile</h3>
+                <p>${quiz.summary.overallProfile || 'Your unique personality assessment is complete.'}</p>
+                <div class="summary-scores">
+                    <strong>Big 5 Scores:</strong> ${quiz.profile || 'Loading...'}
+                </div>
+            `;
+        }
+        
+        // Update each trait
+        const traits = ['openness', 'conscientiousness', 'extraversion', 'agreeableness', 'neuroticism'];
+        
+        traits.forEach(trait => {
+            const score = scores[trait] || 0;
+            const interpretation = interpretations[trait] || {};
+            
+            // Update score display
+            const scoreElement = document.getElementById(`${trait}Score`);
+            if (scoreElement) {
+                scoreElement.textContent = `${score}%`;
+            }
+            
+            // Update progress bar
+            const fillElement = document.getElementById(`${trait}Fill`);
+            if (fillElement) {
+                setTimeout(() => {
+                    fillElement.style.width = `${score}%`;
+                    
+                    // Color the bar based on score
+                    if (score >= 70) {
+                        fillElement.style.background = 'linear-gradient(90deg, #4CAF50, #8BC34A)';
+                    } else if (score >= 40) {
+                        fillElement.style.background = 'linear-gradient(90deg, #FF9800, #FFC107)';
+                    } else {
+                        fillElement.style.background = 'linear-gradient(90deg, #f44336, #FF5722)';
+                    }
+                }, 500);
+            }
+            
+            // Update description
+            const descElement = document.getElementById(`${trait}Description`);
+            if (descElement) {
+                descElement.textContent = interpretation.description || `Your ${trait} score is ${score}%.`;
+            }
+        });
     }
     
     renderChartVisualization(chart) {
@@ -1196,6 +1258,33 @@ function generateRandomGates() {
 
 // Make markPurchase globally available for buy flow
 window.markPurchase = markPurchase;
+
+// Track purchase intent for analytics
+function trackPurchaseIntent() {
+    try {
+        // Track analytics event if available
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'purchase_intent', {
+                'event_category': 'conversion',
+                'event_label': 'full_report_cta',
+                'value': 29
+            });
+        }
+        
+        // Track to console for debugging
+        console.log('Purchase intent tracked:', {
+            page: 'results',
+            product: 'full_personality_report',
+            price: 29,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        console.log('Analytics tracking error:', error);
+    }
+}
+
+// Make function globally available
+window.trackPurchaseIntent = trackPurchaseIntent;
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
