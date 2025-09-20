@@ -15,6 +15,7 @@ class HumanDesignQuiz {
         this.currentQuestionIndex = 0;
         this.answers = {};
         this.isLoading = false;
+        this.isAdvancing = false; // Prevent multiple concurrent advances
         this.quizId = this.generateQuizId();
         
         this.init();
@@ -140,6 +141,11 @@ class HumanDesignQuiz {
     }
     
     handleAnswerSelect() {
+        // Prevent multiple concurrent advances
+        if (this.isAdvancing) {
+            return;
+        }
+        
         const selectedAnswer = document.querySelector('input[name="answer"]:checked');
         if (selectedAnswer) {
             const question = this.questions[this.currentQuestionIndex];
@@ -151,13 +157,15 @@ class HumanDesignQuiz {
             const selectedOption = selectedAnswer.closest('.scale-option');
             selectedOption.classList.add('selected-animation');
             
-            // Auto-advance after a short delay
+            // Set advancing flag and auto-advance after a short delay
+            this.isAdvancing = true;
             setTimeout(() => {
                 if (this.currentQuestionIndex < this.questions.length - 1) {
                     this.nextQuestion();
                 } else {
                     this.showQuizComplete();
                 }
+                this.isAdvancing = false; // Reset flag after advancing
             }, 600); // Reduced delay for faster flow
         }
     }

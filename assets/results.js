@@ -1080,13 +1080,15 @@ class ResultsDisplay {
     }
     
     showError(message) {
-        const container = document.querySelector('.main-content .container');
-        if (container) {
-            container.innerHTML = `
-                <div class="error-message">
-                    <h2>Unable to Load Results</h2>
-                    <p>${message}</p>
-                    <a href="/quiz.html" class="btn btn-primary">Take Quiz Again</a>
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+            mainContent.innerHTML = `
+                <div class="container">
+                    <div class="error-message">
+                        <h2>Unable to Load Results</h2>
+                        <p>${message}</p>
+                        <a href="quiz.html" class="btn btn-primary">Take Quiz Again</a>
+                    </div>
                 </div>
             `;
         }
