@@ -26,14 +26,134 @@
     <main class="main-content results-page">
         <div class="container">
             <div class="results-header">
-                <h1>Analysis Report</h1>
+                <h1>Personality Analysis Report</h1>
                 <p class="results-subtitle">
-                    Comprehensive individual assessment based on behavioral pattern analysis and astronomical calculations
+                    Comprehensive psychological profile based on Big 5 personality assessment and Human Design integration
                 </p>
                 <div class="results-badges">
-                    <span class="badge">CHART CALCULATED</span>
-                    <span class="badge">PATTERN ANALYSIS COMPLETE</span>
-                    <span class="badge">INTEGRATION PROCESSED</span>
+                    <span class="badge">BIG 5 ASSESSED</span>
+                    <span class="badge">PERSONALITY ANALYZED</span>
+                    <span class="badge">REPORT READY</span>
+                </div>
+            </div>
+
+            <!-- Big 5 Personality Profile Section -->
+            <div class="personality-section">
+                <h2>Your Big 5 Personality Profile</h2>
+                <div class="personality-summary" id="personalitySummary">
+                    <div class="loading-placeholder">Loading your personality analysis...</div>
+                </div>
+                
+                <div class="personality-traits">
+                    <div class="trait-card" data-trait="openness">
+                        <div class="trait-header">
+                            <h3>Openness to Experience</h3>
+                            <div class="trait-score" id="opennessScore">--</div>
+                        </div>
+                        <div class="trait-bar">
+                            <div class="trait-fill" id="opennessFill"></div>
+                        </div>
+                        <p class="trait-description" id="opennessDescription">Loading...</p>
+                    </div>
+                    
+                    <div class="trait-card" data-trait="conscientiousness">
+                        <div class="trait-header">
+                            <h3>Conscientiousness</h3>
+                            <div class="trait-score" id="conscientiousnessScore">--</div>
+                        </div>
+                        <div class="trait-bar">
+                            <div class="trait-fill" id="conscientiousnessFill"></div>
+                        </div>
+                        <p class="trait-description" id="conscientiousnessDescription">Loading...</p>
+                    </div>
+                    
+                    <div class="trait-card" data-trait="extraversion">
+                        <div class="trait-header">
+                            <h3>Extraversion</h3>
+                            <div class="trait-score" id="extraversionScore">--</div>
+                        </div>
+                        <div class="trait-bar">
+                            <div class="trait-fill" id="extraversionFill"></div>
+                        </div>
+                        <p class="trait-description" id="extraversionDescription">Loading...</p>
+                    </div>
+                    
+                    <div class="trait-card" data-trait="agreeableness">
+                        <div class="trait-header">
+                            <h3>Agreeableness</h3>
+                            <div class="trait-score" id="agreeablenessScore">--</div>
+                        </div>
+                        <div class="trait-bar">
+                            <div class="trait-fill" id="agreeablenessFill"></div>
+                        </div>
+                        <p class="trait-description" id="agreeablenessDescription">Loading...</p>
+                    </div>
+                    
+                    <div class="trait-card" data-trait="neuroticism">
+                        <div class="trait-header">
+                            <h3>Neuroticism</h3>
+                            <div class="trait-score" id="neuroticismScore">--</div>
+                        </div>
+                        <div class="trait-bar">
+                            <div class="trait-fill" id="neuroticismFill"></div>
+                        </div>
+                        <p class="trait-description" id="neuroticismDescription">Loading...</p>
+                    </div>
+                </div>
+
+                <!-- Call to Action for Full Report -->
+                <div class="upgrade-cta">
+                    <div class="cta-content">
+                        <h3>🎯 Unlock Your Complete Personality & Human Design Report</h3>
+                        <p class="cta-description">
+                            This is just the beginning! Get your comprehensive 40+ page report that includes:
+                        </p>
+                        <div class="features-grid">
+                            <div class="feature">
+                                <span class="feature-icon">📊</span>
+                                <span class="feature-text">Detailed Big 5 analysis with career insights</span>
+                            </div>
+                            <div class="feature">
+                                <span class="feature-icon">🧬</span>
+                                <span class="feature-text">Complete Human Design bodygraph & interpretation</span>
+                            </div>
+                            <div class="feature">
+                                <span class="feature-icon">💡</span>
+                                <span class="feature-text">Personalized life strategy & decision-making guide</span>
+                            </div>
+                            <div class="feature">
+                                <span class="feature-icon">❤️</span>
+                                <span class="feature-text">Relationship compatibility & communication tips</span>
+                            </div>
+                            <div class="feature">
+                                <span class="feature-icon">💰</span>
+                                <span class="feature-text">Career path recommendations & financial insights</span>
+                            </div>
+                            <div class="feature">
+                                <span class="feature-icon">🎯</span>
+                                <span class="feature-text">Personal growth action plan & life purpose</span>
+                            </div>
+                        </div>
+                        
+                        <div class="pricing-info">
+                            <div class="price">
+                                <span class="currency">$</span>
+                                <span class="amount">29</span>
+                                <span class="period">one-time</span>
+                            </div>
+                            <div class="value-prop">
+                                <small>Usually $97 - Limited Time Offer</small>
+                            </div>
+                        </div>
+                        
+                        <a href="buy.html" class="cta-button" onclick="trackPurchaseIntent()">
+                            🚀 GET MY COMPLETE REPORT NOW
+                        </a>
+                        
+                        <div class="guarantee">
+                            <small>✅ 30-day money-back guarantee • ✅ Instant digital delivery</small>
+                        </div>
+                    </div>
                 </div>
             </div>
 

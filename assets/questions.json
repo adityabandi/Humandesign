@@ -1,502 +1,702 @@
 [
   {
     "id": 1,
-    "question": "I feel most energized when I'm actively doing something.",
-    "category": "energy_type"
+    "question": "I am original, come up with new ideas.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 2,
-    "question": "I prefer to wait for the right opportunity rather than forcing things to happen.",
-    "category": "strategy"
+    "question": "I get chores done right away.",
+    "category": "conscientiousness", 
+    "trait": "Conscientiousness",
+    "reverse_scored": false
   },
   {
     "id": 3,
-    "question": "I have a strong gut feeling about what's right for me.",
-    "category": "authority"
+    "question": "I am the life of the party.",
+    "category": "extraversion",
+    "trait": "Extraversion", 
+    "reverse_scored": false
   },
   {
     "id": 4,
-    "question": "I enjoy being recognized for my unique insights and perspectives.",
-    "category": "projector_traits"
+    "question": "I sympathize with others' feelings.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 5,
-    "question": "I feel drained when I'm around too many people for extended periods.",
-    "category": "energy_sensitivity"
+    "question": "I get stressed out easily.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": false
   },
   {
     "id": 6,
-    "question": "I naturally take charge and initiate new projects or ideas.",
-    "category": "manifestor_traits"
+    "question": "I am quick to understand things.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 7,
-    "question": "I need to feel invited before sharing my opinions or advice.",
-    "category": "projector_traits"
+    "question": "I pay attention to details.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness", 
+    "reverse_scored": false
   },
   {
     "id": 8,
-    "question": "I have consistent energy throughout the day for work I love.",
-    "category": "generator_traits"
+    "question": "I feel comfortable around people.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": false
   },
   {
     "id": 9,
-    "question": "I tend to mirror the energy and emotions of people around me.",
-    "category": "reflector_traits"
+    "question": "I have a soft heart.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 10,
-    "question": "I make decisions based on what feels emotionally right over time.",
-    "category": "emotional_authority"
+    "question": "I worry about things.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": false
   },
   {
     "id": 11,
-    "question": "I trust my immediate gut responses to guide my choices.",
-    "category": "sacral_authority"
+    "question": "I have a vivid imagination.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 12,
-    "question": "I need to inform others before I take action.",
-    "category": "manifestor_traits"
+    "question": "I follow a schedule.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": false
   },
   {
     "id": 13,
-    "question": "I feel most fulfilled when I'm responding to life rather than initiating.",
-    "category": "generator_traits"
+    "question": "I start conversations.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": false
   },
   {
     "id": 14,
-    "question": "I have natural wisdom about systems and how to improve them.",
-    "category": "projector_traits"
+    "question": "I take time out for others.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 15,
-    "question": "I change significantly based on my environment and the people I'm with.",
-    "category": "reflector_traits"
+    "question": "I am easily disturbed.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": false
   },
   {
     "id": 16,
-    "question": "I speak my truth even when others might not want to hear it.",
-    "category": "throat_defined"
+    "question": "I have excellent ideas.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 17,
-    "question": "I need time and space to process emotional decisions.",
-    "category": "emotional_authority"
+    "question": "I am exacting in my work.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": false
   },
   {
     "id": 18,
-    "question": "I have a lot of sexual energy and magnetism.",
-    "category": "sacral_defined"
+    "question": "I talk to a lot of different people at parties.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": false
   },
   {
     "id": 19,
-    "question": "I feel pressure to prove my worth through achievements.",
-    "category": "ego_conditioning"
+    "question": "I feel others' emotions.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 20,
-    "question": "I'm most productive when I follow my natural rhythms.",
-    "category": "generator_traits"
+    "question": "I get upset easily.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": false
   },
   {
     "id": 21,
-    "question": "I naturally see the bigger picture and patterns others miss.",
-    "category": "projector_traits"
+    "question": "I do not have a good imagination.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": true
   },
   {
     "id": 22,
-    "question": "I feel like I don't quite fit in anywhere completely.",
-    "category": "reflector_traits"
+    "question": "I often forget to put things back in their proper place.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": true
   },
   {
     "id": 23,
-    "question": "I have strong willpower and determination when I want something.",
-    "category": "ego_defined"
+    "question": "I don't like to draw attention to myself.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": true
   },
   {
     "id": 24,
-    "question": "I make decisions by talking through my thoughts out loud.",
-    "category": "throat_authority"
+    "question": "I am not interested in other people's problems.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": true
   },
   {
     "id": 25,
-    "question": "I feel most authentic when I'm being spontaneous.",
-    "category": "spleen_authority"
+    "question": "I am relaxed most of the time.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": true
   },
   {
     "id": 26,
-    "question": "I have a hard time saying no to requests for my time and energy.",
-    "category": "sacral_undefined"
+    "question": "I am not interested in abstract ideas.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": true
   },
   {
     "id": 27,
-    "question": "I prefer to work on one thing at a time rather than multitasking.",
-    "category": "focus_type"
+    "question": "I shirk my duties.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": true
   },
   {
     "id": 28,
-    "question": "I feel energized by being around other people.",
-    "category": "social_energy"
+    "question": "I keep in the background.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": true
   },
   {
     "id": 29,
-    "question": "I need recognition and invitation to share my gifts effectively.",
-    "category": "projector_traits"
+    "question": "I am not really interested in others.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": true
   },
   {
     "id": 30,
-    "question": "I have natural healing abilities or intuitive insights.",
-    "category": "spleen_defined"
+    "question": "I seldom feel blue.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": true
   },
   {
     "id": 31,
-    "question": "I feel most satisfied when I complete what I start.",
-    "category": "generator_traits"
+    "question": "I am not interested in theoretical discussions.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": true
   },
   {
     "id": 32,
-    "question": "I often know things without being able to explain how I know them.",
-    "category": "intuitive_authority"
+    "question": "I make a mess of things.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": true
   },
   {
     "id": 33,
-    "question": "I struggle with consistency in my emotions and moods.",
-    "category": "emotional_undefined"
+    "question": "I have little to say.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": true
   },
   {
     "id": 34,
-    "question": "I have a natural ability to guide and manage others.",
-    "category": "projector_traits"
+    "question": "I have a sharp tongue.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": true
   },
   {
     "id": 35,
-    "question": "I feel like I'm here to experience life in all its variety.",
-    "category": "reflector_traits"
+    "question": "I feel comfortable with myself.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": true
   },
   {
     "id": 36,
-    "question": "I make decisions quickly and trust my first instincts.",
-    "category": "spleen_authority"
+    "question": "I enjoy hearing new ideas.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 37,
-    "question": "I feel most at peace when I'm in a natural environment.",
-    "category": "environmental_sensitivity"
+    "question": "I make plans and stick to them.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": false
   },
   {
     "id": 38,
-    "question": "I have trouble with traditional schedules and prefer flexibility.",
-    "category": "irregular_rhythm"
+    "question": "I am skilled in handling social situations.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": false
   },
   {
     "id": 39,
-    "question": "I feel energized by challenges and competition.",
-    "category": "ego_defined"
+    "question": "I trust others.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 40,
-    "question": "I need to wait for clarity before making important decisions.",
-    "category": "emotional_authority"
+    "question": "I panic easily.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": false
   },
   {
     "id": 41,
-    "question": "I have a natural ability to start new projects and ventures.",
-    "category": "manifestor_traits"
+    "question": "I like to solve complex problems.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 42,
-    "question": "I feel most comfortable when I understand the rules and expectations.",
-    "category": "structure_preference"
+    "question": "I carry out my plans.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": false
   },
   {
     "id": 43,
-    "question": "I often feel misunderstood by others.",
-    "category": "unique_expression"
+    "question": "I make friends easily.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": false
   },
   {
     "id": 44,
-    "question": "I have consistent access to creative and sexual energy.",
-    "category": "sacral_defined"
+    "question": "I believe that others have good intentions.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 45,
-    "question": "I feel most aligned when I'm following my passions.",
-    "category": "generator_traits"
+    "question": "I have frequent mood swings.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": false
   },
   {
     "id": 46,
-    "question": "I naturally see what's not working and how to fix it.",
-    "category": "projector_traits"
+    "question": "I avoid philosophical discussions.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": true
   },
   {
     "id": 47,
-    "question": "I tend to be very sensitive to my environment and other people's energies.",
-    "category": "reflector_traits"
+    "question": "I waste my time.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": true
   },
   {
     "id": 48,
-    "question": "I make decisions based on what brings me joy and excitement.",
-    "category": "emotional_response"
+    "question": "I find it difficult to approach others.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": true
   },
   {
     "id": 49,
-    "question": "I have a strong sense of timing and when to act.",
-    "category": "spleen_defined"
+    "question": "I suspect hidden motives in others.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": true
   },
   {
     "id": 50,
-    "question": "I feel most successful when I'm invited to participate.",
-    "category": "projector_traits"
+    "question": "I rarely get irritated.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": true
   },
   {
     "id": 51,
-    "question": "I have natural leadership abilities and others look to me for direction.",
-    "category": "manifestor_traits"
+    "question": "I love to think up new ways of doing things.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 52,
-    "question": "I prefer to take time to think things through before responding.",
-    "category": "mental_processing"
+    "question": "I finish what I begin.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": false
   },
   {
     "id": 53,
-    "question": "I feel most authentic when I'm expressing my emotions freely.",
-    "category": "emotional_expression"
+    "question": "I take charge.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": false
   },
   {
     "id": 54,
-    "question": "I have a natural ability to transform and regenerate myself.",
-    "category": "transformation_energy"
+    "question": "I respect others.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 55,
-    "question": "I feel most energized when I'm learning and growing.",
-    "category": "mental_stimulation"
+    "question": "I get overwhelmed by emotions.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": false
   },
   {
     "id": 56,
-    "question": "I tend to be very focused and can concentrate for long periods.",
-    "category": "sustained_focus"
+    "question": "I enjoy wild flights of fantasy.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 57,
-    "question": "I feel most comfortable when I have a clear purpose or mission.",
-    "category": "purpose_driven"
+    "question": "I am always prepared.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": false
   },
   {
     "id": 58,
-    "question": "I naturally attract resources and opportunities.",
-    "category": "magnetic_energy"
+    "question": "I know how to captivate people.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": false
   },
   {
     "id": 59,
-    "question": "I feel most alive when I'm creating something new.",
-    "category": "creative_energy"
+    "question": "I accept people as they are.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 60,
-    "question": "I have a natural ability to see through deception and illusion.",
-    "category": "intuitive_perception"
+    "question": "I get irritated easily.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": false
   },
   {
     "id": 61,
-    "question": "I feel most satisfied when I'm helping others reach their potential.",
-    "category": "supportive_nature"
+    "question": "I do not like art.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": true
   },
   {
     "id": 62,
-    "question": "I have a strong connection to my body's wisdom and signals.",
-    "category": "body_awareness"
+    "question": "I find it difficult to get down to work.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": true
   },
   {
     "id": 63,
-    "question": "I feel most comfortable when I'm being myself authentically.",
-    "category": "authentic_expression"
+    "question": "I don't like crowded events.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": true
   },
   {
     "id": 64,
-    "question": "I naturally understand complex systems and how they work.",
-    "category": "systems_thinking"
+    "question": "I get back at others.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": true
   },
   {
     "id": 65,
-    "question": "I feel most energized when I'm around inspiring people.",
-    "category": "inspirational_energy"
+    "question": "I am not easily bothered by things.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": true
   },
   {
     "id": 66,
-    "question": "I have a natural ability to heal and transform others.",
-    "category": "healing_energy"
+    "question": "I avoid difficult reading material.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": true
   },
   {
     "id": 67,
-    "question": "I feel most at peace when I'm in flow with life's natural rhythms.",
-    "category": "natural_flow"
+    "question": "I neglect my duties.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": true
   },
   {
     "id": 68,
-    "question": "I tend to be very independent and self-reliant.",
-    "category": "independence"
+    "question": "I am quiet around strangers.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": true
   },
   {
     "id": 69,
-    "question": "I feel most fulfilled when I'm making a meaningful contribution.",
-    "category": "meaningful_work"
+    "question": "I insult people.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": true
   },
   {
     "id": 70,
-    "question": "I have natural charisma and can influence others easily.",
-    "category": "influential_energy"
+    "question": "I remain calm under pressure.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": true
   },
   {
     "id": 71,
-    "question": "I feel most comfortable when I understand my role in relationships.",
-    "category": "relational_clarity"
+    "question": "I can handle a lot of information.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 72,
-    "question": "I naturally seek experiences that expand my consciousness.",
-    "category": "consciousness_expansion"
+    "question": "I am very reliable.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": false
   },
   {
     "id": 73,
-    "question": "I feel most energized when I'm exploring new possibilities.",
-    "category": "exploration_energy"
+    "question": "I am the first to act.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": false
   },
   {
     "id": 74,
-    "question": "I have a natural ability to bring order to chaos.",
-    "category": "organizing_energy"
+    "question": "I make people feel at ease.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 75,
-    "question": "I feel most satisfied when I'm living according to my values.",
-    "category": "values_alignment"
+    "question": "I often feel blue.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": false
   },
   {
     "id": 76,
-    "question": "I naturally understand what motivates and drives other people.",
-    "category": "psychological_insight"
+    "question": "I spend time reflecting on things.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 77,
-    "question": "I feel most alive when I'm taking calculated risks.",
-    "category": "risk_taking"
+    "question": "I like order.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": false
   },
   {
     "id": 78,
-    "question": "I have a natural ability to see the potential in people and situations.",
-    "category": "potential_recognition"
+    "question": "I enjoy being the center of attention.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": false
   },
   {
     "id": 79,
-    "question": "I feel most comfortable when I'm prepared and organized.",
-    "category": "preparation_preference"
+    "question": "I am concerned about others.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 80,
-    "question": "I naturally seek balance and harmony in all areas of life.",
-    "category": "harmony_seeking"
+    "question": "I change my mood a lot.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": false
   },
   {
     "id": 81,
-    "question": "I feel most energized when I'm collaborating with others.",
-    "category": "collaborative_energy"
+    "question": "I dislike changes.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": true
   },
   {
     "id": 82,
-    "question": "I have a natural ability to innovate and think outside the box.",
-    "category": "innovative_thinking"
+    "question": "I leave my belongings around.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": true
   },
   {
     "id": 83,
-    "question": "I feel most satisfied when I'm making progress toward my goals.",
-    "category": "progress_orientation"
+    "question": "I wait for others to lead the way.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": true
   },
   {
     "id": 84,
-    "question": "I naturally understand the deeper meaning behind events and experiences.",
-    "category": "meaning_making"
+    "question": "I hold grudges.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": true
   },
   {
     "id": 85,
-    "question": "I feel most comfortable when I'm learning from mentors and guides.",
-    "category": "guidance_seeking"
+    "question": "I am calm even in tense situations.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": true
   },
   {
     "id": 86,
-    "question": "I have a natural ability to inspire and motivate others.",
-    "category": "motivational_energy"
+    "question": "I like to get lost in thought.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 87,
-    "question": "I feel most alive when I'm pushing beyond my comfort zone.",
-    "category": "growth_seeking"
+    "question": "I work hard.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": false
   },
   {
     "id": 88,
-    "question": "I naturally seek to understand the root cause of problems.",
-    "category": "root_cause_analysis"
+    "question": "I love large parties.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": false
   },
   {
     "id": 89,
-    "question": "I feel most satisfied when I'm contributing to something greater than myself.",
-    "category": "service_orientation"
+    "question": "I have a good word for everyone.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 90,
-    "question": "I have a natural ability to synthesize complex information.",
-    "category": "synthesis_ability"
+    "question": "I lose my temper.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": false
   },
   {
     "id": 91,
-    "question": "I feel most comfortable when I trust my intuitive insights.",
-    "category": "intuitive_trust"
+    "question": "I prefer variety to routine.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 92,
-    "question": "I naturally seek experiences that challenge my beliefs and assumptions.",
-    "category": "belief_challenging"
+    "question": "I keep things neat and tidy.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": false
   },
   {
     "id": 93,
-    "question": "I feel most energized when I'm expressing my unique gifts.",
-    "category": "gift_expression"
+    "question": "I feel at ease with people.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": false
   },
   {
     "id": 94,
-    "question": "I have a natural ability to create beauty and aesthetic harmony.",
-    "category": "aesthetic_creation"
+    "question": "I cut others some slack.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 95,
-    "question": "I feel most at peace when I'm connected to my spiritual nature.",
-    "category": "spiritual_connection"
+    "question": "I rarely lose my composure.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": true
   },
   {
     "id": 96,
-    "question": "I naturally seek to understand how everything is interconnected.",
-    "category": "interconnection_awareness"
+    "question": "I like to begin new things.",
+    "category": "openness",
+    "trait": "Openness to Experience",
+    "reverse_scored": false
   },
   {
     "id": 97,
-    "question": "I feel most fulfilled when I'm living with purpose and intention.",
-    "category": "purposeful_living"
+    "question": "I am precise in my work.",
+    "category": "conscientiousness",
+    "trait": "Conscientiousness",
+    "reverse_scored": false
   },
   {
     "id": 98,
-    "question": "I have a natural ability to bridge different worlds and perspectives.",
-    "category": "bridging_ability"
+    "question": "I am outgoing and sociable.",
+    "category": "extraversion",
+    "trait": "Extraversion",
+    "reverse_scored": false
   },
   {
     "id": 99,
-    "question": "I feel most comfortable when I'm honoring my authentic nature.",
-    "category": "authentic_honor"
+    "question": "I think the best of people.",
+    "category": "agreeableness",
+    "trait": "Agreeableness",
+    "reverse_scored": false
   },
   {
     "id": 100,
-    "question": "I naturally seek to leave a positive legacy for future generations.",
-    "category": "legacy_creation"
+    "question": "I get caught up in my problems.",
+    "category": "neuroticism",
+    "trait": "Neuroticism",
+    "reverse_scored": false
   }
 ]

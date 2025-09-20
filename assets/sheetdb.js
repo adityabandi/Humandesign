@@ -25,18 +25,23 @@ export async function submitToSheetDB(data) {
             birth_time: data.birth?.time || '',
             location: data.birth?.place || '',
             human_design_output: JSON.stringify({
-                // Psychology test outputs
+                // Big 5 Psychology Profile (as specified in requirements)
+                big5_scores: data.quizDerived?.profile || '',
+                
+                // Detailed Big 5 analysis
                 psychological_profile: {
-                    type: data.quizDerived?.type || '',
-                    authority: data.quizDerived?.authority || '',
-                    profile: data.quizDerived?.profile || '',
-                    detailed_answers: data.quizDerived?.detailed || {},
-                    strengths: data.quizDerived?.strengths || [],
-                    challenges: data.quizDerived?.challenges || [],
-                    decision_making: data.quizDerived?.decisionMaking || '',
-                    energy_pattern: data.quizDerived?.energyPattern || ''
+                    assessment_type: 'Big 5 Personality Assessment',
+                    openness: data.quizDerived?.detailed?.percentileScores?.openness || 0,
+                    conscientiousness: data.quizDerived?.detailed?.percentileScores?.conscientiousness || 0,
+                    extraversion: data.quizDerived?.detailed?.percentileScores?.extraversion || 0,
+                    agreeableness: data.quizDerived?.detailed?.percentileScores?.agreeableness || 0,
+                    neuroticism: data.quizDerived?.detailed?.percentileScores?.neuroticism || 0,
+                    detailed_scores: data.quizDerived?.scores || {},
+                    interpretations: data.quizDerived?.detailed?.interpretations || {},
+                    summary: data.quizDerived?.summary || {}
                 },
-                // Human Design chart outputs
+                
+                // Human Design chart outputs (maintained for compatibility)
                 chart_design: {
                     type: data.chartDerived?.type || '',
                     authority: data.chartDerived?.authority || '',
@@ -46,6 +51,7 @@ export async function submitToSheetDB(data) {
                     gates: data.chartDerived?.gates || {},
                     channels: data.chartDerived?.channels || []
                 },
+                
                 // Integration analysis
                 insights: data.insights || [],
                 // Raw quiz answers for analysis
