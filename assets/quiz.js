@@ -44,11 +44,26 @@ class HumanDesignQuiz {
     
     async loadQuestions() {
         try {
-            const response = await fetch('/assets/questions.json');
+            const response = await fetch('./assets/questions.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             this.questions = await response.json();
+            console.log(`✅ Loaded ${this.questions.length} questions successfully`);
         } catch (error) {
             console.error('Error loading questions:', error);
-            this.questions = this.getFallbackQuestions();
+            // Try alternative path
+            try {
+                const response2 = await fetch('assets/questions.json');
+                if (!response2.ok) {
+                    throw new Error(`HTTP error! status: ${response2.status}`);
+                }
+                this.questions = await response2.json();
+                console.log(`✅ Loaded ${this.questions.length} questions from alternative path`);
+            } catch (error2) {
+                console.error('Failed to load from alternative path:', error2);
+                this.questions = this.getFallbackQuestions();
+            }
         }
     }
     
