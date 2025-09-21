@@ -56,3 +56,34 @@ window.QUIZ_CONFIG = QUIZ_CONFIG;
 // - report_data (jsonb) - complete 40+ page report content
 // - created_at (timestamp)
 // - updated_at (timestamp)
+
+// Configuration for Human Design Quiz Platform
+window.QUIZ_CONFIG = {
+    enableDatabase: false, // Set to true when Supabase is configured
+    enableSheetDB: true,   // Enable SheetDB integration
+    enableAnalytics: false, // Set to true when analytics are configured
+    debugMode: false       // Set to true for development
+};
+
+// Supabase Configuration (replace with your actual values)
+window.SUPABASE_CONFIG = {
+    url: 'https://your-project-id.supabase.co',
+    anon_key: 'your-anon-key-here'
+};
+
+// SheetDB Configuration (your actual URL is already set in sheetdb.js)
+window.SHEETDB_CONFIG = {
+    url: 'https://sheetdb.io/api/v1/wlp0w5nfo35g5',
+    enabled: true
+};
+
+// Analytics Configuration (optional)
+window.ANALYTICS_CONFIG = {
+    google_analytics_id: 'GA_MEASUREMENT_ID', // Replace with your GA4 ID
+    facebook_pixel_id: 'FB_PIXEL_ID',         // Replace with your Facebook Pixel ID
+    enabled: false
+};
+
+console.log('✅ Human Design Quiz Configuration Loaded');
+console.log('📊 SheetDB Integration: ENABLED');
+console.log('🎯 Ready to collect quiz data!');

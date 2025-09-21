@@ -860,30 +860,36 @@ p {
 }
 
 /* Location Suggestions */
+.location-input-container {
+    position: relative;
+}
+
 .location-suggestions {
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    z-index: 1000;
     background-color: var(--card-bg);
     border: var(--border-width) solid var(--border-color);
     border-top: none;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
     max-height: 200px;
     overflow-y: auto;
+    z-index: 100;
+    box-shadow: var(--shadow-moderate);
 }
 
 .location-suggestion {
-    padding: var(--space-sm) var(--space-md);
+    padding: var(--space-md);
     cursor: pointer;
-    border-bottom: var(--border-width) solid var(--border-color);
-    font-size: 0.875rem;
     color: var(--text-secondary);
+    font-size: 0.875rem;
+    border-bottom: var(--border-width) solid var(--border-color);
     transition: var(--transition);
 }
 
 .location-suggestion:hover {
-    background-color: var(--accent-border);
+    background-color: var(--secondary-bg);
     color: var(--text-primary);
 }
 

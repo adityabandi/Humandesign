@@ -154,9 +154,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="birthPlace">BIRTH LOCATION</label>
-                                <input type="text" id="birthPlace" required placeholder="City, State/Province, Country" autocomplete="address-level2">
-                                <small class="field-help">Your birth city and country (e.g., "New York, NY, USA")</small>
-                                <div id="locationSuggestions" class="location-suggestions hidden"></div>
+                                <div class="location-input-container">
+                                    <input type="text" id="birthPlace" required placeholder="City, State/Province, Country">
+                                    <div id="locationSuggestions" class="location-suggestions hidden"></div>
+                                </div>
+                                <small class="field-help">GEOGRAPHICAL COORDINATE REFERENCE</small>
                             </div>
                             <div class="form-group">
                                 <label for="birthTimezone">TIMEZONE</label>
