@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Your Full Human Design Report | $29 One-Time</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .buy-page {
+            background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(20,20,20,0.95));
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .buy-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 2px solid #ffd700;
+            border-radius: 12px;
+            padding: 50px;
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.2);
+        }
+        .buy-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .buy-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .buy-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .price-box {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        .original-price {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+            margin-bottom: 10px;
+        }
+        .current-price {
+            font-size: 4rem;
+            color: #ffd700;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .price-note {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        .what-includes {
+            margin: 40px 0;
+        }
+        .include-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .include-item:last-child {
+            border-bottom: none;
+        }
+        .include-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .include-text {
+            flex: 1;
+        }
+        .include-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+        .include-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            text-align: center;
+            margin: 50px 0;
+        }
+        .buy-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            color: #000;
+            padding: 25px 60px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.4);
+            text-transform: uppercase;
+        }
+        .buy-button:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 215, 0, 0.6);
+        }
+        .guarantee-box {
+            background: var(--secondary-bg);
+            border-left: 4px solid #4CAF50;
+            padding: 20px;
+            margin: 40px 0;
+            border-radius: 4px;
+        }
+        .guarantee-title {
+            color: #4CAF50;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        .testimonials {
+            margin: 50px 0;
+        }
+        .testimonial {
+            background: var(--secondary-bg);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffd700;
+        }
+        .testimonial-text {
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .testimonial-author {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .faq {
+            margin: 50px 0;
+        }
+        .faq-item {
+            margin-bottom: 25px;
+        }
+        .faq-question {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .faq-answer {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            padding-left: 20px;
+        }
+        @media (max-width: 768px) {
+            .buy-container { padding: 30px 20px; }
+            .buy-title { font-size: 1.8rem; }
+            .current-price { font-size: 3rem; }
+            .buy-button { padding: 20px 40px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">HUMANDESIGN</a>
+        </div>
+    </nav>
+
+    <main class="buy-page">
+        <div class="buy-container">
+            <div class="buy-header">
+                <div style="display: inline-block; background: #4CAF50; padding: 8px 20px; border-radius: 20px; margin-bottom: 20px;">
+                    <span style="color: #fff; font-weight: bold; font-size: 0.9rem;">⏰ LIMITED TIME - 70% OFF</span>
+                </div>
+                <h1 class="buy-title">Unlock Your Complete Human Design Report</h1>
+                <p class="buy-subtitle">
+                    Transform your life with your personalized 40+ page blueprint. Expert-reviewed and delivered within 24 hours.
+                </p>
+            </div>
+
+            <div class="price-box">
+                <div class="original-price">Regular Price: $97</div>
+                <div class="current-price">$29</div>
+                <div class="price-note">One-time payment • Instant preview access • Full report within 24 hours</div>
+            </div>
+
+            <div class="what-includes">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #ffd700;">📦 What's Included in Your Report</h2>
+
+                    <div class="technical-specifications">
+                        <h3>System Specifications</h3>
+                        <div class="spec-grid">
+                            <div class="spec-item">
+                                <div class="spec-label">DOCUMENT LENGTH</div>
+                                <div class="spec-value">40+ PAGES</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">OUTPUT FORMAT</div>
+                                <div class="spec-value">PDF TECHNICAL DOCUMENT</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">CHART RESOLUTION</div>
+                                <div class="spec-value">HIGH-DEFINITION BODYGRAPH</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">DELIVERY METHOD</div>
+                                <div class="spec-value">INSTANT DIGITAL TRANSMISSION</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">ACCESS PROTOCOL</div>
+                                <div class="spec-value">PERPETUAL RETRIEVAL</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">COMPATIBILITY</div>
+                                <div class="spec-value">ALL DEVICE PLATFORMS</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-modules">
+                        <h3>Analysis Framework Components</h3>
+                        <div class="module-list">
+                            <div class="module-item">
+                                <div class="module-id">MOD01</div>
+                                <div class="module-desc">COMPLETE 40+ PAGE SYSTEMATIC ANALYSIS</div>
+                            </div>
+                            <div class="module-item">
+                                <div class="module-id">MOD02</div>
+                                <div class="module-desc">HIGH-RESOLUTION ENERGETIC IMPRINT MAPPING</div>
+                            </div>
+                            <div class="module-item">
+                                <div class="module-id">MOD03</div>
+                                <div class="module-desc">DETAILED TYPE, AUTHORITY, PROFILE ANALYSIS</div>
+                            </div>
+                            <div class="module-item">
+                                <div class="module-id">MOD04</div>
+                                <div class="module-desc">COMPREHENSIVE 9-CENTER CONFIGURATION ANALYSIS</div>
+                            </div>
+                            <div class="module-item">
+                                <div class="module-id">MOD05</div>
+                                <div class="module-desc">STRATEGIC OPTIMIZATION PROTOCOLS</div>
+                            </div>
+                            <div class="module-item">
+                                <div class="module-id">MOD06</div>
+                                <div class="module-desc">INTERPERSONAL COMPATIBILITY FRAMEWORKS</div>
+                            </div>
+                            <div class="module-item">
+                                <div class="module-id">MOD07</div>
+                                <div class="module-desc">DECISION-MAKING IMPLEMENTATION STRATEGIES</div>
+                            </div>
+                            <div class="module-item">
+                                <div class="module-id">MOD08</div>
+                                <div class="module-desc">DECONDITIONING PROTOCOLS AND PATHWAYS</div>
+                            </div>
+                            <div class="module-item">
+                                <div class="module-id">MOD09</div>
+                                <div class="module-desc">PROFESSIONAL OPTIMIZATION RECOMMENDATIONS</div>
+                            </div>
+                            <div class="module-item">
+                                <div class="module-id">MOD10</div>
+                                <div class="module-desc">DOWNLOADABLE TECHNICAL DOCUMENTATION</div>
+                            </div>
+                            <div class="module-item">
+                                <div class="module-id">MOD11</div>
+                                <div class="module-desc">PERPETUAL ACCESS PROTOCOL</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="acquisition-interface">
+                        <div class="security-indicators">
+                            <div class="security-item">
+                                <span class="security-icon">🔒</span>
+                                <span class="security-text">ENCRYPTED PAYMENT PROCESSING</span>
+                            </div>
+                            <div class="security-item">
+                                <span class="security-icon">⚡</span>
+                                <span class="security-text">INSTANT DELIVERY PROTOCOL</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-large acquisition-btn" onclick="proceedToAcquisition()">
+                            ACQUIRE EXTENDED ANALYSIS
+                        </button>
+                        <div class="acquisition-guarantee">
+                            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">
+                                30-DAY SATISFACTION PROTOCOL • ZERO RISK ACQUISITION
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="user-validation">
+                <h2>System Validation Reports</h2>
+                <div class="validation-grid">
+                    <div class="validation-report">
+                        <div class="validation-header">
+                            <div class="validation-rating">★★★★★</div>
+                            <div class="validation-id">USER-001</div>
+                        </div>
+                        <div class="validation-content">
+                            <p class="validation-text">
+                                "Most comprehensive technical analysis framework encountered. 
+                                Systematic accuracy exceeds all previous assessment protocols."
+                            </p>
+                            <div class="validation-meta">JENNIFER L. • VERIFIED USER</div>
+                        </div>
+                    </div>
+                    
+                    <div class="validation-report">
+                        <div class="validation-header">
+                            <div class="validation-rating">★★★★★</div>
+                            <div class="validation-id">USER-002</div>
+                        </div>
+                        <div class="validation-content">
+                            <p class="validation-text">
+                                "Professional optimization strategies provided significant strategic advantage. 
+                                Implementation resulted in measurable performance improvement."
+                            </p>
+                            <div class="validation-meta">DAVID R. • VERIFIED USER</div>
+                        </div>
+                    </div>
+                    
+                    <div class="validation-report">
+                        <div class="validation-header">
+                            <div class="validation-rating">★★★★★</div>
+                            <div class="validation-id">USER-003</div>
+                        </div>
+                        <div class="validation-content">
+                            <p class="validation-text">
+                                "Interpersonal compatibility analysis revolutionized communication protocols. 
+                                Relationship optimization frameworks demonstrate exceptional depth."
+                            </p>
+                            <div class="validation-meta">MARIA S. • VERIFIED USER</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="system-faq">
+                <h2>System Documentation</h2>
+                <div class="faq-interface">
+                    <div class="faq-module">
+                        <div class="faq-header">
+                            <h3>DELIVERY TIMELINE SPECIFICATIONS</h3>
+                        </div>
+                        <div class="faq-content">
+                            <p>Extended analysis report generated through automated processing pipeline. 
+                            Digital transmission occurs immediately upon acquisition completion via secure delivery protocol.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-module">
+                        <div class="faq-header">
+                            <h3>PAYMENT ARCHITECTURE OVERVIEW</h3>
+                        </div>
+                        <div class="faq-content">
+                            <p>Single acquisition fee structure provides perpetual access to complete analysis framework. 
+                            No recurring charges or subscription protocols required.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-module">
+                        <div class="faq-header">
+                            <h3>SATISFACTION GUARANTEE PROTOCOL</h3>
+                        </div>
+                        <div class="faq-content">
+                            <p>30-day satisfaction verification period implemented. Complete refund processing available 
+                            if analysis framework fails to meet individual requirements.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-module">
+                        <div class="faq-header">
+                            <h3>TECHNICAL SUPPORT INTERFACE</h3>
+                        </div>
+                        <div class="faq-content">
+                            <p>Comprehensive documentation included with delivery. Technical support protocols available 
+                            for delivery or access-related issues through secure communication channels.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

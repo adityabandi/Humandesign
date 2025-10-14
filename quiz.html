@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assessment Protocol - Human Design Analysis</title>
+    <title>Discover Your Human Design - Free Personality Assessment
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,10 +26,10 @@
     <main class="main-content quiz-page">
         <div class="container">
             <div class="quiz-header">
-                <h1 class="quiz-title">Psychology & Human Design Assessment</h1>
+                <h1 class="quiz-title">Discover Your Soul's Blueprint</h1>
                 <p class="quiz-subtitle">
-                    Discover your unique personality profile through this comprehensive Big 5 psychology questionnaire. 
-                    Answer honestly based on your natural tendencies and authentic self to get accurate results.
+                    Answer 100 questions to reveal your unique personality design. This scientifically-validated assessment
+                    combines psychology and Human Design to show you exactly how you're wired - and how to live in alignment with your true nature.
                 </p>
                 <div class="progress-container">
                     <div class="progress-wrapper">
@@ -125,11 +125,15 @@
                     </div>
                     
                     <div class="birth-form" id="birthForm">
-                        <h3>Your Birth Information <span class="required-indicator">[REQUIRED FOR ACCURATE RESULTS]</span></h3>
+                        <h3>🎯 Almost There! Enter Your Birth Details</h3>
                         <p class="birth-form-description">
-                            We need your exact birth details to create your personalized Human Design chart. 
-                            The more precise your information, the more accurate your reading will be.
+                            To unlock your personalized Human Design report, we need your exact birth information.
+                            Your birth date, time, and location create your unique energetic blueprint - like a cosmic fingerprint that never changes.
                         </p>
+                        <div class="birth-accuracy-notice">
+                            <strong>⚡ Accuracy Matters:</strong> The more precise your birth time, the more accurate your chart.
+                            Check your birth certificate if possible - even 4 minutes can change your results!
+                        </div>
                         
                         <div class="form-grid">
                             <div class="form-group">
@@ -143,25 +147,37 @@
                                 <small class="field-help">Your email for receiving your personalized report</small>
                             </div>
                             <div class="form-group">
-                                <label for="birthDate">BIRTH DATE</label>
-                                <input type="date" id="birthDate" required>
-                                <small class="field-help">Your exact date of birth</small>
+                                <label for="birthDate">📅 BIRTH DATE *</label>
+                                <input type="date" id="birthDate" required max="2024-12-31" min="1920-01-01">
+                                <small class="field-help">The day you were born (MM/DD/YYYY)</small>
                             </div>
                             <div class="form-group">
-                                <label for="birthTime">BIRTH TIME</label>
+                                <label for="birthTime">⏰ BIRTH TIME *</label>
                                 <input type="time" id="birthTime" required>
-                                <small class="field-help">Your exact time of birth (24-hour format)</small>
+                                <small class="field-help">As exact as possible - check your birth certificate! (HH:MM format)</small>
+                                <div class="time-help-toggle" onclick="document.getElementById('timeHelpBox').classList.toggle('hidden')">
+                                    Don't know your birth time? Click here
+                                </div>
+                                <div id="timeHelpBox" class="time-help-box hidden">
+                                    <strong>Where to find your birth time:</strong>
+                                    <ul>
+                                        <li>✅ Birth certificate (most reliable)</li>
+                                        <li>✅ Hospital records</li>
+                                        <li>✅ Baby book or family records</li>
+                                        <li>⚠️ If unknown, use 12:00 PM (results will be less precise)</li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="birthPlace">BIRTH LOCATION</label>
+                                <label for="birthPlace">📍 BIRTH LOCATION *</label>
                                 <div class="location-input-container">
-                                    <input type="text" id="birthPlace" required placeholder="City, State/Province, Country">
+                                    <input type="text" id="birthPlace" required placeholder="Start typing your birth city..." autocomplete="off">
                                     <div id="locationSuggestions" class="location-suggestions hidden"></div>
                                 </div>
-                                <small class="field-help">GEOGRAPHICAL COORDINATE REFERENCE</small>
+                                <small class="field-help">City where you were born - we'll find the exact coordinates automatically</small>
                             </div>
                             <div class="form-group">
-                                <label for="birthTimezone">TIMEZONE</label>
+                                <label for="birthTimezone">🌍 TIMEZONE AT BIRTH *</label>
                                 <select id="birthTimezone" required>
                                     <option value="">SELECT TIMEZONE OFFSET...</option>
                                     <option value="UTC-12:00">UTC-12:00 [BAKER ISLAND]</option>
@@ -198,15 +214,15 @@
                         <div class="birth-form-actions">
                             <div class="form-security">
                                 <span class="security-icon">🔒</span>
-                                <span class="security-text">SECURE & PRIVATE • YOUR DATA IS SAFE</span>
+                                <span class="security-text">Your data is encrypted and secure - we'll never share your information</span>
                             </div>
                             <button class="btn btn-primary btn-large" onclick="submitQuizWithBirth()" id="submitBtn">
-                                GENERATE MY HUMAN DESIGN REPORT
+                                ✨ REVEAL MY HUMAN DESIGN ✨
                             </button>
                         </div>
                         <p class="form-note">
-                            All fields are required to generate your personalized Human Design chart • 
-                            Your information is processed securely and privately
+                            By submitting, you'll get instant access to your personalized preview report.
+                            Your full 40+ page report is available for upgrade after viewing your results.
                         </p>
                     </div>
                 </div>

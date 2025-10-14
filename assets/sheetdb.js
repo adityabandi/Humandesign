@@ -6,6 +6,17 @@ const SHEETDB_CONFIG = {
     enabled: true // Enabled with the provided SheetDB URL
 };
 
+// Helper function for HD strategy
+function getStrategy(type) {
+    const strategies = {
+        'Generator': 'Respond to Life',
+        'Manifestor': 'Initiate & Inform',
+        'Projector': 'Wait for Invitation',
+        'Reflector': 'Wait a Lunar Cycle'
+    };
+    return strategies[type] || 'Respond to Life';
+}
+
 /**
  * Submit quiz data to SheetDB with required columns:
  * id, name, email, birth date, birth time, location, human design output
@@ -17,46 +28,81 @@ export async function submitToSheetDB(data) {
     }
 
     try {
+        const resultId = generateUniqueId();
+
+        // Format birth data properly
+        const birthInfo = {
+            date: data.birth?.date || '',
+            time: data.birth?.time || '',
+            place: data.birth?.place || '',
+            timezone: data.birth?.tz || '',
+            latitude: data.birth?.latitude || '',
+            longitude: data.birth?.longitude || ''
+        };
+
+        // Extract Big 5 scores for easy reference
+        const big5Scores = data.quizDerived?.detailed?.percentileScores || {};
+
+        // Format Human Design output as readable text for report generation
+        const hdSummary = `
+=== PERSONALITY PROFILE ===
+Name: ${data.name}
+Email: ${data.email}
+Birth Date: ${birthInfo.date}
+Birth Time: ${birthInfo.time}
+Birth Location: ${birthInfo.place}
+Timezone: ${birthInfo.timezone}
+Coordinates: ${birthInfo.latitude}, ${birthInfo.longitude}
+
+=== BIG 5 PERSONALITY SCORES ===
+Openness: ${big5Scores.openness || 0}%
+Conscientiousness: ${big5Scores.conscientiousness || 0}%
+Extraversion: ${big5Scores.extraversion || 0}%
+Agreeableness: ${big5Scores.agreeableness || 0}%
+Neuroticism: ${big5Scores.neuroticism || 0}%
+
+=== HUMAN DESIGN CHART ===
+Type: ${data.chartDerived?.type || 'Generator'}
+Authority: ${data.chartDerived?.authority || 'Sacral'}
+Profile: ${data.chartDerived?.profile || '1/3'}
+Strategy: ${getStrategy(data.chartDerived?.type)}
+
+=== PERSONALITY SUMMARY ===
+${data.quizDerived?.summary?.overallProfile || 'Assessment complete'}
+
+=== REPORT STATUS ===
+Result ID: ${resultId}
+Status: PENDING_REPORT_GENERATION
+Upgrade Status: FREE_PREVIEW
+Created: ${new Date().toISOString()}
+        `.trim();
+
         const payload = {
-            id: generateUniqueId(),
+            id: resultId,
             name: data.name,
             email: data.email,
-            birth_date: data.birth?.date || '',
-            birth_time: data.birth?.time || '',
-            location: data.birth?.place || '',
-            human_design_output: JSON.stringify({
-                // Big 5 Psychology Profile (as specified in requirements)
-                big5_scores: data.quizDerived?.profile || '',
-                
-                // Detailed Big 5 analysis
-                psychological_profile: {
-                    assessment_type: 'Big 5 Personality Assessment',
-                    openness: data.quizDerived?.detailed?.percentileScores?.openness || 0,
-                    conscientiousness: data.quizDerived?.detailed?.percentileScores?.conscientiousness || 0,
-                    extraversion: data.quizDerived?.detailed?.percentileScores?.extraversion || 0,
-                    agreeableness: data.quizDerived?.detailed?.percentileScores?.agreeableness || 0,
-                    neuroticism: data.quizDerived?.detailed?.percentileScores?.neuroticism || 0,
-                    detailed_scores: data.quizDerived?.scores || {},
-                    interpretations: data.quizDerived?.detailed?.interpretations || {},
-                    summary: data.quizDerived?.summary || {}
-                },
-                
-                // Human Design chart outputs (maintained for compatibility)
-                chart_design: {
-                    type: data.chartDerived?.type || '',
-                    authority: data.chartDerived?.authority || '',
-                    profile: data.chartDerived?.profile || '',
-                    definition: data.chartDerived?.definition || '',
-                    centers: data.chartDerived?.centers || {},
-                    gates: data.chartDerived?.gates || {},
-                    channels: data.chartDerived?.channels || []
-                },
-                
-                // Integration analysis
+            birth_date: birthInfo.date,
+            birth_time: birthInfo.time,
+            location: birthInfo.place,
+            timezone: birthInfo.timezone,
+            latitude: birthInfo.latitude,
+            longitude: birthInfo.longitude,
+            big5_openness: big5Scores.openness || 0,
+            big5_conscientiousness: big5Scores.conscientiousness || 0,
+            big5_extraversion: big5Scores.extraversion || 0,
+            big5_agreeableness: big5Scores.agreeableness || 0,
+            big5_neuroticism: big5Scores.neuroticism || 0,
+            hd_type: data.chartDerived?.type || 'Generator',
+            hd_authority: data.chartDerived?.authority || 'Sacral',
+            hd_profile: data.chartDerived?.profile || '1/3',
+            human_design_output: hdSummary,
+            full_data: JSON.stringify({
+                psychological_profile: data.quizDerived,
+                chart_design: data.chartDerived,
                 insights: data.insights || [],
-                // Raw quiz answers for analysis
                 raw_answers: data.answers || []
             }),
+            report_status: 'FREE_PREVIEW',
             created_at: new Date().toISOString()
         };
 

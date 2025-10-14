@@ -3202,29 +3202,123 @@ p {
     font-size: 0.9rem;
 }
 
+/* Birth Form Enhancements */
+.birth-accuracy-notice {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
+    border-left: 4px solid #ffd700;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.birth-accuracy-notice strong {
+    color: #ffd700;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.time-help-toggle {
+    color: #6b9bd1;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-top: 8px;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.time-help-toggle:hover {
+    color: #8ab4e5;
+}
+
+.time-help-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.time-help-box strong {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.time-help-box ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.time-help-box li {
+    padding: 5px 0;
+    color: var(--text-secondary);
+}
+
+.location-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.location-suggestion {
+    padding: 12px 15px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.location-suggestion:last-child {
+    border-bottom: none;
+}
+
+.location-suggestion:hover {
+    background: var(--secondary-bg);
+    color: var(--text-primary);
+}
+
+.form-note {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 15px;
+    line-height: 1.5;
+}
+
 @media (max-width: 768px) {
     .personality-section {
         padding: 20px;
     }
-    
+
     .trait-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
     }
-    
+
     .features-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .upgrade-cta {
         padding: 30px 20px;
     }
-    
+
     .cta-content h3 {
         font-size: 1.5rem;
     }
-    
+
     .amount {
         font-size: 2.5rem;
     }
