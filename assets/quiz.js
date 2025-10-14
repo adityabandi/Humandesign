@@ -24,6 +24,12 @@ class HumanDesignQuiz {
     generateQuizId() {
         return 'quiz_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
     }
+
+    generateResultId(name, email) {
+        const nameHash = btoa(name.toLowerCase()).substr(0, 8);
+        const emailHash = btoa(email.toLowerCase()).substr(0, 8);
+        return `hd_${Date.now()}_${nameHash}_${emailHash}`;
+    }
     
     async init() {
         await this.loadQuestions();
@@ -337,8 +343,8 @@ class HumanDesignQuiz {
                 answersArray.push(this.answers[i] || 3); // default to neutral if missing
             }
             
-            // Score the quiz
-            const quizDerived = scoreQuiz(answersArray, { quizId: this.quizId });
+            // Score the quiz (now async)
+            const quizDerived = await scoreQuiz(answersArray, { quizId: this.quizId });
             
             // Calculate the chart with enhanced location data
             const locationData = getLocationCoordinates();
@@ -356,43 +362,51 @@ class HumanDesignQuiz {
             
             // Generate integration insights
             const insights = deriveIntegration(quizDerived, chartDerived);
-            
-            // Create the full result
-            const { public_id } = await createFullResult({
+
+            // Generate local result ID (SheetDB-only mode)
+            const localResultId = this.generateResultId(birth.name, birthData.email);
+
+            // Store complete result locally for display
+            const resultData = {
+                id: localResultId,
                 name: birth.name,
                 email: birthData.email,
                 birth,
                 answers: answersArray,
-                quizDerived,
-                chartDerived,
-                insights
-            });
-            
-            // Submit to SheetDB for data collection
-            try {
-                const sheetdbResult = await submitToSheetDB({
-                    name: birth.name,
-                    email: birthData.email,
-                    birth,
-                    answers: answersArray,
-                    quizDerived,
-                    chartDerived,
-                    insights
-                });
-                console.log('SheetDB submission result:', sheetdbResult);
-            } catch (sheetdbError) {
-                console.warn('SheetDB submission failed, but continuing:', sheetdbError);
-                // Don't fail the entire process if SheetDB fails
+                quiz_derived: quizDerived,
+                chart_derived: chartDerived,
+                insights,
+                purchased: false,
+                created_at: new Date().toISOString()
+            };
+            localStorage.setItem(`hd_result_${localResultId}`, JSON.stringify(resultData));
+
+            // Submit to SheetDB for data collection (non-blocking)
+            if (window.SHEETDB_CONFIG?.enabled) {
+                try {
+                    const sheetdbResult = await submitToSheetDB({
+                        name: birth.name,
+                        email: birthData.email,
+                        birth,
+                        answers: answersArray,
+                        quizDerived,
+                        chartDerived,
+                        insights
+                    });
+                    console.log('SheetDB submission result:', sheetdbResult);
+                } catch (sheetdbError) {
+                    console.warn('SheetDB submission failed, but continuing:', sheetdbError);
+                }
             }
-            
+
             // Track completion
             this.trackEvent('quiz_completed', {
                 quiz_id: this.quizId,
-                public_id: public_id
+                result_id: localResultId
             });
-            
+
             // Redirect to results
-            window.location.href = `/results.html?id=${public_id}`;
+            window.location.href = `/results.html?id=${localResultId}`;
             
         } catch (error) {
             console.error('Submission error:', error);

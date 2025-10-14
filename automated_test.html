@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Automated Quiz Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1e1e1e; color: #00ff00; }
+        .pass { color: #00ff00; }
+        .fail { color: #ff0000; }
+        .info { color: #ffff00; }
+        pre { background: #000; padding: 10px; border: 1px solid #333; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Human Design Quiz - Automated Testing Suite</h1>
+    <div id="results"></div>
+    
+    <script type="module">
+        const output = document.getElementById('results');
+        
+        function log(msg, type = 'info') {
+            const p = document.createElement('p');
+            p.className = type;
+            p.textContent = msg;
+            output.appendChild(p);
+        }
+        
+        function logSection(title) {
+            const h2 = document.createElement('h2');
+            h2.textContent = title;
+            output.appendChild(h2);
+        }
+        
+        async function runTests() {
+            log('Starting automated test suite...', 'info');
+            log('Timestamp: ' + new Date().toISOString(), 'info');
+            log('', 'info');
+            
+            let passCount = 0;
+            let failCount = 0;
+            
+            try {
+                // TEST 1: Load Questions
+                logSection('TEST 1: Load Questions JSON');
+                const questionsResp = await fetch('./assets/questions.json');
+                if (!questionsResp.ok) throw new Error('Failed to fetch questions');
+                const questions = await questionsResp.json();
+                
+                if (questions.length === 100) {
+                    log('✅ PASS: Loaded 100 questions', 'pass');
+                    passCount++;
+                } else {
+                    log(`❌ FAIL: Expected 100 questions, got ${questions.length}`, 'fail');
+                    failCount++;
+                }
+                
+                // Validate question structure
+                let structureValid = true;
+                questions.forEach(q => {
+                    if (!q.id || !q.question || !q.category || q.reverse_scored === undefined) {
+                        structureValid = false;
+                    }
+                });
+                
+                if (structureValid) {
+                    log('✅ PASS: All questions have valid structure', 'pass');
+                    passCount++;
+                } else {
+                    log('❌ FAIL: Some questions have invalid structure', 'fail');
+                    failCount++;
+                }
+                
+                // TEST 2: Import Scoring Module
+                logSection('TEST 2: Import and Test Scoring Module');
+                try {
+                    const { scoreQuiz } = await import('./assets/scoring.js');
+                    log('✅ PASS: Scoring module imported successfully', 'pass');
+                    passCount++;
+                    
+                    // TEST 3: Run Scoring with Sample Data
+                    logSection('TEST 3: Score Sample Answers');
+                    
+                    // Create diverse test answers
+                    const testAnswers = [];
+                    for (let i = 0; i < 100; i++) {
+                        // Vary the pattern to test different scenarios
+                        if (i < 20) testAnswers.push(5); // High openness
+                        else if (i < 40) testAnswers.push(4); // High conscientiousness
+                        else if (i < 60) testAnswers.push(3); // Neutral extraversion
+                        else if (i < 80) testAnswers.push(2); // Low agreeableness
+                        else testAnswers.push(1); // Very low neuroticism
+                    }
+                    
+                    const result = await scoreQuiz(testAnswers, { quizId: 'test_automated' });
+                    
+                    if (result.type === 'Big 5 Personality Assessment') {
+                        log('✅ PASS: Scoring returned correct type', 'pass');
+                        passCount++;
+                    } else {
+                        log(`❌ FAIL: Unexpected type: ${result.type}`, 'fail');
+                        failCount++;
+                    }
+                    
+                    if (result.profile && result.profile.includes('Openness=')) {
+                        log('✅ PASS: Profile string formatted correctly', 'pass');
+                        passCount++;
+                    } else {
+                        log('❌ FAIL: Profile string format incorrect', 'fail');
+                        failCount++;
+                    }
+                    
+                    // Check all traits are scored
+                    const requiredTraits = ['openness', 'conscientiousness', 'extraversion', 'agreeableness', 'neuroticism'];
+                    let allTraitsPresent = true;
+                    requiredTraits.forEach(trait => {
+                        if (!(trait in result.scores)) allTraitsPresent = false;
+                        if (!(trait in result.detailed.percentileScores)) allTraitsPresent = false;
+                    });
+                    
+                    if (allTraitsPresent) {
+                        log('✅ PASS: All Big 5 traits scored', 'pass');
+                        passCount++;
+                    } else {
+                        log('❌ FAIL: Missing trait scores', 'fail');
+                        failCount++;
+                    }
+                    
+                    // Display sample results
+                    logSection('Sample Scoring Results:');
+                    const pre = document.createElement('pre');
+                    pre.textContent = `Profile: ${result.profile}\n\nPercentile Scores:\n${
+                        Object.entries(result.detailed.percentileScores)
+                            .map(([trait, score]) => `  ${trait}: ${score}%`)
+                            .join('\n')
+                    }`;
+                    output.appendChild(pre);
+                    
+                } catch (error) {
+                    log(`❌ FAIL: Scoring module error: ${error.message}`, 'fail');
+                    failCount++;
+                }
+                
+                // TEST 4: Import Other Modules
+                logSection('TEST 4: Import Other Critical Modules');
+                
+                try {
+                    await import('./assets/hdcalc.js');
+                    log('✅ PASS: hdcalc.js imported', 'pass');
+                    passCount++;
+                } catch (error) {
+                    log(`❌ FAIL: hdcalc.js import error: ${error.message}`, 'fail');
+                    failCount++;
+                }
+                
+                try {
+                    await import('./assets/insights.js');
+                    log('✅ PASS: insights.js imported', 'pass');
+                    passCount++;
+                } catch (error) {
+                    log(`❌ FAIL: insights.js import error: ${error.message}`, 'fail');
+                    failCount++;
+                }
+                
+                try {
+                    await import('./assets/db.js');
+                    log('✅ PASS: db.js imported', 'pass');
+                    passCount++;
+                } catch (error) {
+                    log(`❌ FAIL: db.js import error: ${error.message}`, 'fail');
+                    failCount++;
+                }
+                
+                try {
+                    await import('./assets/sheetdb.js');
+                    log('✅ PASS: sheetdb.js imported', 'pass');
+                    passCount++;
+                } catch (error) {
+                    log(`❌ FAIL: sheetdb.js import error: ${error.message}`, 'fail');
+                    failCount++;
+                }
+                
+                // TEST 5: Check Configuration
+                logSection('TEST 5: Configuration Check');
+                
+                if (window.QUIZ_CONFIG) {
+                    log('✅ PASS: QUIZ_CONFIG defined', 'pass');
+                    passCount++;
+                } else {
+                    log('❌ FAIL: QUIZ_CONFIG not defined', 'fail');
+                    failCount++;
+                }
+                
+                if (window.SHEETDB_CONFIG && window.SHEETDB_CONFIG.enabled) {
+                    log('✅ PASS: SheetDB configured and enabled', 'pass');
+                    passCount++;
+                } else {
+                    log('⚠️  INFO: SheetDB not enabled', 'info');
+                }
+                
+            } catch (error) {
+                log(`❌ CRITICAL ERROR: ${error.message}`, 'fail');
+                log(error.stack, 'fail');
+                failCount++;
+            }
+            
+            // FINAL RESULTS
+            logSection('═══ FINAL TEST RESULTS ═══');
+            log(`Total Tests Run: ${passCount + failCount}`, 'info');
+            log(`✅ Passed: ${passCount}`, 'pass');
+            log(`❌ Failed: ${failCount}`, 'fail');
+            
+            if (failCount === 0) {
+                log('', 'info');
+                log('🎉 ALL TESTS PASSED! System is ready for deployment!', 'pass');
+            } else {
+                log('', 'info');
+                log(`⚠️  ${failCount} test(s) failed. Please review errors above.`, 'fail');
+            }
+        }
+        
+        // Load config first, then run tests
+        const configScript = document.createElement('script');
+        configScript.src = './config.js';
+        configScript.onload = () => runTests();
+        document.head.appendChild(configScript);
+    </script>
+</body>
+</html>

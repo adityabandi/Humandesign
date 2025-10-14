@@ -34,13 +34,39 @@ class ResultsDisplay {
     
     async loadResultData() {
         try {
-            this.resultData = await fetchResult(this.publicId);
-            console.log('Loaded result data:', this.resultData);
+            // Check if this is a local (SheetDB-only) result
+            if (this.publicId.startsWith('hd_')) {
+                // Load from localStorage
+                const localData = localStorage.getItem(`hd_result_${this.publicId}`);
+                if (!localData) {
+                    throw new Error('Result data not found on this device. Please complete the quiz first.');
+                }
+
+                const parsedData = JSON.parse(localData);
+                // Transform local data to match expected format
+                this.resultData = {
+                    user: {
+                        id: parsedData.id,
+                        name: parsedData.name,
+                        email: parsedData.email
+                    },
+                    quiz: parsedData.quiz_derived,
+                    chart: parsedData.chart_derived,
+                    insights: parsedData.insights || [],
+                    purchased: parsedData.purchased || false,
+                    birth: parsedData.birth
+                };
+                console.log('Loaded local result data:', this.resultData);
+            } else {
+                // Try Supabase for backward compatibility
+                this.resultData = await fetchResult(this.publicId);
+                console.log('Loaded Supabase result data:', this.resultData);
+            }
         } catch (error) {
             console.error('Error loading result data:', error);
-            
-            if (error.message.includes('Missing secret')) {
-                throw new Error('This result is not accessible on this device. Please complete the quiz on this device to view your results.');
+
+            if (error.message.includes('Missing secret') || error.message.includes('device')) {
+                throw new Error(error.message);
             } else {
                 throw new Error('Could not load your results. Please try again.');
             }

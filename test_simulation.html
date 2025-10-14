@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Test Simulation</title>
+</head>
+<body>
+    <h1>Quiz Test Simulation</h1>
+    <div id="output"></div>
+    <script type="module">
+        import { scoreQuiz } from './assets/scoring.js';
+        
+        const output = document.getElementById('output');
+        
+        async function runTest() {
+            output.innerHTML += '<h2>Starting Test...</h2>';
+            
+            try {
+                // Test 1: Load questions
+                output.innerHTML += '<p>Test 1: Loading questions...</p>';
+                const questionsResp = await fetch('./assets/questions.json');
+                const questions = await questionsResp.json();
+                output.innerHTML += `<p>✅ Loaded ${questions.length} questions</p>`;
+                
+                // Test 2: Create sample answers
+                output.innerHTML += '<p>Test 2: Creating sample answers...</p>';
+                const answers = [];
+                for (let i = 0; i < 100; i++) {
+                    // Random answers between 1-5
+                    answers.push(Math.floor(Math.random() * 5) + 1);
+                }
+                output.innerHTML += `<p>✅ Created ${answers.length} sample answers</p>`;
+                
+                // Test 3: Score the quiz
+                output.innerHTML += '<p>Test 3: Scoring quiz...</p>';
+                const result = await scoreQuiz(answers, { quizId: 'test_123' });
+                output.innerHTML += '<p>✅ Quiz scored successfully!</p>';
+                
+                // Test 4: Display results
+                output.innerHTML += '<h3>Results:</h3>';
+                output.innerHTML += `<p><strong>Type:</strong> ${result.type}</p>`;
+                output.innerHTML += `<p><strong>Profile:</strong> ${result.profile}</p>`;
+                
+                output.innerHTML += '<h4>Percentile Scores:</h4><ul>';
+                Object.entries(result.detailed.percentileScores).forEach(([trait, score]) => {
+                    output.innerHTML += `<li>${trait}: ${score}%</li>`;
+                });
+                output.innerHTML += '</ul>';
+                
+                output.innerHTML += '<h4>Interpretations:</h4><ul>';
+                Object.entries(result.detailed.interpretations).forEach(([trait, interp]) => {
+                    output.innerHTML += `<li><strong>${trait}</strong> (${interp.level}): ${interp.description}</li>`;
+                });
+                output.innerHTML += '</ul>';
+                
+                output.innerHTML += '<h2 style="color: green;">✅ ALL TESTS PASSED!</h2>';
+                
+            } catch (error) {
+                output.innerHTML += `<h2 style="color: red;">❌ TEST FAILED</h2>`;
+                output.innerHTML += `<p>Error: ${error.message}</p>`;
+                output.innerHTML += `<pre>${error.stack}</pre>`;
+            }
+        }
+        
+        runTest();
+    </script>
+</body>
+</html>

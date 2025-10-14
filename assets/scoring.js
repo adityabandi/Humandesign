@@ -1,8 +1,39 @@
 // Big 5 Personality Assessment scoring logic
-export function scoreQuiz(answers, meta = {}) {
+// Cache for loaded questions
+let questionsCache = null;
+
+// Load questions from JSON file
+async function loadQuestions() {
+  if (questionsCache) return questionsCache;
+  
+  try {
+    const response = await fetch('./assets/questions.json');
+    questionsCache = await response.json();
+    return questionsCache;
+  } catch (error) {
+    console.error('Failed to load questions:', error);
+    // Try alternative path
+    try {
+      const response2 = await fetch('assets/questions.json');
+      questionsCache = await response2.json();
+      return questionsCache;
+    } catch (error2) {
+      console.error('Failed to load from alternative path:', error2);
+      return null;
+    }
+  }
+}
+
+export async function scoreQuiz(answers, meta = {}) {
   // Validate answers array
   if (!Array.isArray(answers) || answers.length !== 100) {
     throw new Error('Invalid answers: must be array of 100 responses');
+  }
+  
+  // Load actual questions for accurate scoring
+  const questions = await loadQuestions();
+  if (!questions) {
+    throw new Error('Failed to load questions for scoring');
   }
   
   // Initialize Big 5 scoring system
@@ -22,18 +53,15 @@ export function scoreQuiz(answers, meta = {}) {
       interpretations: {}
     }
   };
-
-  // Load questions to get category and reverse scoring info
-  const questionMappings = getBig5QuestionMappings();
   
-  // Process each answer with Big 5 scoring
+  // Process each answer with Big 5 scoring using actual question data
   answers.forEach((answer, index) => {
     const questionId = index + 1;
-    const mapping = questionMappings[questionId];
+    const question = questions.find(q => q.id === questionId);
     
-    if (mapping) {
-      const category = mapping.category;
-      const isReversed = mapping.reverse_scored;
+    if (question) {
+      const category = question.category;
+      const isReversed = question.reverse_scored;
       
       // Calculate score (1-5 scale, reverse if needed)
       let score = answer;
@@ -48,10 +76,10 @@ export function scoreQuiz(answers, meta = {}) {
       scores.detailed.answerAnalysis.push({
         questionId,
         answer,
-        category: mapping.trait,
+        category: question.trait,
         isReversed,
         scoreContribution: score,
-        question: mapping.question
+        question: question.question
       });
     }
   });
@@ -84,35 +112,6 @@ export function scoreQuiz(answers, meta = {}) {
     detailed: scores.detailed,
     summary: generateBig5Summary(scores.detailed.percentileScores, scores.detailed.interpretations)
   };
-}
-
-// Get Big 5 question mappings from the questions.json structure
-function getBig5QuestionMappings() {
-  // This will be populated with the actual question data
-  // For now, create a mapping based on our question structure
-  const mappings = {};
-  
-  // Based on our questions.json structure, map each question
-  const traits = ['openness', 'conscientiousness', 'extraversion', 'agreeableness', 'neuroticism'];
-  
-  for (let i = 1; i <= 100; i++) {
-    // Cycle through traits: 5 questions per trait, then repeat
-    const traitIndex = ((i - 1) % 5);
-    const trait = traits[traitIndex];
-    
-    // Determine reverse scoring pattern
-    // Questions 21-25, 26-30, 31-35, 46-50, 61-65, 66-70, 81-85 are reverse scored
-    const isReversed = (i >= 21 && i <= 35) || (i >= 46 && i <= 50) || (i >= 61 && i <= 70) || (i >= 81 && i <= 85);
-    
-    mappings[i] = {
-      category: trait,
-      trait: trait.charAt(0).toUpperCase() + trait.slice(1),
-      reverse_scored: isReversed,
-      question: `Question ${i}` // Will be filled with actual question text
-    };
-  }
-  
-  return mappings;
 }
 
 // Format Big 5 scores as specified: "Openness=X Conscientiousness=Y, Extraversion=Z, Agreeableness=A, and Neuroticism=B"
