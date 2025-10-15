@@ -3,11 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Human Design Results | Personality Blueprint Preview</title>
+    <title>Your Human Design Results</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .results-page {
+            background: var(--bg-primary);
+            padding: 40px 20px;
+        }
+
+        .results-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .results-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .results-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .design-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .design-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .design-basics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .design-item {
+            text-align: center;
+        }
+
+        .design-item-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .design-item-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .design-item-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .comparison-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .comparison-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .comparison-side h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .comparison-side.conditioned h3 {
+            color: #ff6b6b;
+        }
+
+        .comparison-side.authentic h3 {
+            color: #51cf66;
+        }
+
+        .comparison-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comparison-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1rem;
+        }
+
+        .comparison-list li:last-child {
+            border-bottom: none;
+        }
+
+        .gap-insight {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid #ffd700;
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 4px;
+        }
+
+        .gap-insight h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .gap-insight p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
+            border: 2px solid #ffd700;
+            border-radius: 12px;
+            padding: 50px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .cta-section .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .cta-section .price-old {
+            font-size: 1.5rem;
+            text-decoration: line-through;
+            color: var(--text-muted);
+            margin-right: 15px;
+        }
+
+        .cta-section ul {
+            text-align: left;
+            max-width: 500px;
+            margin: 30px auto;
+            list-style: none;
+            padding: 0;
+        }
+
+        .cta-section ul li {
+            padding: 10px 0;
+            font-size: 1.05rem;
+        }
+
+        .cta-section ul li::before {
+            content: "✓ ";
+            color: #51cf66;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .btn-massive {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            color: #000;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 25px 60px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-massive:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .design-basics {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -20,643 +244,194 @@
     </nav>
 
     <main class="main-content results-page">
-        <div class="container">
-            <div class="results-header" style="padding: 60px 0 40px;">
-                <div style="display: inline-block; background: linear-gradient(135deg, #ffd700, #ffa500); padding: 12px 30px; border-radius: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);">
-                    <span style="color: #000; font-weight: bold; font-size: 1rem; letter-spacing: 0.5px;">🎉 YOUR PERSONALIZED REPORT IS READY!</span>
-                </div>
-                <h1 style="font-size: 2.5rem; margin-bottom: 20px;">Your Human Design Blueprint</h1>
-                <p class="results-subtitle" style="font-size: 1.15rem; max-width: 700px; margin: 0 auto 15px; line-height: 1.6;">
-                    Below is your personalized preview! This is just a glimpse of your unique personality wiring.
-                </p>
-                <p style="color: #ffd700; font-size: 1.1rem; font-weight: 600; margin-bottom: 30px;">
-                    Scroll down to unlock your full 40+ page transformation report (delivered within 24 hours)
-                </p>
-                <div class="results-badges" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 25px;">
-                    <span class="badge" style="background: rgba(255, 215, 0, 0.1); border: 1px solid #ffd700; padding: 10px 20px;">✅ SCIENTIFICALLY VALIDATED</span>
-                    <span class="badge" style="background: rgba(255, 215, 0, 0.1); border: 1px solid #ffd700; padding: 10px 20px;">🎯 100% PERSONALIZED</span>
-                    <span class="badge" style="background: rgba(255, 215, 0, 0.1); border: 1px solid #ffd700; padding: 10px 20px;">⚡ INSTANT PREVIEW</span>
-                </div>
+        <div class="results-container">
+            <div class="results-header">
+                <h1>Your Human Design</h1>
+                <p>Based on your birth data: <span id="birthInfo">Loading...</span></p>
             </div>
 
-            <!-- Big 5 Personality Profile Section -->
-            <div class="personality-section">
-                <h2>Your Big 5 Personality Profile</h2>
-                <div class="personality-summary" id="personalitySummary">
-                    <div class="loading-placeholder">Loading your personality analysis...</div>
-                </div>
-                
-                <div class="personality-traits">
-                    <div class="trait-card" data-trait="openness">
-                        <div class="trait-header">
-                            <h3>Openness to Experience</h3>
-                            <div class="trait-score" id="opennessScore">--</div>
-                        </div>
-                        <div class="trait-bar">
-                            <div class="trait-fill" id="opennessFill"></div>
-                        </div>
-                        <p class="trait-description" id="opennessDescription">Loading...</p>
+            <!-- Core Human Design -->
+            <div class="design-card">
+                <h2>Your Authentic Design</h2>
+                <div class="design-basics">
+                    <div class="design-item">
+                        <div class="design-item-label">Type</div>
+                        <div class="design-item-value" id="hdType">Loading...</div>
+                        <div class="design-item-desc" id="hdTypeDesc">How you're designed to interact with life</div>
                     </div>
-                    
-                    <div class="trait-card" data-trait="conscientiousness">
-                        <div class="trait-header">
-                            <h3>Conscientiousness</h3>
-                            <div class="trait-score" id="conscientiousnessScore">--</div>
-                        </div>
-                        <div class="trait-bar">
-                            <div class="trait-fill" id="conscientiousnessFill"></div>
-                        </div>
-                        <p class="trait-description" id="conscientiousnessDescription">Loading...</p>
+                    <div class="design-item">
+                        <div class="design-item-label">Authority</div>
+                        <div class="design-item-value" id="hdAuthority">Loading...</div>
+                        <div class="design-item-desc" id="hdAuthorityDesc">Your inner decision-making compass</div>
                     </div>
-                    
-                    <div class="trait-card" data-trait="extraversion">
-                        <div class="trait-header">
-                            <h3>Extraversion</h3>
-                            <div class="trait-score" id="extraversionScore">--</div>
-                        </div>
-                        <div class="trait-bar">
-                            <div class="trait-fill" id="extraversionFill"></div>
-                        </div>
-                        <p class="trait-description" id="extraversionDescription">Loading...</p>
-                    </div>
-                    
-                    <div class="trait-card" data-trait="agreeableness">
-                        <div class="trait-header">
-                            <h3>Agreeableness</h3>
-                            <div class="trait-score" id="agreeablenessScore">--</div>
-                        </div>
-                        <div class="trait-bar">
-                            <div class="trait-fill" id="agreeablenessFill"></div>
-                        </div>
-                        <p class="trait-description" id="agreeablenessDescription">Loading...</p>
-                    </div>
-                    
-                    <div class="trait-card" data-trait="neuroticism">
-                        <div class="trait-header">
-                            <h3>Neuroticism</h3>
-                            <div class="trait-score" id="neuroticismScore">--</div>
-                        </div>
-                        <div class="trait-bar">
-                            <div class="trait-fill" id="neuroticismFill"></div>
-                        </div>
-                        <p class="trait-description" id="neuroticismDescription">Loading...</p>
-                    </div>
-                </div>
-
-                <!-- Call to Action for Full Report -->
-                <div class="upgrade-cta" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.15)); border: 2px solid #ffd700;">
-                    <div class="cta-content">
-                        <h3 style="font-size: 2rem;">🔥 Want the Full Picture?</h3>
-                        <p class="cta-description" style="font-size: 1.2rem;">
-                            What you see above is just a taste. Your complete Human Design Report reveals EVERYTHING about your authentic self:
-                        </p>
-                        <div class="features-grid">
-                            <div class="feature">
-                                <span class="feature-icon">📊</span>
-                                <span class="feature-text">Detailed Big 5 analysis with career insights</span>
-                            </div>
-                            <div class="feature">
-                                <span class="feature-icon">🧬</span>
-                                <span class="feature-text">Complete Human Design bodygraph & interpretation</span>
-                            </div>
-                            <div class="feature">
-                                <span class="feature-icon">💡</span>
-                                <span class="feature-text">Personalized life strategy & decision-making guide</span>
-                            </div>
-                            <div class="feature">
-                                <span class="feature-icon">❤️</span>
-                                <span class="feature-text">Relationship compatibility & communication tips</span>
-                            </div>
-                            <div class="feature">
-                                <span class="feature-icon">💰</span>
-                                <span class="feature-text">Career path recommendations & financial insights</span>
-                            </div>
-                            <div class="feature">
-                                <span class="feature-icon">🎯</span>
-                                <span class="feature-text">Personal growth action plan & life purpose</span>
-                            </div>
-                        </div>
-                        
-                        <div class="pricing-info">
-                            <div class="price">
-                                <span class="currency">$</span>
-                                <span class="amount">29</span>
-                                <span class="period">one-time</span>
-                            </div>
-                            <div class="value-prop">
-                                <small>Usually $97 - Limited Time Offer</small>
-                            </div>
-                        </div>
-                        
-                        <a href="buy.html" class="cta-button" onclick="trackPurchaseIntent()">
-                            🚀 GET MY COMPLETE REPORT NOW
-                        </a>
-                        
-                        <div class="guarantee">
-                            <small>✅ 30-day money-back guarantee • ✅ Instant digital delivery</small>
-                        </div>
+                    <div class="design-item">
+                        <div class="design-item-label">Profile</div>
+                        <div class="design-item-value" id="hdProfile">Loading...</div>
+                        <div class="design-item-desc" id="hdProfileDesc">Your life theme and purpose</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Enhanced Human Design Chart Visualization -->
-            <div class="chart-section">
-                <h2>Human Design Bodygraph</h2>
-                <div class="chart-container">
-                    <div class="bodygraph-chart" id="bodygraphChart">
-                        <!-- Head Center (Inspiration/Pressure) -->
-                        <div class="center head-center" data-center="head">
-                            <div class="center-shape">
-                                <div class="center-label">HEAD</div>
-                                <div class="gates-container">
-                                    <div class="gate gate-64">64</div>
-                                    <div class="gate gate-61">61</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Ajna Center (Mind/Conceptualization) -->
-                        <div class="center ajna-center" data-center="ajna">
-                            <div class="center-shape">
-                                <div class="center-label">AJNA</div>
-                                <div class="gates-container">
-                                    <div class="gate gate-47">47</div>
-                                    <div class="gate gate-24">24</div>
-                                    <div class="gate gate-4">4</div>
-                                    <div class="gate gate-17">17</div>
-                                    <div class="gate gate-43">43</div>
-                                    <div class="gate gate-11">11</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Throat Center (Communication/Manifestation) -->
-                        <div class="center throat-center" data-center="throat">
-                            <div class="center-shape">
-                                <div class="center-label">THROAT</div>
-                                <div class="gates-container">
-                                    <div class="gate gate-62">62</div>
-                                    <div class="gate gate-23">23</div>
-                                    <div class="gate gate-56">56</div>
-                                    <div class="gate gate-35">35</div>
-                                    <div class="gate gate-12">12</div>
-                                    <div class="gate gate-45">45</div>
-                                    <div class="gate gate-33">33</div>
-                                    <div class="gate gate-8">8</div>
-                                    <div class="gate gate-31">31</div>
-                                    <div class="gate gate-20">20</div>
-                                    <div class="gate gate-16">16</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- G Center (Identity/Direction/Love) -->
-                        <div class="center g-center" data-center="g">
-                            <div class="center-shape">
-                                <div class="center-label">G</div>
-                                <div class="gates-container">
-                                    <div class="gate gate-7">7</div>
-                                    <div class="gate gate-1">1</div>
-                                    <div class="gate gate-13">13</div>
-                                    <div class="gate gate-10">10</div>
-                                    <div class="gate gate-15">15</div>
-                                    <div class="gate gate-2">2</div>
-                                    <div class="gate gate-46">46</div>
-                                    <div class="gate gate-25">25</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Heart/Ego Center (Will/Ego) -->
-                        <div class="center heart-center" data-center="heart">
-                            <div class="center-shape">
-                                <div class="center-label">HEART</div>
-                                <div class="gates-container">
-                                    <div class="gate gate-21">21</div>
-                                    <div class="gate gate-40">40</div>
-                                    <div class="gate gate-26">26</div>
-                                    <div class="gate gate-51">51</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Spleen Center (Survival Instincts/Health) -->
-                        <div class="center spleen-center" data-center="spleen">
-                            <div class="center-shape">
-                                <div class="center-label">SPLEEN</div>
-                                <div class="gates-container">
-                                    <div class="gate gate-50">50</div>
-                                    <div class="gate gate-32">32</div>
-                                    <div class="gate gate-28">28</div>
-                                    <div class="gate gate-18">18</div>
-                                    <div class="gate gate-57">57</div>
-                                    <div class="gate gate-44">44</div>
-                                    <div class="gate gate-48">48</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Sacral Center (Life Force/Work/Sexuality) -->
-                        <div class="center sacral-center" data-center="sacral">
-                            <div class="center-shape">
-                                <div class="center-label">SACRAL</div>
-                                <div class="gates-container">
-                                    <div class="gate gate-5">5</div>
-                                    <div class="gate gate-14">14</div>
-                                    <div class="gate gate-29">29</div>
-                                    <div class="gate gate-59">59</div>
-                                    <div class="gate gate-9">9</div>
-                                    <div class="gate gate-3">3</div>
-                                    <div class="gate gate-42">42</div>
-                                    <div class="gate gate-27">27</div>
-                                    <div class="gate gate-34">34</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Solar Plexus Center (Emotions/Feelings) -->
-                        <div class="center solar-center" data-center="solar">
-                            <div class="center-shape">
-                                <div class="center-label">SOLAR PLEXUS</div>
-                                <div class="gates-container">
-                                    <div class="gate gate-6">6</div>
-                                    <div class="gate gate-37">37</div>
-                                    <div class="gate gate-63">63</div>
-                                    <div class="gate gate-22">22</div>
-                                    <div class="gate gate-36">36</div>
-                                    <div class="gate gate-30">30</div>
-                                    <div class="gate gate-55">55</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Root Center (Pressure/Stress/Drive) -->
-                        <div class="center root-center" data-center="root">
-                            <div class="center-shape">
-                                <div class="center-label">ROOT</div>
-                                <div class="gates-container">
-                                    <div class="gate gate-54">54</div>
-                                    <div class="gate gate-58">58</div>
-                                    <div class="gate gate-38">38</div>
-                                    <div class="gate gate-39">39</div>
-                                    <div class="gate gate-53">53</div>
-                                    <div class="gate gate-60">60</div>
-                                    <div class="gate gate-52">52</div>
-                                    <div class="gate gate-19">19</div>
-                                    <div class="gate gate-41">41</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Channel Lines (will be dynamically added) -->
-                        <div class="channels-container" id="channelsContainer">
-                            <!-- Channels will be dynamically rendered here -->
-                        </div>
-                    </div>
-                    
-                    <div class="chart-legend">
-                        <h3>Chart Legend</h3>
-                        <div class="legend-items">
-                            <div class="legend-item">
-                                <div class="legend-color defined"></div>
-                                <span>Defined Centers - Consistent energy you can rely on</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color undefined"></div>
-                                <span>Undefined Centers - Areas of learning and conditioning</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color active-gate"></div>
-                                <span>Active Gates - Specific life themes and gifts</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color channel"></div>
-                                <span>Channels - Consistent life force between centers</span>
-                            </div>
-                        </div>
-                        
-                        <div class="chart-info">
-                            <h4>Your Human Design Details</h4>
-                            <div class="chart-details" id="chartDetails">
-                                <div class="detail-item">
-                                    <span class="detail-label">Type:</span>
-                                    <span class="detail-value" id="chartType">Loading...</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Authority:</span>
-                                    <span class="detail-value" id="chartAuthority">Loading...</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Profile:</span>
-                                    <span class="detail-value" id="chartProfile">Loading...</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Strategy:</span>
-                                    <span class="detail-value" id="chartStrategy">Loading...</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Definition:</span>
-                                    <span class="detail-value" id="chartDefinition">Loading...</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mismatch Analysis Preview -->
-            <div class="mismatch-analysis">
-                <div class="mismatch-header">
-                    <h2>🔮 Your Personal Transformation Map</h2>
-                    <p class="mismatch-subtitle">Discover the gap between who you think you are and who you truly are designed to be</p>
-                </div>
-                
-                <div class="transformation-teaser">
-                    <div class="teaser-card">
-                        <div class="teaser-icon">⚡</div>
-                        <h3>Hidden Patterns Revealed</h3>
-                        <p>Your birth chart reveals specific gates and channels that show where you've been conditioned away from your authentic self.</p>
-                    </div>
-                    <div class="teaser-card">
-                        <div class="teaser-icon">🎯</div>
-                        <h3>Decision-Making Breakthrough</h3>
-                        <p>Learn your true inner authority - the way you're designed to make decisions that lead to fulfillment and success.</p>
-                    </div>
-                    <div class="teaser-card">
-                        <div class="teaser-icon">💎</div>
-                        <h3>Unique Life Purpose</h3>
-                        <p>Discover your specific role in life and how to step into your natural gifts and talents with confidence.</p>
-                    </div>
-                </div>
-                
+            <!-- The Gap / Comparison -->
+            <div class="comparison-section">
+                <h2>Why You Feel Stuck</h2>
                 <div class="comparison-grid">
-                    <div class="profile-section">
-                        <h3>🧠 Your Psychological Pattern</h3>
-                        <p class="profile-subtitle">How conditioning has shaped you</p>
-                        <div class="profile-content" id="psychProfile">
-                            <div class="profile-item">
-                                <span class="profile-label">Learned Behavior:</span>
-                                <span class="profile-value" id="psychType">Analyzing...</span>
-                            </div>
-                            <div class="profile-item">
-                                <span class="profile-label">Conditioned Decisions:</span>
-                                <span class="profile-value" id="psychAuthority">Analyzing...</span>
-                            </div>
-                            <div class="profile-item">
-                                <span class="profile-label">Energy Struggles:</span>
-                                <span class="profile-value" id="psychPattern">Analyzing...</span>
-                            </div>
-                        </div>
+                    <div class="comparison-side conditioned">
+                        <h3>How You've Been Living</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem;">Based on your 100 personality questions</p>
+                        <ul class="comparison-list" id="conditionedList">
+                            <li>Loading your patterns...</li>
+                        </ul>
                     </div>
-                    
-                    <div class="vs-divider">
-                        <div class="vs-icon">VS</div>
-                        <div class="breakthrough-arrow">➤</div>
-                    </div>
-                    
-                    <div class="design-section">
-                        <h3>✨ Your Authentic Blueprint</h3>
-                        <p class="profile-subtitle">Your true design from birth</p>
-                        <div class="profile-content" id="actualDesign">
-                            <div class="profile-item">
-                                <span class="profile-label">Natural Type:</span>
-                                <span class="profile-value" id="designType">Analyzing...</span>
-                            </div>
-                            <div class="profile-item">
-                                <span class="profile-label">Inner Wisdom:</span>
-                                <span class="profile-value" id="designAuthority">Analyzing...</span>
-                            </div>
-                            <div class="profile-item">
-                                <span class="profile-label">Life Strategy:</span>
-                                <span class="profile-value" id="designStrategy">Analyzing...</span>
-                            </div>
-                        </div>
+                    <div class="comparison-side authentic">
+                        <h3>How You're Designed to Live</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem;">Based on your birth chart</p>
+                        <ul class="comparison-list" id="authenticList">
+                            <li>Loading your design...</li>
+                        </ul>
                     </div>
                 </div>
-                
-                <div class="mismatch-insights">
-                    <div class="insight-box breakthrough-box">
-                        <h4>💥 Your Breakthrough Insights</h4>
-                        <div class="mismatch-content" id="mismatchContent">
-                            <p>Analyzing the specific areas where your conditioning is blocking your natural flow...</p>
-                        </div>
-                        <div class="preview-nuggets" id="previewNuggets">
-                            <div class="nugget">
-                                <span class="nugget-icon">🔓</span>
-                                <span>Your chart shows specific energy centers that have been conditioned</span>
-                            </div>
-                            <div class="nugget">
-                                <span class="nugget-icon">⭐</span>
-                                <span>You have unique gifts that emerge when you align with your design</span>
-                            </div>
-                            <div class="nugget">
-                                <span class="nugget-icon">🚀</span>
-                                <span>There's a specific strategy for how you're meant to interact with the world</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="integration-cta">
-                    <div class="cta-highlight life-changing">
-                        <div class="cta-header">
-                            <h3>🌟 Get Your Complete Life Transformation Blueprint</h3>
-                            <p class="cta-promise">This isn't just another personality test. This is your personal roadmap to living authentically and making decisions that actually work for YOU.</p>
-                        </div>
-                        
-                        <div class="what-you-get">
-                            <h4>Your Complete Report Includes:</h4>
-                            <div class="benefits-grid">
-                                <div class="benefit">
-                                    <span class="benefit-icon">📊</span>
-                                    <span>40+ page detailed analysis of your unique design</span>
-                                </div>
-                                <div class="benefit">
-                                    <span class="benefit-icon">🎯</span>
-                                    <span>Specific strategies for career and relationships</span>
-                                </div>
-                                <div class="benefit">
-                                    <span class="benefit-icon">💪</span>
-                                    <span>Step-by-step deconditioning process</span>
-                                </div>
-                                <div class="benefit">
-                                    <span class="benefit-icon">🌈</span>
-                                    <span>How to recognize and trust your inner authority</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="transformation-promise">
-                            <p><strong>"This report will change how you see yourself and transform how you make decisions for the rest of your life."</strong></p>
-                            <p class="testimonial">— Thousands of people have used this exact blueprint to step into their authentic power</p>
-                        </div>
-                        
-                        <a href="buy.html" class="btn btn-primary btn-mega">
-                            🔥 Get Your Life-Changing Report - $29 🔥
-                        </a>
-                        
-                        <div class="guarantee">
-                            <p>✅ 30-day money-back guarantee • ✅ Instant access • ✅ Expert reviewed</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                        </a>
-                    </div>
+
+                <div class="gap-insight">
+                    <h3>🔥 The Gap Between Who You Are and Who You Think You Should Be</h3>
+                    <p id="gapInsight">Loading your personalized insight...</p>
+                    <p><strong>This is why you're exhausted.</strong> You've been living according to conditioning instead of your natural design. The full report shows you exactly how to close this gap and live authentically.</p>
                 </div>
             </div>
 
-            <!-- Analysis Results Grid -->
-            <div class="results-grid">
-                <div class="result-card primary">
-                    <div class="card-icon">TYPE</div>
-                    <h2>Energy Classification</h2>
-                    <div class="result-value" id="resultType">ANALYZING...</div>
-                    <p class="result-description" id="typeDescription">Processing energy type classification protocols...</p>
-                </div>
+            <!-- CTA -->
+            <div class="cta-section">
+                <h2>Get Your Full 40+ Page Report</h2>
+                <p>Everything you need to understand and embody your Human Design - delivered within 24 hours</p>
 
-                <div class="result-card">
-                    <div class="card-icon">AUTH</div>
-                    <h3>Decision Authority</h3>
-                    <div class="result-value" id="resultAuthority">ANALYZING...</div>
-                    <p class="result-description" id="authorityDescription">Processing decision-making framework...</p>
+                <div class="price">
+                    <span class="price-old">$97</span>
+                    $29
                 </div>
+                <p style="color: #ffd700; font-weight: 600; margin-top: 10px;">70% OFF - Limited Time</p>
 
-                <div class="result-card">
-                    <div class="card-icon">PROF</div>
-                    <h3>Profile Architecture</h3>
-                    <div class="result-value" id="resultProfile">ANALYZING...</div>
-                    <p class="result-description" id="profileDescription">Processing life theme patterns...</p>
-                </div>
+                <ul>
+                    <li>Your complete Human Design chart explained</li>
+                    <li>Detailed Big 5 personality analysis</li>
+                    <li>Integration guide: closing the gap</li>
+                    <li>Career & relationship insights</li>
+                    <li>Deconditioning strategies</li>
+                    <li>Life-long reference guide</li>
+                </ul>
 
-                <div class="result-card span-full">
-                    <div class="card-icon">CENT</div>
-                    <h3>Centers Configuration Analysis</h3>
-                    <div class="centers-analysis" id="centersAnalysis">
-                        <div class="centers-summary" id="centersSummary">Processing energy center configurations...</div>
-                        <div class="centers-grid-detailed" id="centersGridDetailed">
-                            <!-- Centers will be populated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <a href="buy.html" class="btn-massive" onclick="trackPurchaseIntent()">GET MY FULL REPORT</a>
 
-            <!-- Technical Analysis Interface -->
-            <div class="detailed-analysis">
-                <h2>Comprehensive Analysis Framework</h2>
-                <div class="analysis-tabs">
-                    <button class="tab-button active" data-tab="overview">OVERVIEW</button>
-                    <button class="tab-button" data-tab="gates">GATES & CHANNELS</button>
-                    <button class="tab-button" data-tab="strategy">STRATEGY FRAMEWORK</button>
-                    <button class="tab-button" data-tab="relationships">INTERACTION PROTOCOLS</button>
-                </div>
-                
-                <div class="tab-content">
-                    <div class="tab-panel active" id="overview">
-                        <div class="overview-content" id="overviewContent">
-                            <p style="font-family: var(--font-mono); color: var(--text-secondary);">LOADING COMPREHENSIVE OVERVIEW ANALYSIS...</p>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-panel" id="gates">
-                        <div class="gates-content" id="gatesContent">
-                            <p style="font-family: var(--font-mono); color: var(--text-secondary);">LOADING GATES AND CHANNELS MAPPING...</p>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-panel" id="strategy">
-                        <div class="strategy-content" id="strategyContent">
-                            <p style="font-family: var(--font-mono); color: var(--text-secondary);">LOADING STRATEGIC FRAMEWORK ANALYSIS...</p>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-panel" id="relationships">
-                        <div class="relationships-content" id="relationshipsContent">
-                            <p style="font-family: var(--font-mono); color: var(--text-secondary);">LOADING INTERACTION PROTOCOL ANALYSIS...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Integration Analysis -->
-            <div class="integration-insights">
-                <h2>Integration Analysis</h2>
-                <p class="insights-subtitle">Correlation between assessment responses and astronomical calculations</p>
-                <div class="insights-content" id="insightsContent">
-                    <p style="font-family: var(--font-mono); color: var(--text-secondary);">PROCESSING INTEGRATION CORRELATION ANALYSIS...</p>
-                </div>
-            </div>
-
-            <!-- Extended Analysis Access -->
-            <div class="upgrade-cta">
-                <div class="cta-content final-cta">
-                    <h2>🌟 Ready to Transform Your Life?</h2>
-                    <p class="final-promise">You've seen the preview. Now get the complete blueprint that thousands have used to revolutionize their relationships, career, and decision-making.</p>
-                    
-                    <div class="transformation-stats">
-                        <div class="stat">
-                            <div class="stat-number">95%</div>
-                            <div class="stat-label">Report major life improvements</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">40+</div>
-                            <div class="stat-label">Pages of personalized insights</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">24hrs</div>
-                            <div class="stat-label">Expert-reviewed delivery</div>
-                        </div>
-                    </div>
-                    
-                    <div class="upgrade-features">
-                        <h3>Your Complete Transformation Includes:</h3>
-                        <div class="feature-item">
-                            <span class="feature-icon">🧬</span>
-                            <span>COMPLETE GENETIC MATRIX ANALYSIS - Every gate, channel, and center explained</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">💼</span>
-                            <span>CAREER OPTIMIZATION BLUEPRINT - How to align your work with your design</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">❤️</span>
-                            <span>RELATIONSHIP COMPATIBILITY GUIDE - How to connect authentically with others</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">🧭</span>
-                            <span>DECISION-MAKING MASTERY - Never second-guess yourself again</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">🔓</span>
-                            <span>DECONDITIONING PROTOCOLS - Step-by-step process to reclaim your power</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">⚡</span>
-                            <span>ENERGY MANAGEMENT STRATEGIES - How to work with your natural rhythms</span>
-                        </div>
-                    </div>
-                    
-                    <div class="urgency-message">
-                        <p><strong>⏰ Limited Time:</strong> Expert-reviewed reports are prepared in small batches. Secure your spot now.</p>
-                    </div>
-                    
-                    <div class="cta-buttons final-buttons">
-                        <a href="buy.html" class="btn btn-primary btn-mega transformation-btn">
-                            🚀 TRANSFORM MY LIFE - $29 🚀
-                        </a>
-                        <div class="money-back">
-                            <p>✅ 30-Day Money-Back Guarantee ✅ Instant Digital Delivery ✅ Expert Certified</p>
-                        </div>
-                    </div>
-                </div>
+                <p style="margin-top: 25px; font-size: 0.9rem; color: var(--text-muted);">
+                    🔒 Secure checkout • ⚡ Delivered in 24 hours • ✅ 30-day money-back guarantee
+                </p>
             </div>
         </div>
     </main>
 
-    <!-- Include required scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
-    <script type="module" src="assets/results.js"></script>
-    <script src="script.js"></script>
+    <script type="module">
+        // Import required modules
+        import { ResultsDisplay } from './assets/results.js';
+
+        // Simple results rendering
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const resultId = urlParams.get('id');
+
+            if (!resultId) {
+                alert('No result ID found. Please complete the quiz first.');
+                window.location.href = 'quiz.html';
+                return;
+            }
+
+            try {
+                // Load from localStorage
+                const localData = localStorage.getItem(`hd_result_${resultId}`);
+                if (!localData) {
+                    throw new Error('Result not found. Please complete the quiz first.');
+                }
+
+                const data = JSON.parse(localData);
+                console.log('Loaded result data:', data);
+
+                // Display birth info
+                const birthInfo = `${data.birth.place} • ${data.birth.date} • ${data.birth.time}`;
+                document.getElementById('birthInfo').textContent = birthInfo;
+
+                // Display core HD info
+                const chart = data.chart_derived;
+                document.getElementById('hdType').textContent = chart.type || 'Generator';
+                document.getElementById('hdAuthority').textContent = chart.authority || 'Sacral';
+                document.getElementById('hdProfile').textContent = chart.profile || '1/3';
+
+                // Type descriptions
+                const typeDescs = {
+                    'Generator': 'You have sustainable life force energy when doing what you love',
+                    'Manifestor': 'You\'re here to initiate and make things happen',
+                    'Projector': 'You see people clearly and guide them to success',
+                    'Reflector': 'You mirror the health of your environment'
+                };
+                document.getElementById('hdTypeDesc').textContent = typeDescs[chart.type] || typeDescs['Generator'];
+
+                const authorityDescs = {
+                    'Sacral': 'Trust your gut responses - that immediate yes/no feeling',
+                    'Emotional': 'You need time to feel your way through decisions',
+                    'Splenic': 'Trust your intuitive knowing in the moment',
+                    'Ego': 'Make decisions based on what you have will for',
+                    'Self-Projected': 'Talk it out and listen to what you hear yourself say'
+                };
+                document.getElementById('hdAuthorityDesc').textContent = authorityDescs[chart.authority] || authorityDescs['Sacral'];
+
+                // Comparison lists
+                const quiz = data.quiz_derived;
+                const conditionedList = document.getElementById('conditionedList');
+                const authenticList = document.getElementById('authenticList');
+
+                // Conditioned patterns (how they've been living)
+                conditionedList.innerHTML = `
+                    <li>Making decisions with your mind instead of ${chart.authority} authority</li>
+                    <li>Forcing yourself to work in ways that drain you</li>
+                    <li>Trying to be someone you're not to fit in</li>
+                    <li>Ignoring your natural energy patterns</li>
+                `;
+
+                // Authentic design (how they should live)
+                const strategies = {
+                    'Generator': 'Respond to life - wait for things to light you up',
+                    'Manifestor': 'Initiate freely and inform others',
+                    'Projector': 'Wait for invitation and recognition',
+                    'Reflector': 'Take time (lunar cycle) before big decisions'
+                };
+
+                authenticList.innerHTML = `
+                    <li>${strategies[chart.type] || strategies['Generator']}</li>
+                    <li>Use your ${chart.authority} authority to make decisions</li>
+                    <li>Honor your natural energy patterns</li>
+                    <li>Stop trying to be a ${chart.type === 'Generator' ? 'Manifestor' : 'Generator'}</li>
+                `;
+
+                // Gap insight
+                const gapInsight = document.getElementById('gapInsight');
+                gapInsight.innerHTML = `You're a <strong>${chart.type}</strong> with <strong>${chart.authority} Authority</strong>, but you've been making decisions with your mind and forcing yourself to work like everyone else. This mismatch is why things feel hard. When you align with your design, life flows.`;
+
+            } catch (error) {
+                console.error('Error loading results:', error);
+                alert('Error loading your results. Please try again or retake the quiz.');
+                window.location.href = 'quiz.html';
+            }
+        });
+
+        // Track purchase intent
+        window.trackPurchaseIntent = function() {
+            console.log('Purchase intent tracked');
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'purchase_intent', {
+                    'event_category': 'conversion',
+                    'value': 29
+                });
+            }
+        };
+    </script>
 </body>
 </html>
