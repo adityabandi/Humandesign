@@ -482,13 +482,13 @@
             <div class="results-grid">
                 <!-- Left: Chart Data -->
                 <div class="chart-section">
-                    <h2>Your Big 5 Personality Scores</h2>
+                    <h2>What We Discovered About You</h2>
 
-                    <div class="design-basics" id="big5Scores" style="margin-bottom: 40px;">
-                        <!-- Big 5 scores will be inserted here -->
+                    <div id="discoveryTeaser" style="margin-bottom: 40px;">
+                        <!-- Discovery teaser will be inserted here -->
                     </div>
 
-                    <h2 style="margin-top: 40px;">Your Human Design Chart</h2>
+                    <h2 style="margin-top: 40px;">Your Authentic Design</h2>
 
                     <div class="design-basics">
                         <div class="design-row">
@@ -517,9 +517,19 @@
                     </div>
 
                     <div class="comparison-box">
-                        <h3>🔥 The Mismatch: Psychology vs. Design</h3>
+                        <h3>🔥 Why Things Feel Hard</h3>
                         <div id="mismatchAnalysis">Loading your analysis...</div>
-                        <p class="gap-text" style="margin-top: 20px;"><strong>This misalignment is costing you energy every single day.</strong> Your complete report reveals the exact steps to realign with your natural design and eliminate resistance.</p>
+                        <div style="background: rgba(255, 215, 0, 0.05); border-left: 3px solid #ffd700; padding: 20px; margin-top: 25px; border-radius: 4px;">
+                            <p style="margin: 0; font-size: 0.95rem; line-height: 1.7;">
+                                <strong>Here's what we can't show you yet:</strong><br>
+                                • The exact moments in your life when you abandoned your design<br>
+                                • Which relationships drained you (and why)<br>
+                                • The career paths that will energize vs. exhaust you<br>
+                                • How to make decisions without the mental torture<br>
+                                • The specific deconditioning process for YOUR type<br><br>
+                                <span style="color: #ffd700;">This is all in your complete 40+ page report.</span>
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -724,33 +734,43 @@
                 document.getElementById('birthInfo').textContent =
                     `${data.birth.place} • ${data.birth.date} • ${data.birth.time}`;
 
-                // Display Big 5 Scores
-                const big5Container = document.getElementById('big5Scores');
+                // Display Discovery Teaser (NOT full scores)
+                const discoveryContainer = document.getElementById('discoveryTeaser');
                 if (quiz && quiz.detailed && quiz.detailed.percentileScores) {
                     const scores = quiz.detailed.percentileScores;
-                    const traits = {
-                        'openness': 'Openness',
+
+                    // Find highest and lowest traits
+                    const traits = ['openness', 'conscientiousness', 'extraversion', 'agreeableness', 'neuroticism'];
+                    const traitScores = traits.map(t => ({ trait: t, score: scores[t] }));
+                    traitScores.sort((a, b) => b.score - a.score);
+
+                    const highest = traitScores[0];
+                    const lowest = traitScores[traitScores.length - 1];
+
+                    const traitNames = {
+                        'openness': 'Openness to Experience',
                         'conscientiousness': 'Conscientiousness',
                         'extraversion': 'Extraversion',
                         'agreeableness': 'Agreeableness',
-                        'neuroticism': 'Emotional Stability'
+                        'neuroticism': 'Emotional Reactivity'
                     };
 
-                    let html = '';
-                    Object.keys(traits).forEach(trait => {
-                        const score = trait === 'neuroticism' ? 100 - (scores[trait] || 0) : (scores[trait] || 0);
-                        const interpretation = quiz.detailed.interpretations[trait];
-                        html += `
-                            <div class="design-row">
-                                <div class="design-label">${traits[trait]}</div>
-                                <div>
-                                    <div class="design-value" style="font-size: 1.4rem;">${score}%</div>
-                                    <div class="design-desc">${interpretation?.description || ''}</div>
-                                </div>
+                    discoveryContainer.innerHTML = `
+                        <div class="design-row">
+                            <div class="design-label">Your Dominant Trait</div>
+                            <div>
+                                <div class="design-value" style="font-size: 1.6rem; color: #4CAF50;">${traitNames[highest.trait]}</div>
+                                <div class="design-desc">This is how you've been conditioned to operate. But is it who you really are?</div>
                             </div>
-                        `;
-                    });
-                    big5Container.innerHTML = html;
+                        </div>
+                        <div class="design-row" style="opacity: 0.6;">
+                            <div class="design-label">Hidden Patterns</div>
+                            <div>
+                                <div class="design-value" style="font-size: 1.2rem;">🔒 Locked</div>
+                                <div class="design-desc">Your complete psychological profile reveals patterns you've never seen before. Get the full report to unlock.</div>
+                            </div>
+                        </div>
+                    `;
                 }
 
                 // Design data
@@ -810,27 +830,59 @@
                     'Self-Projected': 'Your Self-Projected Authority requires you to talk things out and listen to your own voice. You\'ve probably been keeping things internal and making decisions in your head.'
                 };
 
-                // Display mismatch analysis
+                // Display mysterious, compelling mismatch teaser
                 const mismatchContainer = document.getElementById('mismatchAnalysis');
-                let mismatchHtml = '';
 
-                // Show insights if available
-                if (data.insights && data.insights.length > 0) {
-                    data.insights.forEach(insight => {
-                        if (typeof insight === 'string') {
-                            mismatchHtml += `<p class="gap-text">${insight}</p>`;
-                        }
-                    });
+                // Create intrigue about the mismatch
+                const psychologyType = getPsychologyHint(quiz, chart);
+                const designType = chart.type;
+                const isMatch = psychologyType.includes(designType);
+
+                let mismatchHtml = `
+                    <p class="gap-text">
+                        <strong>Based on your 100 answers:</strong> You've been operating like ${psychologyType}.
+                    </p>
+                    <p class="gap-text">
+                        <strong>But your birth chart reveals:</strong> You're actually a <span style="color: #ffd700;">${designType}</span> with ${chart.authority} authority.
+                    </p>
+                `;
+
+                if (!isMatch) {
+                    mismatchHtml += `
+                        <p class="gap-text" style="font-size: 1.05rem; padding: 15px; background: rgba(255, 68, 68, 0.1); border-radius: 6px; margin-top: 15px;">
+                            ⚠️ <strong>This is a significant misalignment.</strong> You've been living someone else's strategy, which is why things feel forced. Your full report explains exactly how this happened and how to fix it.
+                        </p>
+                    `;
                 } else {
-                    // Fallback mismatch messaging
-                    mismatchHtml = `
-                        <p class="gap-text"><strong>Your Psychology (Big 5 Scores):</strong> Shows how you've been conditioned to operate through society, family, and life experiences.</p>
-                        <p class="gap-text"><strong>Your Design (Human Design Chart):</strong> Reveals your authentic energetic blueprint based on your birth data.</p>
-                        <p class="gap-text"><strong>The Gap:</strong> Most people are living according to their conditioning (psychology), not their authentic design. This creates exhaustion, resistance, and that feeling of "something's off."</p>
+                    mismatchHtml += `
+                        <p class="gap-text" style="font-size: 1.05rem; padding: 15px; background: rgba(76, 175, 80, 0.1); border-radius: 6px; margin-top: 15px;">
+                            ✅ <strong>You're more aligned than most.</strong> But there are still subtle patterns blocking you. Your full report reveals the hidden conditioning you haven't seen yet.
+                        </p>
                     `;
                 }
 
                 mismatchContainer.innerHTML = mismatchHtml;
+
+                // Helper function to hint at psychology without giving away scores
+                function getPsychologyHint(quiz, chart) {
+                    if (!quiz || !quiz.detailed) return 'someone conditioned by your environment';
+
+                    const scores = quiz.detailed.percentileScores;
+                    const highCon = scores.conscientiousness > 65;
+                    const highExt = scores.extraversion > 65;
+
+                    if (chart.type === 'Projector' && highExt) {
+                        return 'an extroverted go-getter (but you\'re not designed to initiate)';
+                    }
+                    if (chart.type === 'Generator' && highCon && scores.openness < 40) {
+                        return 'someone who forces structure and planning (instead of responding to life)';
+                    }
+                    if (chart.type === 'Manifestor' && scores.agreeableness > 65) {
+                        return 'someone who seeks approval and avoids conflict (but you\'re meant to inform, not ask permission)';
+                    }
+
+                    return 'someone conditioned away from their natural design';
+                }
 
             } catch (error) {
                 console.error('Error loading results:', error);
