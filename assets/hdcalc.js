@@ -242,11 +242,14 @@ function calculatePlanetPosition(planet, julianDay, lst, longitudeEffect, yearFr
   // Ensure gate is within 1-64 range
   const gate = Math.floor(((gatePosition - 1) % 64) + 1);
   
-  // Calculate line with more precision
+  // Calculate line (1-6) with proper bounds
   const linePosition = (cyclePosition * 6) + (longitudeEffect * 0.5) + (yearFraction * 0.2);
-  const line = Math.floor((linePosition % 6) + 1);
-  
-  return { gate, line };
+  const line = Math.floor(Math.abs(linePosition) % 6) + 1;
+
+  // Ensure line is always 1-6
+  const validLine = Math.max(1, Math.min(6, line));
+
+  return { gate, line: validLine };
 }
 
 function determineType(activatedCenters) {
