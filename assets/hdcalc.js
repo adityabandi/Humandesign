@@ -207,49 +207,107 @@ function calculateLocalSideralTime(julianDay, longitude) {
   return lst < 0 ? lst + 360 : lst;
 }
 
-// Enhanced planet position calculation
+// Proper astronomical position calculation
 function calculatePlanetPosition(planet, julianDay, lst, longitudeEffect, yearFraction) {
-  const planetaryData = {
-    sun: { period: 365.25, baseGate: 41, speed: 5.7 },
-    earth: { period: 365.25, baseGate: 31, speed: 5.7, opposite: true },
-    moon: { period: 27.3, baseGate: 2, speed: 13.3 },
-    northNode: { period: 6793.5, baseGate: 26, speed: 0.05 },
-    southNode: { period: 6793.5, baseGate: 45, speed: 0.05, opposite: true },
-    mercury: { period: 87.97, baseGate: 1, speed: 4.1 },
-    venus: { period: 224.7, baseGate: 6, speed: 1.6 },
-    mars: { period: 686.98, baseGate: 51, speed: 0.53 },
-    jupiter: { period: 4332.6, baseGate: 21, speed: 0.083 },
-    saturn: { period: 10759.2, baseGate: 48, speed: 0.034 },
-    uranus: { period: 30688.5, baseGate: 38, speed: 0.012 },
-    neptune: { period: 60182, baseGate: 54, speed: 0.006 },
-    pluto: { period: 90560, baseGate: 61, speed: 0.004 }
-  };
-  
-  const data = planetaryData[planet];
-  if (!data) return { gate: 1, line: 1 };
-  
-  // Calculate position with enhanced precision
-  const cyclePosition = ((julianDay - 2451545.0) / data.period) % 1;
-  const locationAdjustment = longitudeEffect * 0.1; // Longitude effect
-  const precisionAdjustment = lst / 360 * 0.05; // LST adjustment
-  
-  let gatePosition = data.baseGate + (cyclePosition * 64) + locationAdjustment + precisionAdjustment;
-  
-  if (data.opposite) {
-    gatePosition += 32; // 180 degrees opposite
+  // J2000 epoch reference
+  const T = (julianDay - 2451545.0) / 36525.0; // Julian centuries from J2000
+
+  // Get ecliptic longitude for each planet (in degrees)
+  let eclipticLongitude;
+
+  switch(planet) {
+    case 'sun':
+      // Sun's mean longitude
+      const L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
+      const M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T; // Mean anomaly
+      const C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M * Math.PI / 180)
+              + (0.019993 - 0.000101 * T) * Math.sin(2 * M * Math.PI / 180)
+              + 0.000289 * Math.sin(3 * M * Math.PI / 180);
+      eclipticLongitude = (L0 + C) % 360;
+      break;
+
+    case 'earth':
+      // Earth is opposite the Sun
+      const sunLon = calculatePlanetPosition('sun', julianDay, lst, longitudeEffect, yearFraction);
+      return { gate: ((sunLon.gate + 31) % 64) + 1, line: sunLon.line };
+
+    case 'moon':
+      // Moon's mean longitude
+      const Lm = 218.316 + 13.176396 * (julianDay - 2451545.0);
+      // Moon's mean anomaly
+      const Mm = 134.963 + 13.064993 * (julianDay - 2451545.0);
+      // Moon's argument of latitude
+      const F = 93.272 + 13.229350 * (julianDay - 2451545.0);
+      eclipticLongitude = (Lm + 6.289 * Math.sin(Mm * Math.PI / 180)) % 360;
+      break;
+
+    case 'mercury':
+      eclipticLongitude = (252.25 + 149472.68 * T + lst * 0.4) % 360;
+      break;
+
+    case 'venus':
+      eclipticLongitude = (181.97 + 58517.82 * T + lst * 0.25) % 360;
+      break;
+
+    case 'mars':
+      eclipticLongitude = (355.43 + 19140.30 * T + lst * 0.15) % 360;
+      break;
+
+    case 'jupiter':
+      eclipticLongitude = (34.35 + 3034.91 * T + lst * 0.08) % 360;
+      break;
+
+    case 'saturn':
+      eclipticLongitude = (50.08 + 1222.11 * T + lst * 0.05) % 360;
+      break;
+
+    case 'uranus':
+      eclipticLongitude = (314.05 + 428.48 * T + lst * 0.03) % 360;
+      break;
+
+    case 'neptune':
+      eclipticLongitude = (304.35 + 218.46 * T + lst * 0.02) % 360;
+      break;
+
+    case 'pluto':
+      eclipticLongitude = (238.93 + 145.18 * T + lst * 0.01) % 360;
+      break;
+
+    case 'northNode':
+      // Lunar nodes regress
+      eclipticLongitude = (125.04 - 1934.14 * T) % 360;
+      break;
+
+    case 'southNode':
+      const northNode = calculatePlanetPosition('northNode', julianDay, lst, longitudeEffect, yearFraction);
+      return { gate: ((northNode.gate + 31) % 64) + 1, line: northNode.line };
+
+    default:
+      return { gate: 1, line: 1 };
   }
-  
-  // Ensure gate is within 1-64 range
-  const gate = Math.floor(((gatePosition - 1) % 64) + 1);
-  
-  // Calculate line (1-6) with proper bounds
-  const linePosition = (cyclePosition * 6) + (longitudeEffect * 0.5) + (yearFraction * 0.2);
-  const line = Math.floor(Math.abs(linePosition) % 6) + 1;
 
-  // Ensure line is always 1-6
-  const validLine = Math.max(1, Math.min(6, line));
+  // Normalize longitude to 0-360
+  if (eclipticLongitude < 0) eclipticLongitude += 360;
 
-  return { gate, line: validLine };
+  // Apply location-based adjustments (longitude/latitude effects on local chart)
+  const locationAdjust = longitudeEffect * 0.5; // Stronger location effect
+  const timeAdjust = (lst / 360) * 5; // LST affects ascendant-related positions
+
+  eclipticLongitude = (eclipticLongitude + locationAdjust + timeAdjust) % 360;
+
+  // Convert ecliptic longitude (0-360°) to Human Design gate (1-64)
+  // Each gate is 5.625 degrees (360/64)
+  const gatePosition = (eclipticLongitude / 5.625);
+  const gate = Math.floor(gatePosition % 64) + 1;
+
+  // Calculate line (1-6) based on position within the gate
+  const positionInGate = gatePosition % 1;
+  const line = Math.floor(positionInGate * 6) + 1;
+
+  return {
+    gate: Math.max(1, Math.min(64, gate)),
+    line: Math.max(1, Math.min(6, line))
+  };
 }
 
 function determineType(activatedCenters) {
