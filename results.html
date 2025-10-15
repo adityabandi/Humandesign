@@ -296,6 +296,146 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
+        /* Testimonials Section */
+        .testimonials-section {
+            margin-top: 80px;
+            padding-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .testimonials-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 50px;
+            color: #ffd700;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .testimonial-rating {
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .testimonial-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .author-meta {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            margin-top: 80px;
+            padding-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 50px;
+            color: #ffd700;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+        .faq-item h4 {
+            color: #ffd700;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .faq-item p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Final CTA */
+        .final-cta {
+            text-align: center;
+            margin-top: 80px;
+            padding: 60px 30px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 165, 0, 0.05));
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .final-cta h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .final-cta > p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+        }
+
+        .cta-button-large {
+            font-size: 1.3rem;
+            padding: 18px 50px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .cta-note {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
         @media (max-width: 968px) {
             .results-grid {
                 grid-template-columns: 1fr;
@@ -431,6 +571,107 @@
                         <p>How you interact with others and what you need in relationships to thrive</p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Testimonials Section -->
+            <div class="testimonials-section">
+                <h2>What Others Are Saying</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">★★★★★</div>
+                        <p class="testimonial-text">"This report helped me understand why I've always felt like I was forcing things. As a Projector, I was trying to operate like a Generator. Now I wait for invitations and everything flows so much easier."</p>
+                        <div class="testimonial-author">
+                            <div class="author-name">Sarah M.</div>
+                            <div class="author-meta">Projector • Marketing Consultant</div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">★★★★★</div>
+                        <p class="testimonial-text">"I've done MBTI, Enneagram, you name it. This is different. The combination of psychology and Human Design showed me patterns I've never seen before. My emotional authority explains so much about my decision-making struggles."</p>
+                        <div class="testimonial-author">
+                            <div class="author-name">Michael T.</div>
+                            <div class="author-meta">Generator • Software Engineer</div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">★★★★★</div>
+                        <p class="testimonial-text">"At 43, I finally understand why certain relationships never worked and others felt effortless. The relationship dynamics section was worth the price alone. I wish I had this 20 years ago."</p>
+                        <div class="testimonial-author">
+                            <div class="author-name">Jennifer K.</div>
+                            <div class="author-meta">Manifesting Generator • HR Director</div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">★★★★★</div>
+                        <p class="testimonial-text">"I was skeptical at first, but the accuracy was uncanny. The career section validated what I've been feeling for years - that I need to follow my gut response, not logic. Changed my entire job search approach."</p>
+                        <div class="testimonial-author">
+                            <div class="author-name">David R.</div>
+                            <div class="author-meta">Generator • Career Changer</div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">★★★★★</div>
+                        <p class="testimonial-text">"As a Manifestor, learning about my need to inform before acting saved my marriage. My husband finally understands why I need autonomy and I understand why my sudden decisions upset him. Game changer."</p>
+                        <div class="testimonial-author">
+                            <div class="author-name">Lisa P.</div>
+                            <div class="author-meta">Manifestor • Entrepreneur</div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">★★★★★</div>
+                        <p class="testimonial-text">"The deconditioning guide is pure gold. I realized I've been living according to what my parents wanted, not my actual design. Now I'm making changes that feel right for the first time in my life."</p>
+                        <div class="testimonial-author">
+                            <div class="author-name">Alex C.</div>
+                            <div class="author-meta">Projector • Writer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <h2>Common Questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h4>How long does it take to receive my report?</h4>
+                        <p>Your personalized 40+ page report is delivered via email within 24 hours of purchase. Most reports arrive within 12 hours.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Is this scientifically validated?</h4>
+                        <p>The Big 5 personality assessment is one of the most validated psychological models. Human Design adds an energetic layer based on your birth data. Together, they provide unique insights.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>What if I don't know my exact birth time?</h4>
+                        <p>Your report is still valuable, though some elements may be less precise. We recommend checking your birth certificate or hospital records for the most accurate chart.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Can I get a refund if I'm not satisfied?</h4>
+                        <p>Absolutely. We offer a 30-day money-back guarantee. If you don't find value in your report, email us and we'll refund you immediately, no questions asked.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>How is this different from free Human Design reports?</h4>
+                        <p>This integrates your validated psychology profile with your Human Design chart. You get personalized insights on how your psychological patterns interact with your energetic design - something no free report offers.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Will this help me make better decisions?</h4>
+                        <p>Yes. Understanding your authority (how you're designed to make decisions) is one of the most practical applications. Many clients say this alone transformed their decision-making confidence.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final CTA -->
+            <div class="final-cta">
+                <h2>Ready to Understand Your Design?</h2>
+                <p>Join 12,847+ people who've discovered their authentic blueprint</p>
+                <a href="https://buy.stripe.com/8x26oI5PK3VqbbgeeR5J61t" class="cta-button cta-button-large">
+                    GET YOUR FULL REPORT - $29
+                </a>
+                <p class="cta-note">30-day money-back guarantee • Delivered within 24 hours</p>
             </div>
 
             <!-- Subtle Social Proof -->

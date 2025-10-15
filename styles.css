@@ -768,6 +768,49 @@ p {
     margin-top: var(--space-2xl);
 }
 
+/* Birth Question Cards */
+.birth-question {
+    background-color: var(--card-bg);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--space-3xl);
+    margin: var(--space-2xl) auto;
+    max-width: 600px;
+}
+
+.birth-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    margin-top: var(--space-2xl);
+}
+
+.birth-input {
+    background-color: var(--secondary-bg);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--space-lg);
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-family: var(--font-primary);
+    transition: var(--transition);
+    width: 100%;
+}
+
+.birth-input:focus {
+    outline: none;
+    border-color: var(--gold);
+    background-color: var(--card-bg);
+    box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
+}
+
+.birth-field-note {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: -10px;
+    font-style: italic;
+}
+
 .birth-form h3 {
     text-align: center;
     margin-bottom: var(--space-md);

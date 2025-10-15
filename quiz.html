@@ -36,22 +36,12 @@
                         <div class="progress-bar">
                             <div class="progress-fill" id="progressFill"></div>
                         </div>
-                        <div class="progress-info">
-                            <span class="progress-text" id="progressText">00/100</span>
-                            <span class="progress-percentage" id="progressPercentage">00%</span>
-                        </div>
-                    </div>
-                    <div class="progress-motivation" id="progressMotivation">
-                        <span class="motivation-text">Starting your Human Design journey...</span>
                     </div>
                 </div>
             </div>
 
             <div class="quiz-container" id="quizContainer">
                 <div class="question-card" id="questionCard">
-                    <div class="question-header">
-                        <div class="question-number" id="questionNumber">Question 1 of 100</div>
-                    </div>
                     <h2 class="question-text" id="questionText">Loading assessment protocol...</h2>
                     <div class="likert-scale">
                         <div class="scale-options">
@@ -98,89 +88,64 @@
                     </div>
                 </div>
 
-                <div class="quiz-complete hidden" id="quizComplete">
-                    <div class="completion-celebration">
-                        <div class="celebration-icon">✓</div>
-                        <h2>Quiz Complete!</h2>
-                        <p class="completion-message">
-                            Great job! You've completed all 100 psychology questions. Now we need your birth information 
-                            to create your personalized Human Design chart and generate your integrated personality report.
-                        </p>
-                        <div class="completion-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">100</span>
-                                <span class="stat-label">QUESTIONS COMPLETED</span>
-                            </div>
-                        </div>
+                <!-- Birth info questions - shown as part of quiz flow -->
+                <div class="question-card birth-question hidden" id="birthNameCard">
+                    <h2 class="question-text">What is your full name?</h2>
+                    <div class="birth-input-container">
+                        <input type="text" id="birthName" required placeholder="Enter your full name" class="birth-input">
+                        <button class="btn btn-primary" onclick="nextBirthQuestion()" id="nameNextBtn">CONTINUE</button>
                     </div>
-                    
-                    <div class="birth-form" id="birthForm">
-                        <h3>🎯 Almost There! Enter Your Birth Details</h3>
-                        <p class="birth-form-description">
-                            To unlock your personalized Human Design report, we need your exact birth information.
-                            Your birth date, time, and location create your unique energetic blueprint - like a cosmic fingerprint that never changes.
-                        </p>
-                        <div class="birth-accuracy-notice">
-                            <strong>⚡ Accuracy Matters:</strong> The more precise your birth time, the more accurate your chart.
-                            Check your birth certificate if possible - even 4 minutes can change your results!
+                </div>
+
+                <div class="question-card birth-question hidden" id="birthEmailCard">
+                    <h2 class="question-text">What is your email address?</h2>
+                    <div class="birth-input-container">
+                        <input type="email" id="birthEmail" required placeholder="name@domain.com" class="birth-input">
+                        <small class="birth-field-note">We'll send your personalized report here</small>
+                        <button class="btn btn-primary" onclick="nextBirthQuestion()" id="emailNextBtn">CONTINUE</button>
+                    </div>
+                </div>
+
+                <div class="question-card birth-question hidden" id="birthDateCard">
+                    <h2 class="question-text">When were you born?</h2>
+                    <div class="birth-input-container">
+                        <input type="date" id="birthDate" required max="2024-12-31" min="1920-01-01" class="birth-input">
+                        <button class="btn btn-primary" onclick="nextBirthQuestion()" id="dateNextBtn">CONTINUE</button>
+                    </div>
+                </div>
+
+                <div class="question-card birth-question hidden" id="birthTimeCard">
+                    <h2 class="question-text">What time were you born?</h2>
+                    <div class="birth-input-container">
+                        <input type="time" id="birthTime" required class="birth-input">
+                        <small class="birth-field-note">Be as exact as possible - check your birth certificate if you can</small>
+                        <div class="time-help-toggle" onclick="document.getElementById('timeHelpBox').classList.toggle('hidden')">
+                            Don't know your birth time? Click here
                         </div>
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="birthName">FULL NAME</label>
-                                <input type="text" id="birthName" required placeholder="Enter your full name">
-                                <small class="field-help">Used to personalize your Human Design report</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="birthEmail">EMAIL ADDRESS</label>
-                                <input type="email" id="birthEmail" required placeholder="name@domain.com">
-                                <small class="field-help">Your email for receiving your personalized report</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="birthDate">📅 BIRTH DATE *</label>
-                                <input type="date" id="birthDate" required max="2024-12-31" min="1920-01-01">
-                                <small class="field-help">The day you were born (MM/DD/YYYY)</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="birthTime">⏰ BIRTH TIME *</label>
-                                <input type="time" id="birthTime" required>
-                                <small class="field-help">As exact as possible - check your birth certificate! (HH:MM format)</small>
-                                <div class="time-help-toggle" onclick="document.getElementById('timeHelpBox').classList.toggle('hidden')">
-                                    Don't know your birth time? Click here
-                                </div>
-                                <div id="timeHelpBox" class="time-help-box hidden">
-                                    <strong>Where to find your birth time:</strong>
-                                    <ul>
-                                        <li>✅ Birth certificate (most reliable)</li>
-                                        <li>✅ Hospital records</li>
-                                        <li>✅ Baby book or family records</li>
-                                        <li>⚠️ If unknown, use 12:00 PM (results will be less precise)</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="birthPlace">📍 BIRTH LOCATION *</label>
-                                <div class="location-input-container">
-                                    <input type="text" id="birthPlace" required placeholder="Start typing your birth city..." autocomplete="off">
-                                    <div id="locationSuggestions" class="location-suggestions hidden"></div>
-                                </div>
-                                <small class="field-help">City where you were born - we'll automatically detect timezone and coordinates</small>
-                            </div>
+                        <div id="timeHelpBox" class="time-help-box hidden">
+                            <strong>Where to find your birth time:</strong>
+                            <ul>
+                                <li>✅ Birth certificate (most reliable)</li>
+                                <li>✅ Hospital records</li>
+                                <li>✅ Baby book or family records</li>
+                                <li>⚠️ If unknown, use 12:00 PM (results will be less precise)</li>
+                            </ul>
                         </div>
-                        
-                        <div class="birth-form-actions">
-                            <div class="form-security">
-                                <span class="security-icon">🔒</span>
-                                <span class="security-text">Your data is encrypted and secure - we'll never share your information</span>
-                            </div>
-                            <button class="btn btn-primary btn-large" onclick="submitQuizWithBirth()" id="submitBtn">
-                                ✨ REVEAL MY HUMAN DESIGN ✨
-                            </button>
+                        <button class="btn btn-primary" onclick="nextBirthQuestion()" id="timeNextBtn">CONTINUE</button>
+                    </div>
+                </div>
+
+                <div class="question-card birth-question hidden" id="birthPlaceCard">
+                    <h2 class="question-text">Where were you born?</h2>
+                    <div class="birth-input-container">
+                        <div class="location-input-container">
+                            <input type="text" id="birthPlace" required placeholder="Start typing your birth city..." autocomplete="off" class="birth-input">
+                            <div id="locationSuggestions" class="location-suggestions hidden"></div>
                         </div>
-                        <p class="form-note">
-                            By submitting, you'll get instant access to your personalized preview report.
-                            Your full 40+ page report is available for upgrade after viewing your results.
-                        </p>
+                        <small class="birth-field-note">City where you were born</small>
+                        <button class="btn btn-primary btn-large" onclick="submitQuizWithBirth()" id="submitBtn">
+                            ✨ REVEAL MY HUMAN DESIGN ✨
+                        </button>
                     </div>
                 </div>
             </div>

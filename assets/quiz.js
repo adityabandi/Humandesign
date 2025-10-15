@@ -17,7 +17,9 @@ class HumanDesignQuiz {
         this.isLoading = false;
         this.isAdvancing = false; // Prevent multiple concurrent advances
         this.quizId = this.generateQuizId();
-        
+        this.currentBirthStep = 0; // Track birth question progress
+        this.birthSteps = ['birthNameCard', 'birthEmailCard', 'birthDateCard', 'birthTimeCard', 'birthPlaceCard'];
+
         this.init();
     }
     
@@ -107,39 +109,35 @@ class HumanDesignQuiz {
     
     renderCurrentQuestion() {
         if (this.currentQuestionIndex >= this.questions.length) {
-            this.showQuizComplete();
+            this.showBirthQuestions();
             return;
         }
-        
+
         const question = this.questions[this.currentQuestionIndex];
         const questionText = document.getElementById('questionText');
-        const questionCategory = document.getElementById('questionCategory');
-        const questionNumber = document.getElementById('questionNumber');
         const questionCard = document.getElementById('questionCard');
-        const quizComplete = document.getElementById('quizComplete');
-        
+
         if (questionText) {
             questionText.textContent = question.question;
         }
-        
-        if (questionNumber) {
-            questionNumber.textContent = `Question ${this.currentQuestionIndex + 1} of ${this.questions.length}`;
-        }
-        
+
         if (questionCard) {
             questionCard.classList.remove('hidden');
         }
-        if (quizComplete) {
-            quizComplete.classList.add('hidden');
-        }
-        
+
+        // Hide all birth question cards
+        this.birthSteps.forEach(stepId => {
+            const card = document.getElementById(stepId);
+            if (card) card.classList.add('hidden');
+        });
+
         // Clear previous answer selection
         const radioButtons = document.querySelectorAll('input[name="answer"]');
         radioButtons.forEach(radio => {
             radio.checked = false;
             radio.addEventListener('change', () => this.handleAnswerSelect());
         });
-        
+
         // Restore saved answer if exists
         const savedAnswer = this.answers[question.id];
         if (savedAnswer) {
@@ -149,7 +147,7 @@ class HumanDesignQuiz {
                 this.enableNextButton();
             }
         }
-        
+
         this.updateNavigationButtons();
     }
     
@@ -176,7 +174,7 @@ class HumanDesignQuiz {
                 if (this.currentQuestionIndex < this.questions.length - 1) {
                     this.nextQuestion();
                 } else {
-                    this.showQuizComplete();
+                    this.showBirthQuestions();
                 }
                 this.isAdvancing = false; // Reset flag after advancing
             }, 300); // Fast transition
@@ -208,49 +206,11 @@ class HumanDesignQuiz {
         const totalQuestions = this.questions.length;
         const answeredQuestions = Object.keys(this.answers).length;
         const progressPercentage = (answeredQuestions / totalQuestions) * 100;
-        
+
         const progressFill = document.getElementById('progressFill');
-        const progressText = document.getElementById('progressText');
-        const progressPercentageEl = document.getElementById('progressPercentage');
-        const progressMotivation = document.getElementById('progressMotivation');
-        
+
         if (progressFill) {
             progressFill.style.width = `${progressPercentage}%`;
-        }
-        
-        if (progressText) {
-            const formattedCurrent = String(answeredQuestions).padStart(2, '0');
-            const formattedTotal = String(totalQuestions).padStart(2, '0');
-            progressText.textContent = `${formattedCurrent}/${formattedTotal}`;
-        }
-        
-        if (progressPercentageEl) {
-            const formattedPercentage = String(Math.round(progressPercentage)).padStart(2, '0');
-            progressPercentageEl.textContent = `${formattedPercentage}%`;
-        }
-        
-        // Update motivation messages
-        if (progressMotivation) {
-            const motivationMessages = [
-                "Starting your personality assessment...",
-                "Understanding your unique psychological patterns...",
-                "Discovering your personality traits...",
-                "Halfway through your psychology profile...",
-                "Exploring your behavioral tendencies...",
-                "Almost done with your personality questionnaire...",
-                "Completing your Big 5 psychology profile...",
-                "Ready to create your integrated personality report!"
-            ];
-            
-            const messageIndex = Math.min(
-                Math.floor(progressPercentage / 12.5),
-                motivationMessages.length - 1
-            );
-            
-            const motivationText = progressMotivation.querySelector('.motivation-text');
-            if (motivationText) {
-                motivationText.textContent = motivationMessages[messageIndex];
-            }
         }
     }
     
@@ -270,18 +230,50 @@ class HumanDesignQuiz {
         }
     }
     
-    showQuizComplete() {
+    showBirthQuestions() {
         const questionCard = document.getElementById('questionCard');
-        const quizComplete = document.getElementById('quizComplete');
-        
         if (questionCard) {
             questionCard.classList.add('hidden');
         }
-        if (quizComplete) {
-            quizComplete.classList.remove('hidden');
+
+        // Show first birth question
+        this.currentBirthStep = 0;
+        this.showCurrentBirthStep();
+    }
+
+    showCurrentBirthStep() {
+        // Hide all birth cards
+        this.birthSteps.forEach(stepId => {
+            const card = document.getElementById(stepId);
+            if (card) card.classList.add('hidden');
+        });
+
+        // Show current birth step
+        const currentStepId = this.birthSteps[this.currentBirthStep];
+        const currentCard = document.getElementById(currentStepId);
+        if (currentCard) {
+            currentCard.classList.remove('hidden');
         }
-        
+
         this.updateProgress();
+    }
+
+    nextBirthQuestion() {
+        // Validate current field
+        const currentStepId = this.birthSteps[this.currentBirthStep];
+        let fieldId = currentStepId.replace('Card', '');
+        const field = document.getElementById(fieldId);
+
+        if (!field || !field.value.trim()) {
+            alert('Please fill in this field before continuing.');
+            return;
+        }
+
+        // Move to next step
+        if (this.currentBirthStep < this.birthSteps.length - 1) {
+            this.currentBirthStep++;
+            this.showCurrentBirthStep();
+        }
     }
     
     validateBirthForm() {
@@ -442,8 +434,9 @@ class HumanDesignQuiz {
         // Make functions globally available for onclick handlers
         window.nextQuestion = () => this.nextQuestion();
         window.previousQuestion = () => this.previousQuestion();
+        window.nextBirthQuestion = () => this.nextBirthQuestion();
         window.submitQuizWithBirth = () => this.submitQuizWithBirth();
-        
+
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' && !document.getElementById('nextButton')?.disabled) {
