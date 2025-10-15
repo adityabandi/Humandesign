@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - Your Report is Being Prepared | Human Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .confirmation-page {
+            background: var(--bg-primary);
+            padding: 60px 20px;
+            min-height: 100vh;
+        }
+
+        .confirmation-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .confirmation-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #51cf66, #37b24d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            box-shadow: 0 10px 40px rgba(81, 207, 102, 0.3);
+        }
+
+        .success-icon svg {
+            width: 60px;
+            height: 60px;
+        }
+
+        .confirmation-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .confirmation-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .confirmation-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .confirmation-card h2 {
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            color: var(--text-primary);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 35px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -29px;
+            top: 0;
+            width: 18px;
+            height: 18px;
+            background: #ffd700;
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+            z-index: 1;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -21px;
+            top: 18px;
+            width: 2px;
+            height: 100%;
+            background: var(--border-color);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-item.active::before {
+            background: #51cf66;
+            box-shadow: 0 0 0 4px rgba(81, 207, 102, 0.2);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .timeline-content p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .timeline-content .time {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.1);
+            color: #ffd700;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .info-box {
+            background: rgba(81, 207, 102, 0.1);
+            border: 1px solid #51cf66;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .info-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #51cf66;
+        }
+
+        .info-box p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .info-box strong {
+            color: #51cf66;
+        }
+
+        .contact-box {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid #ffd700;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .contact-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .contact-box p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .contact-method a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-method a:hover {
+            text-decoration: underline;
+        }
+
+        .what-to-expect {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .what-to-expect h2 {
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .expect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+
+        .expect-item {
+            text-align: center;
+        }
+
+        .expect-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .expect-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .expect-item p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
+            border: 1px solid #ffd700;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .cta-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .cta-box p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            background: var(--card-bg);
+            border: 2px solid #ffd700;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #ffd700;
+            color: #000;
+        }
+
+        @media (max-width: 768px) {
+            .confirmation-header h1 {
+                font-size: 2rem;
+            }
+
+            .expect-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">HUMANDESIGN</a>
+            <ul class="nav-menu">
+                <li><a href="quiz.html" class="nav-link cta-button">BEGIN TEST</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content confirmation-page">
+        <div class="confirmation-container">
+            <!-- Header -->
+            <div class="confirmation-header">
+                <div class="success-icon">
+                    <svg fill="none" stroke="#fff" stroke-width="3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h1>Order Confirmed! 🎉</h1>
+                <p>Thank you for your purchase. Your personalized Human Design report is being prepared by our expert team.</p>
+            </div>
+
+            <!-- Important Info Box -->
+            <div class="info-box">
+                <h3>📧 Check Your Email</h3>
+                <p>We've sent a confirmation to <strong id="userEmail">your email address</strong>. Please check your inbox (and spam folder) for:</p>
+                <p>• Order confirmation and receipt</p>
+                <p>• Your full Human Design report (within 24 hours)</p>
+            </div>
+
+            <!-- Timeline -->
+            <div class="confirmation-card">
+                <h2>What Happens Next</h2>
+                <div class="timeline">
+                    <div class="timeline-item active">
+                        <div class="timeline-content">
+                            <div class="time">NOW</div>
+                            <h3>✅ Payment Confirmed</h3>
+                            <p>Your payment has been processed successfully and we've received your order.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="time">NEXT FEW HOURS</div>
+                            <h3>🔬 Analysis & Synthesis</h3>
+                            <p>Our expert team analyzes your birth chart data and integrates it with your Big 5 personality assessment to create your personalized report.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="time">WITHIN 24 HOURS</div>
+                            <h3>📨 Report Delivered</h3>
+                            <p>You'll receive your complete 40+ page Human Design report via email in PDF format. This includes your full chart analysis, personality integration, and actionable insights.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- What to Expect -->
+            <div class="what-to-expect">
+                <h2>What You'll Receive</h2>
+                <div class="expect-grid">
+                    <div class="expect-item">
+                        <div class="expect-icon">📊</div>
+                        <h3>Full Chart Analysis</h3>
+                        <p>Complete breakdown of your 9 centers, gates, and channels</p>
+                    </div>
+                    <div class="expect-item">
+                        <div class="expect-icon">🧠</div>
+                        <h3>Big 5 Integration</h3>
+                        <p>How your personality scores align with your design</p>
+                    </div>
+                    <div class="expect-item">
+                        <div class="expect-icon">🎯</div>
+                        <h3>Practical Guide</h3>
+                        <p>Actionable steps to live your authentic design</p>
+                    </div>
+                    <div class="expect-item">
+                        <div class="expect-icon">💼</div>
+                        <h3>Career Insights</h3>
+                        <p>Work that energizes vs drains you</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Box -->
+            <div class="contact-box">
+                <h3>Questions or Need Help?</h3>
+                <p>Our support team is here for you</p>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        ✉️ <a href="mailto:support@humandesign.com">support@humandesign.com</a>
+                    </div>
+                    <div class="contact-method">
+                        ⏱️ Response time: <span style="color: #51cf66; font-weight: 600;">Under 6 hours</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Box -->
+            <div class="cta-box" style="margin-top: 30px;">
+                <h3>While You Wait...</h3>
+                <p>Want to help someone else discover their Human Design? Share this with a friend!</p>
+                <a href="index.html" class="btn-secondary">← Back to Homepage</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 HUMAN DESIGN ANALYSIS PLATFORM. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Try to get email from URL params (Stripe can pass this)
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+
+            if (email) {
+                document.getElementById('userEmail').textContent = email;
+            } else {
+                // Try to get from localStorage if they just completed quiz
+                const resultId = urlParams.get('result_id');
+                if (resultId) {
+                    const localData = localStorage.getItem(`hd_result_${resultId}`);
+                    if (localData) {
+                        try {
+                            const data = JSON.parse(localData);
+                            if (data.email) {
+                                document.getElementById('userEmail').textContent = data.email;
+                            }
+                        } catch (e) {
+                            console.error('Error parsing result data:', e);
+                        }
+                    }
+                }
+            }
+
+            // Track conversion
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'purchase', {
+                    'event_category': 'conversion',
+                    'value': 29,
+                    'currency': 'USD'
+                });
+            }
+
+            console.log('✅ Order confirmation page loaded');
+        });
+    </script>
+</body>
+</html>
