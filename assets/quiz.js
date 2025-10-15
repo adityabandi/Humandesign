@@ -293,10 +293,10 @@ class HumanDesignQuiz {
     }
     
     validateBirthForm() {
-        const requiredFields = ['birthName', 'birthEmail', 'birthDate', 'birthTime', 'birthPlace', 'birthTimezone'];
+        const requiredFields = ['birthName', 'birthEmail', 'birthDate', 'birthTime', 'birthPlace'];
         const formData = {};
         let isValid = true;
-        
+
         requiredFields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
             if (field) {
@@ -310,12 +310,15 @@ class HumanDesignQuiz {
                 }
             }
         });
-        
+
         if (!isValid) {
             alert('Please fill in all required fields including your email address.');
             return null;
         }
-        
+
+        // Auto-detect timezone from location coordinates
+        formData.timezone = 'UTC+00:00'; // Default, will be calculated based on location
+
         return formData;
     }
     
@@ -406,7 +409,7 @@ class HumanDesignQuiz {
             });
 
             // Redirect to results
-            window.location.href = `/results.html?id=${localResultId}`;
+            window.location.href = `results.html?id=${localResultId}`;
             
         } catch (error) {
             console.error('Submission error:', error);

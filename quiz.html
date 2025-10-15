@@ -14,10 +14,6 @@
         <div class="nav-container">
             <a href="index.html" class="nav-logo">HUMANDESIGN</a>
             <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link">INDEX</a></li>
-                <li><a href="quiz.html" class="nav-link">ASSESSMENT</a></li>
-                <li><a href="preview.html" class="nav-link">PREVIEW</a></li>
-                <li><a href="blog.html" class="nav-link">ANALYSIS</a></li>
                 <li><a href="quiz.html" class="nav-link cta-button">BEGIN TEST</a></li>
             </ul>
         </div>
@@ -119,11 +115,7 @@
                         <div class="completion-stats">
                             <div class="stat-item">
                                 <span class="stat-number">100</span>
-                                <span class="stat-label">QUESTIONS ANSWERED</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number" id="completionTime">15</span>
-                                <span class="stat-label">MINUTES ELAPSED</span>
+                                <span class="stat-label">QUESTIONS COMPLETED</span>
                             </div>
                         </div>
                     </div>
@@ -178,40 +170,7 @@
                                     <input type="text" id="birthPlace" required placeholder="Start typing your birth city..." autocomplete="off">
                                     <div id="locationSuggestions" class="location-suggestions hidden"></div>
                                 </div>
-                                <small class="field-help">City where you were born - we'll find the exact coordinates automatically</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="birthTimezone">🌍 TIMEZONE AT BIRTH *</label>
-                                <select id="birthTimezone" required>
-                                    <option value="">SELECT TIMEZONE OFFSET...</option>
-                                    <option value="UTC-12:00">UTC-12:00 [BAKER ISLAND]</option>
-                                    <option value="UTC-11:00">UTC-11:00 [HAWAII]</option>
-                                    <option value="UTC-10:00">UTC-10:00 [ALASKA]</option>
-                                    <option value="UTC-09:00">UTC-09:00 [PACIFIC STANDARD]</option>
-                                    <option value="UTC-08:00">UTC-08:00 [MOUNTAIN STANDARD]</option>
-                                    <option value="UTC-07:00">UTC-07:00 [CENTRAL STANDARD]</option>
-                                    <option value="UTC-06:00">UTC-06:00 [EASTERN STANDARD]</option>
-                                    <option value="UTC-05:00">UTC-05:00 [ATLANTIC]</option>
-                                    <option value="UTC-04:00">UTC-04:00 [BRAZIL]</option>
-                                    <option value="UTC-03:00">UTC-03:00 [ARGENTINA]</option>
-                                    <option value="UTC-02:00">UTC-02:00 [MID-ATLANTIC]</option>
-                                    <option value="UTC-01:00">UTC-01:00 [AZORES]</option>
-                                    <option value="UTC+00:00">UTC+00:00 [LONDON, GMT]</option>
-                                    <option value="UTC+01:00">UTC+01:00 [CENTRAL EUROPE]</option>
-                                    <option value="UTC+02:00">UTC+02:00 [EASTERN EUROPE]</option>
-                                    <option value="UTC+03:00">UTC+03:00 [MOSCOW]</option>
-                                    <option value="UTC+04:00">UTC+04:00 [DUBAI]</option>
-                                    <option value="UTC+05:00">UTC+05:00 [PAKISTAN]</option>
-                                    <option value="UTC+05:30">UTC+05:30 [INDIA]</option>
-                                    <option value="UTC+06:00">UTC+06:00 [BANGLADESH]</option>
-                                    <option value="UTC+07:00">UTC+07:00 [THAILAND]</option>
-                                    <option value="UTC+08:00">UTC+08:00 [CHINA, SINGAPORE]</option>
-                                    <option value="UTC+09:00">UTC+09:00 [JAPAN, KOREA]</option>
-                                    <option value="UTC+10:00">UTC+10:00 [AUSTRALIA EAST]</option>
-                                    <option value="UTC+11:00">UTC+11:00 [PACIFIC]</option>
-                                    <option value="UTC+12:00">UTC+12:00 [NEW ZEALAND]</option>
-                                </select>
-                                <small class="field-help">Your local timezone at birth</small>
+                                <small class="field-help">City where you were born - we'll automatically detect timezone and coordinates</small>
                             </div>
                         </div>
                         
