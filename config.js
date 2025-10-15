@@ -59,16 +59,16 @@ window.QUIZ_CONFIG = QUIZ_CONFIG;
 
 // Configuration for Human Design Quiz Platform
 window.QUIZ_CONFIG = {
-    enableDatabase: false, // Set to true when Supabase is configured
-    enableSheetDB: true,   // Enable SheetDB integration
+    enableDatabase: true,  // Supabase is configured
+    enableSheetDB: false,  // Disabled SheetDB, using Supabase
     enableAnalytics: false, // Set to true when analytics are configured
-    debugMode: false       // Set to true for development
+    debugMode: true        // Set to true for development
 };
 
-// Supabase Configuration (replace with your actual values)
+// Supabase Configuration
 window.SUPABASE_CONFIG = {
-    url: 'https://your-project-id.supabase.co',
-    anon_key: 'your-anon-key-here'
+    url: 'https://gimtomqzexmhydnkwtav.supabase.co',
+    anon_key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpbXRvbXF6ZXhtaHlkbmt3dGF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0Njg5OTcsImV4cCI6MjA3NjA0NDk5N30.sTQfXKUPi9SFk3uM4GLKXnqysTpgQQyICeYVwF7NVqM'
 };
 
 // SheetDB Configuration (your actual URL is already set in sheetdb.js)

@@ -2,7 +2,7 @@ import { createFullResult } from './db.js';
 import { scoreQuiz } from './scoring.js';
 import { computeChart } from './hdcalc.js';
 import { deriveIntegration } from './insights.js';
-import { submitToSheetDB } from './sheetdb.js';
+import { submitToSupabase } from './supabase-db.js';
 import { initializeLocationAPI, getLocationCoordinates } from './location-api.js';
 
 // Initialize Supabase configuration
@@ -403,9 +403,9 @@ class HumanDesignQuiz {
             localStorage.setItem(`hd_result_${localResultId}`, JSON.stringify(resultData));
             console.log('✅ Saved to localStorage');
 
-            // Submit to SheetDB (don't block redirect on this)
-            console.log('📤 Submitting to SheetDB...');
-            submitToSheetDB({
+            // Submit to Supabase (don't block redirect on this)
+            console.log('📤 Submitting to Supabase...');
+            submitToSupabase({
                 name: birth.name,
                 email: birthData.email,
                 birth,
@@ -414,9 +414,9 @@ class HumanDesignQuiz {
                 chartDerived,
                 insights
             }).then(result => {
-                console.log('✅ SheetDB submission successful:', result);
+                console.log('✅ Supabase submission successful:', result);
             }).catch(error => {
-                console.error('⚠️ SheetDB submission failed (non-blocking):', error);
+                console.error('⚠️ Supabase submission failed (non-blocking):', error);
             });
 
             // Track completion
