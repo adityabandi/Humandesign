@@ -88,65 +88,46 @@
                     </div>
                 </div>
 
-                <!-- Birth info questions - shown as part of quiz flow -->
-                <div class="question-card birth-question hidden" id="birthNameCard">
-                    <h2 class="question-text">What is your full name?</h2>
-                    <div class="birth-input-container">
-                        <input type="text" id="birthName" required placeholder="Enter your full name" class="birth-input">
-                        <button class="btn btn-primary" onclick="nextBirthQuestion()" id="nameNextBtn">CONTINUE</button>
-                    </div>
-                </div>
+                <!-- Birth info form - shown after quiz completion -->
+                <div class="question-card birth-form-card hidden" id="birthFormCard">
+                    <h2 class="question-text" style="margin-bottom: 10px;">Human Design Requirements</h2>
+                    <p style="text-align: center; color: rgba(255, 255, 255, 0.6); margin-bottom: 30px; font-size: 0.95rem;">
+                        We need your birth information to calculate your unique Human Design chart
+                    </p>
 
-                <div class="question-card birth-question hidden" id="birthEmailCard">
-                    <h2 class="question-text">What is your email address?</h2>
-                    <div class="birth-input-container">
-                        <input type="email" id="birthEmail" required placeholder="name@domain.com" class="birth-input">
-                        <small class="birth-field-note">We'll send your personalized report here</small>
-                        <button class="btn btn-primary" onclick="nextBirthQuestion()" id="emailNextBtn">CONTINUE</button>
-                    </div>
-                </div>
-
-                <div class="question-card birth-question hidden" id="birthDateCard">
-                    <h2 class="question-text">When were you born?</h2>
-                    <div class="birth-input-container">
-                        <input type="date" id="birthDate" required max="2024-12-31" min="1920-01-01" class="birth-input">
-                        <button class="btn btn-primary" onclick="nextBirthQuestion()" id="dateNextBtn">CONTINUE</button>
-                    </div>
-                </div>
-
-                <div class="question-card birth-question hidden" id="birthTimeCard">
-                    <h2 class="question-text">What time were you born?</h2>
-                    <div class="birth-input-container">
-                        <input type="time" id="birthTime" required class="birth-input">
-                        <small class="birth-field-note">Be as exact as possible - check your birth certificate if you can</small>
-                        <div class="time-help-toggle" onclick="document.getElementById('timeHelpBox').classList.toggle('hidden')">
-                            Don't know your birth time? Click here
+                    <div class="birth-form-grid">
+                        <div class="birth-form-field">
+                            <label>Full Name</label>
+                            <input type="text" id="birthName" required placeholder="John Smith" class="birth-input">
                         </div>
-                        <div id="timeHelpBox" class="time-help-box hidden">
-                            <strong>Where to find your birth time:</strong>
-                            <ul>
-                                <li>✅ Birth certificate (most reliable)</li>
-                                <li>✅ Hospital records</li>
-                                <li>✅ Baby book or family records</li>
-                                <li>⚠️ If unknown, use 12:00 PM (results will be less precise)</li>
-                            </ul>
-                        </div>
-                        <button class="btn btn-primary" onclick="nextBirthQuestion()" id="timeNextBtn">CONTINUE</button>
-                    </div>
-                </div>
 
-                <div class="question-card birth-question hidden" id="birthPlaceCard">
-                    <h2 class="question-text">Where were you born?</h2>
-                    <div class="birth-input-container">
-                        <div class="location-input-container">
-                            <input type="text" id="birthPlace" required placeholder="Start typing your birth city..." autocomplete="off" class="birth-input">
-                            <div id="locationSuggestions" class="location-suggestions hidden"></div>
+                        <div class="birth-form-field">
+                            <label>Email Address</label>
+                            <input type="email" id="birthEmail" required placeholder="name@domain.com" class="birth-input">
                         </div>
-                        <small class="birth-field-note">City where you were born</small>
-                        <button class="btn btn-primary btn-large" onclick="submitQuizWithBirth()" id="submitBtn">
-                            ✨ REVEAL MY HUMAN DESIGN ✨
-                        </button>
+
+                        <div class="birth-form-field">
+                            <label>Birth Date</label>
+                            <input type="date" id="birthDate" required max="2024-12-31" min="1920-01-01" class="birth-input">
+                        </div>
+
+                        <div class="birth-form-field">
+                            <label>Birth Time (approximate if unsure)</label>
+                            <input type="time" id="birthTime" required class="birth-input">
+                        </div>
+
+                        <div class="birth-form-field full-width">
+                            <label>Birth Location</label>
+                            <div class="location-input-container">
+                                <input type="text" id="birthPlace" required placeholder="City, Country" autocomplete="off" class="birth-input">
+                                <div id="locationSuggestions" class="location-suggestions hidden"></div>
+                            </div>
+                        </div>
                     </div>
+
+                    <button class="btn btn-primary btn-large" onclick="submitQuizWithBirth()" id="submitBtn" style="margin-top: 30px; width: 100%;">
+                        GENERATE MY CHART
+                    </button>
                 </div>
             </div>
         </div>

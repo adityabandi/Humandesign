@@ -17,8 +17,6 @@ class HumanDesignQuiz {
         this.isLoading = false;
         this.isAdvancing = false; // Prevent multiple concurrent advances
         this.quizId = this.generateQuizId();
-        this.currentBirthStep = 0; // Track birth question progress
-        this.birthSteps = ['birthNameCard', 'birthEmailCard', 'birthDateCard', 'birthTimeCard', 'birthPlaceCard'];
 
         this.init();
     }
@@ -109,13 +107,14 @@ class HumanDesignQuiz {
     
     renderCurrentQuestion() {
         if (this.currentQuestionIndex >= this.questions.length) {
-            this.showBirthQuestions();
+            this.showBirthForm();
             return;
         }
 
         const question = this.questions[this.currentQuestionIndex];
         const questionText = document.getElementById('questionText');
         const questionCard = document.getElementById('questionCard');
+        const birthFormCard = document.getElementById('birthFormCard');
 
         if (questionText) {
             questionText.textContent = question.question;
@@ -125,11 +124,9 @@ class HumanDesignQuiz {
             questionCard.classList.remove('hidden');
         }
 
-        // Hide all birth question cards
-        this.birthSteps.forEach(stepId => {
-            const card = document.getElementById(stepId);
-            if (card) card.classList.add('hidden');
-        });
+        if (birthFormCard) {
+            birthFormCard.classList.add('hidden');
+        }
 
         // Clear previous answer selection
         const radioButtons = document.querySelectorAll('input[name="answer"]');
@@ -174,7 +171,7 @@ class HumanDesignQuiz {
                 if (this.currentQuestionIndex < this.questions.length - 1) {
                     this.nextQuestion();
                 } else {
-                    this.showBirthQuestions();
+                    this.showBirthForm();
                 }
                 this.isAdvancing = false; // Reset flag after advancing
             }, 300); // Fast transition
@@ -230,77 +227,41 @@ class HumanDesignQuiz {
         }
     }
     
-    showBirthQuestions() {
+    showBirthForm() {
         const questionCard = document.getElementById('questionCard');
+        const birthFormCard = document.getElementById('birthFormCard');
+
         if (questionCard) {
             questionCard.classList.add('hidden');
         }
 
-        // Show first birth question
-        this.currentBirthStep = 0;
-        this.showCurrentBirthStep();
-    }
-
-    showCurrentBirthStep() {
-        // Hide all birth cards
-        this.birthSteps.forEach(stepId => {
-            const card = document.getElementById(stepId);
-            if (card) card.classList.add('hidden');
-        });
-
-        // Show current birth step
-        const currentStepId = this.birthSteps[this.currentBirthStep];
-        const currentCard = document.getElementById(currentStepId);
-        if (currentCard) {
-            currentCard.classList.remove('hidden');
+        if (birthFormCard) {
+            birthFormCard.classList.remove('hidden');
         }
 
         this.updateProgress();
     }
-
-    nextBirthQuestion() {
-        // Validate current field
-        const currentStepId = this.birthSteps[this.currentBirthStep];
-        let fieldId = currentStepId.replace('Card', '');
-        const field = document.getElementById(fieldId);
-
-        if (!field || !field.value.trim()) {
-            alert('Please fill in this field before continuing.');
-            return;
-        }
-
-        // Move to next step
-        if (this.currentBirthStep < this.birthSteps.length - 1) {
-            this.currentBirthStep++;
-            this.showCurrentBirthStep();
-        }
-    }
     
     validateBirthForm() {
-        const requiredFields = ['birthName', 'birthEmail', 'birthDate', 'birthTime', 'birthPlace'];
         const formData = {};
-        let isValid = true;
 
-        requiredFields.forEach(fieldId => {
-            const field = document.getElementById(fieldId);
-            if (field) {
-                const value = field.value.trim();
-                if (!value) {
-                    field.classList.add('error');
-                    isValid = false;
-                } else {
-                    field.classList.remove('error');
-                    formData[fieldId.replace('birth', '').toLowerCase()] = value;
-                }
-            }
-        });
+        // Get values from the input fields
+        const name = document.getElementById('birthName')?.value?.trim();
+        const email = document.getElementById('birthEmail')?.value?.trim();
+        const date = document.getElementById('birthDate')?.value?.trim();
+        const time = document.getElementById('birthTime')?.value?.trim();
+        const place = document.getElementById('birthPlace')?.value?.trim();
 
-        if (!isValid) {
-            alert('Please fill in all required fields including your email address.');
+        if (!name || !email || !date || !time || !place) {
+            alert('Please fill in all required fields.');
             return null;
         }
 
-        // Auto-detect timezone from location coordinates
+        formData.name = name;
+        formData.email = email;
+        formData.date = date;
+        formData.time = time;
+        formData.place = place;
         formData.timezone = 'UTC+00:00'; // Default, will be calculated based on location
 
         return formData;
@@ -434,7 +395,6 @@ class HumanDesignQuiz {
         // Make functions globally available for onclick handlers
         window.nextQuestion = () => this.nextQuestion();
         window.previousQuestion = () => this.previousQuestion();
-        window.nextBirthQuestion = () => this.nextBirthQuestion();
         window.submitQuizWithBirth = () => this.submitQuizWithBirth();
 
         // Keyboard navigation

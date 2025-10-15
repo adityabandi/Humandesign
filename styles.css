@@ -768,30 +768,48 @@ p {
     margin-top: var(--space-2xl);
 }
 
-/* Birth Question Cards */
-.birth-question {
+/* Birth Form Card */
+.birth-form-card {
     background-color: var(--card-bg);
     border: var(--border-width) solid var(--border-color);
     border-radius: var(--border-radius);
     padding: var(--space-3xl);
     margin: var(--space-2xl) auto;
-    max-width: 600px;
+    max-width: 700px;
 }
 
-.birth-input-container {
+.birth-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.birth-form-field {
     display: flex;
     flex-direction: column;
-    gap: var(--space-lg);
-    margin-top: var(--space-2xl);
+    gap: 8px;
+}
+
+.birth-form-field.full-width {
+    grid-column: 1 / -1;
+}
+
+.birth-form-field label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .birth-input {
     background-color: var(--secondary-bg);
     border: var(--border-width) solid var(--border-color);
     border-radius: var(--border-radius);
-    padding: var(--space-lg);
+    padding: 12px 15px;
     color: var(--text-primary);
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-family: var(--font-primary);
     transition: var(--transition);
     width: 100%;
@@ -804,11 +822,14 @@ p {
     box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
 }
 
-.birth-field-note {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    margin-top: -10px;
-    font-style: italic;
+@media (max-width: 768px) {
+    .birth-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .birth-form-field.full-width {
+        grid-column: 1;
+    }
 }
 
 .birth-form h3 {
