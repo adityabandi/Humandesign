@@ -383,26 +383,56 @@ function hashBirthData(birthData) {
 
 // Generate additional gates based on birth data (simulates HD Ascendant/houses)
 function generateAdditionalGates(hash, birthData) {
+  // Gates grouped by center to ensure variety
+  const gatesByCenter = {
+    'Head': [61, 63, 64],
+    'Ajna': [4, 11, 17, 24, 43, 47],
+    'Throat': [8, 12, 16, 20, 23, 31, 33, 45, 56, 62],
+    'G': [1, 2, 7, 10, 13, 15, 25, 46],
+    'Heart': [21, 26, 40, 51],
+    'Spleen': [18, 28, 32, 44, 48, 50, 57],
+    'Sacral': [3, 5, 9, 14, 27, 29, 34, 42, 59],
+    'Solar Plexus': [6, 22, 30, 35, 36, 37, 49, 55],
+    'Root': [19, 38, 39, 41, 52, 53, 54, 58, 60]
+  };
+
   const gates = [];
-
-  // Use different aspects of birth data to generate 8-12 additional gates
-  // This simulates the 12 astrological house cusps in HD
-
   const timeHash = (birthData.time ? birthData.time.split(':').reduce((a, b) => a + parseInt(b), 0) : 0);
   const latHash = Math.abs(Math.floor((birthData.latitude || 0) * 100));
   const lonHash = Math.abs(Math.floor((birthData.longitude || 0) * 100));
 
-  // Generate gates influenced by time of day (like Ascendant)
-  const ascendantGate = ((hash + timeHash) % 64) + 1;
-  gates.push(ascendantGate);
+  // Create a deterministic but varied selection
+  const combinedHash = hash + timeHash + latHash + lonHash;
 
-  // Add gates for "house cusps" - vary by location and time
-  for (let i = 0; i < 11; i++) {
-    const houseGate = ((hash + latHash + lonHash + (i * 97)) % 64) + 1;
-    gates.push(houseGate);
+  // Pick gates from DIFFERENT centers based on birth data
+  // This ensures we don't always activate the same centers
+  const centerNames = Object.keys(gatesByCenter);
+
+  // Use birth data to determine which centers to emphasize
+  const emphasizedCenters = [];
+  for (let i = 0; i < 4; i++) {
+    const centerIndex = (combinedHash + i * 73) % centerNames.length;
+    emphasizedCenters.push(centerNames[centerIndex]);
   }
 
-  return gates;
+  // Pick 2-3 gates from emphasized centers
+  emphasizedCenters.forEach((centerName, i) => {
+    const centerGates = gatesByCenter[centerName];
+    const gateIndex1 = (combinedHash + i * 31) % centerGates.length;
+    const gateIndex2 = (combinedHash + i * 47) % centerGates.length;
+    gates.push(centerGates[gateIndex1]);
+    if (gateIndex1 !== gateIndex2) gates.push(centerGates[gateIndex2]);
+  });
+
+  // Add some random gates from other centers
+  for (let i = 0; i < 4; i++) {
+    const centerIndex = (combinedHash + i * 113) % centerNames.length;
+    const centerGates = gatesByCenter[centerNames[centerIndex]];
+    const gateIndex = (combinedHash + i * 157) % centerGates.length;
+    gates.push(centerGates[gateIndex]);
+  }
+
+  return [...new Set(gates)]; // Remove duplicates
 }
 
 function calculateDefinition(activatedGates) {
