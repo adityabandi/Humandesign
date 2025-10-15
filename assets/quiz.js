@@ -323,34 +323,45 @@ class HumanDesignQuiz {
     }
     
     async submitQuizWithBirth() {
+        console.log('🚀 Starting quiz submission...');
+
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'GENERATING...';
+        }
+
         try {
-            const submitBtn = document.getElementById('submitBtn');
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Generating...';
-            }
-            
             // Validate birth form
+            console.log('📝 Validating birth form...');
             const birthData = this.validateBirthForm();
             if (!birthData) {
+                console.error('❌ Birth form validation failed');
                 if (submitBtn) {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = 'Generate My Human Design Report';
+                    submitBtn.textContent = '✨ REVEAL MY HUMAN DESIGN ✨';
                 }
                 return;
             }
-            
+            console.log('✅ Birth form validated:', birthData);
+
             // Prepare answers array (1-100)
             const answersArray = [];
             for (let i = 1; i <= 100; i++) {
-                answersArray.push(this.answers[i] || 3); // default to neutral if missing
+                answersArray.push(this.answers[i] || 3);
             }
-            
-            // Score the quiz (now async)
+            console.log('✅ Prepared answers array:', answersArray.length, 'answers');
+
+            // Score the quiz
+            console.log('🧮 Scoring quiz...');
             const quizDerived = await scoreQuiz(answersArray, { quizId: this.quizId });
-            
-            // Calculate the chart with enhanced location data
+            console.log('✅ Quiz scored:', quizDerived);
+
+            // Calculate the chart with location data
+            console.log('🌍 Getting location data...');
             const locationData = getLocationCoordinates();
+            console.log('✅ Location data:', locationData);
+
             const birth = {
                 name: birthData.name,
                 date: birthData.date,
@@ -360,14 +371,19 @@ class HumanDesignQuiz {
                 latitude: locationData.latitude,
                 longitude: locationData.longitude
             };
-            
-            const chartDerived = await computeChart(birth);
-            
-            // Generate integration insights
-            const insights = deriveIntegration(quizDerived, chartDerived);
 
-            // Generate local result ID (SheetDB-only mode)
+            console.log('📊 Computing chart...');
+            const chartDerived = await computeChart(birth);
+            console.log('✅ Chart computed:', chartDerived);
+
+            // Generate integration insights
+            console.log('💡 Generating insights...');
+            const insights = deriveIntegration(quizDerived, chartDerived);
+            console.log('✅ Insights generated');
+
+            // Generate local result ID
             const localResultId = this.generateResultId(birth.name, birthData.email);
+            console.log('🆔 Generated result ID:', localResultId);
 
             // Store complete result locally for display
             const resultData = {
@@ -382,25 +398,26 @@ class HumanDesignQuiz {
                 purchased: false,
                 created_at: new Date().toISOString()
             };
-            localStorage.setItem(`hd_result_${localResultId}`, JSON.stringify(resultData));
 
-            // Submit to SheetDB for data collection (non-blocking)
-            if (window.SHEETDB_CONFIG?.enabled) {
-                try {
-                    const sheetdbResult = await submitToSheetDB({
-                        name: birth.name,
-                        email: birthData.email,
-                        birth,
-                        answers: answersArray,
-                        quizDerived,
-                        chartDerived,
-                        insights
-                    });
-                    console.log('SheetDB submission result:', sheetdbResult);
-                } catch (sheetdbError) {
-                    console.warn('SheetDB submission failed, but continuing:', sheetdbError);
-                }
-            }
+            console.log('💾 Saving to localStorage...');
+            localStorage.setItem(`hd_result_${localResultId}`, JSON.stringify(resultData));
+            console.log('✅ Saved to localStorage');
+
+            // Submit to SheetDB (don't block redirect on this)
+            console.log('📤 Submitting to SheetDB...');
+            submitToSheetDB({
+                name: birth.name,
+                email: birthData.email,
+                birth,
+                answers: answersArray,
+                quizDerived,
+                chartDerived,
+                insights
+            }).then(result => {
+                console.log('✅ SheetDB submission successful:', result);
+            }).catch(error => {
+                console.error('⚠️ SheetDB submission failed (non-blocking):', error);
+            });
 
             // Track completion
             this.trackEvent('quiz_completed', {
@@ -408,17 +425,23 @@ class HumanDesignQuiz {
                 result_id: localResultId
             });
 
-            // Redirect to results
-            window.location.href = `results.html?id=${localResultId}`;
-            
+            // REDIRECT IMMEDIATELY - don't wait for SheetDB
+            console.log('🔄 Redirecting to results page...');
+            console.log('📍 Redirect URL:', `results.html?id=${localResultId}`);
+
+            setTimeout(() => {
+                window.location.href = `results.html?id=${localResultId}`;
+            }, 500);
+
         } catch (error) {
-            console.error('Submission error:', error);
-            alert('There was an error generating your report. Please try again.');
-            
-            const submitBtn = document.getElementById('submitBtn');
+            console.error('❌ CRITICAL ERROR in submission:', error);
+            console.error('Error stack:', error.stack);
+
+            alert(`Error generating report: ${error.message}\n\nPlease try again or contact support.`);
+
             if (submitBtn) {
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Generate My Human Design Report';
+                submitBtn.textContent = '✨ REVEAL MY HUMAN DESIGN ✨';
             }
         }
     }
