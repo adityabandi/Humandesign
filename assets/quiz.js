@@ -122,16 +122,8 @@ class HumanDesignQuiz {
             questionText.textContent = question.question;
         }
         
-        if (questionCategory) {
-            // Format category for display
-            const categoryDisplay = question.category
-                .replace(/_/g, ' ')
-                .replace(/\b\w/g, l => l.toUpperCase());
-            questionCategory.textContent = categoryDisplay;
-        }
-        
         if (questionNumber) {
-            questionNumber.textContent = `Question ${this.currentQuestionIndex + 1}`;
+            questionNumber.textContent = `Question ${this.currentQuestionIndex + 1} of ${this.questions.length}`;
         }
         
         if (questionCard) {
@@ -187,7 +179,7 @@ class HumanDesignQuiz {
                     this.showQuizComplete();
                 }
                 this.isAdvancing = false; // Reset flag after advancing
-            }, 600); // Reduced delay for faster flow
+            }, 300); // Fast transition
         }
     }
     
