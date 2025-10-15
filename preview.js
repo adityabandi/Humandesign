@@ -19,10 +19,53 @@ class AnalysisPreviewInterface {
     }
 
     loadUserConfiguration() {
-        // Retrieve user assessment results from storage
-        this.userConfiguration = getFromLocalStorage('assessment_results');
+        // Try to find the most recent hd_result from localStorage
+        let latestResult = null;
+        let latestTimestamp = 0;
         
-        if (!this.userConfiguration) {
+        // Scan localStorage for hd_result_ entries
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('hd_result_')) {
+                try {
+                    const data = JSON.parse(localStorage.getItem(key));
+                    const timestamp = new Date(data.created_at || 0).getTime();
+                    if (timestamp > latestTimestamp) {
+                        latestTimestamp = timestamp;
+                        latestResult = data;
+                    }
+                } catch (e) {
+                    console.warn('Error parsing result:', key, e);
+                }
+            }
+        }
+        
+        // If we found a result, transform it to the expected format
+        if (latestResult && latestResult.chart_derived) {
+            const chart = latestResult.chart_derived;
+            const centers = chart.centers || {};
+            
+            this.userConfiguration = {
+                energyType: chart.type || 'Generator',
+                decisionAuthority: chart.authority || 'Sacral',
+                profileArchitecture: chart.profile || '1/3',
+                centerConfiguration: {
+                    sacral: centers.sacral?.defined || false,
+                    throat: centers.throat?.defined || false,
+                    will: centers.heart?.defined || false,
+                    emotional: centers.solar?.defined || false,
+                    identity: centers.g?.defined || false,
+                    head: centers.head?.defined || false,
+                    ajna: centers.ajna?.defined || false,
+                    spleen: centers.spleen?.defined || false,
+                    root: centers.root?.defined || false
+                },
+                activationGates: chart.activatedGates || [],
+                channels: chart.channels || [],
+                definition: chart.definition || 'single'
+            };
+            console.log('✅ Loaded user configuration from latest result:', this.userConfiguration);
+        } else {
             // Fallback configuration for demonstration
             this.userConfiguration = {
                 energyType: 'Generator',
@@ -43,6 +86,7 @@ class AnalysisPreviewInterface {
                 channels: [],
                 definition: 'single'
             };
+            console.log('⚠️ No user data found, using fallback configuration');
         }
     }
 
@@ -363,8 +407,14 @@ class AnalysisPreviewInterface {
     }
 
     calculateCompletionRate() {
-        const storedResults = getFromLocalStorage('assessment_results');
-        return storedResults ? '100%' : '87%';
+        // Check if any hd_result exists in localStorage
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('hd_result_')) {
+                return '100%';
+            }
+        }
+        return '87%';
     }
 
     formatMetricLabel(key) {
@@ -374,7 +424,8 @@ class AnalysisPreviewInterface {
     trackModuleView(moduleId) {
         this.systemMetrics.moduleViews[moduleId] = (this.systemMetrics.moduleViews[moduleId] || 0) + 1;
         
-        trackEvent('analysis_module_viewed', {
+        const trackFn = window.trackSystemEvent || window.trackEvent || console.log;
+        trackFn('analysis_module_viewed', {
             module: moduleId,
             energyType: this.userConfiguration.energyType,
             authority: this.userConfiguration.decisionAuthority,
@@ -383,7 +434,8 @@ class AnalysisPreviewInterface {
     }
 
     trackModuleAccess(moduleId) {
-        trackEvent('analysis_module_accessed', {
+        const trackFn = window.trackSystemEvent || window.trackEvent || console.log;
+        trackFn('analysis_module_accessed', {
             module: moduleId,
             energyType: this.userConfiguration.energyType,
             sessionDuration: Date.now() - this.systemMetrics.viewTime,
@@ -392,7 +444,8 @@ class AnalysisPreviewInterface {
     }
 
     trackSystemInteraction(actionType, metadata) {
-        trackEvent('preview_system_interaction', {
+        const trackFn = window.trackSystemEvent || window.trackEvent || console.log;
+        trackFn('preview_system_interaction', {
             action: actionType,
             ...metadata,
             energyType: this.userConfiguration.energyType,
@@ -401,11 +454,22 @@ class AnalysisPreviewInterface {
     }
 
     trackSystemAccess() {
-        trackEvent('analysis_preview_accessed', {
+        // Check if user has completed assessment
+        let hasAssessmentData = false;
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('hd_result_')) {
+                hasAssessmentData = true;
+                break;
+            }
+        }
+        
+        const trackFn = window.trackSystemEvent || window.trackEvent || console.log;
+        trackFn('analysis_preview_accessed', {
             energyType: this.userConfiguration.energyType,
             authority: this.userConfiguration.decisionAuthority,
             profile: this.userConfiguration.profileArchitecture,
-            hasAssessmentData: !!getFromLocalStorage('assessment_results'),
+            hasAssessmentData: hasAssessmentData,
             timestamp: new Date().toISOString()
         });
     }
@@ -538,5 +602,44 @@ class AnalysisPreviewInterface {
 </style>
 `;
 
+}
+</style>
+`;
+
 // Inject styles
 document.head.insertAdjacentHTML('beforeend', previewStyles);
+
+// Initialize the preview interface when DOM is loaded
+let previewInterface;
+document.addEventListener('DOMContentLoaded', () => {
+    previewInterface = new AnalysisPreviewInterface();
+});
+
+// Global function for section navigation (called from HTML onclick)
+function showSection(sectionName) {
+    // Remove active class from all buttons and sections
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.section-content').forEach(section => section.classList.remove('active'));
+    
+    // Add active class to clicked button
+    const clickedButton = event?.target;
+    if (clickedButton) {
+        clickedButton.classList.add('active');
+    }
+    
+    // Show the target section
+    const targetSection = document.getElementById(`${sectionName}-section`);
+    if (targetSection) {
+        targetSection.classList.add('active');
+        // Smooth scroll to section
+        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    
+    // Track the section view
+    if (previewInterface) {
+        previewInterface.trackModuleView(sectionName);
+    }
+}
+
+// Make showSection available globally
+window.showSection = showSection;

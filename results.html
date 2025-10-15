@@ -473,7 +473,13 @@
             <div class="results-grid">
                 <!-- Left: Chart Data -->
                 <div class="chart-section">
-                    <h2>Your Design</h2>
+                    <h2>Your Big 5 Personality Scores</h2>
+
+                    <div class="design-basics" id="big5Scores" style="margin-bottom: 40px;">
+                        <!-- Big 5 scores will be inserted here -->
+                    </div>
+
+                    <h2 style="margin-top: 40px;">Your Human Design Chart</h2>
 
                     <div class="design-basics">
                         <div class="design-row">
@@ -502,16 +508,16 @@
                     </div>
 
                     <div class="comparison-box">
-                        <h3>The Gap</h3>
-                        <p class="gap-text" id="gapText">Loading your analysis...</p>
-                        <p class="gap-text"><strong>This misalignment is why things feel hard.</strong> The full report shows you exactly how to close this gap and align with your authentic design.</p>
+                        <h3>🔥 The Mismatch: Psychology vs. Design</h3>
+                        <div id="mismatchAnalysis">Loading your analysis...</div>
+                        <p class="gap-text" style="margin-top: 20px;"><strong>This misalignment is costing you energy every single day.</strong> Your complete report reveals the exact steps to realign with your natural design and eliminate resistance.</p>
                     </div>
                 </div>
 
                 <!-- Right: CTA -->
                 <div class="cta-section">
                     <div class="cta-card">
-                        <h3>Get Your Complete Human Design Report</h3>
+                        <h3>Stop Fighting Your Design. Get Your Complete Blueprint.</h3>
 
                         <div class="price-row">
                             <span class="price-current">$29</span>
@@ -520,23 +526,24 @@
 
                         <ul class="includes-list">
                             <li>40+ page personalized report</li>
-                            <li>Complete chart analysis</li>
-                            <li>All 9 centers explained</li>
-                            <li>Gates & channels breakdown</li>
-                            <li>Decision-making guide</li>
-                            <li>Career & relationship insights</li>
-                            <li>Deconditioning strategies</li>
+                            <li>Your exact Type, Authority & Profile explained</li>
+                            <li>All 9 centers + your open/defined analysis</li>
+                            <li>Active gates & channels breakdown</li>
+                            <li>Decision-making protocol for your Authority</li>
+                            <li>Career path aligned with your design</li>
+                            <li>Relationship dynamics & compatibility</li>
+                            <li>Deconditioning roadmap specific to YOU</li>
                         </ul>
 
-                        <a href="https://buy.stripe.com/8x26oI5PK3VqbbgeeR5J61t" class="cta-button">
-                            GET FULL REPORT
+                        <a href="https://buy.stripe.com/8x26oI5PK3VqbbgeeR5J61t" class="cta-button" onclick="trackPurchaseClick()">
+                            UNLOCK MY COMPLETE DESIGN - $29
                         </a>
 
-                        <p class="delivery-note">Delivered within 24 hours</p>
+                        <p class="delivery-note">⚡ Instant PDF delivery to your email</p>
 
                         <div class="guarantee">
                             <div class="guarantee-title">30-Day Money-Back Guarantee</div>
-                            <p class="guarantee-text">If you don't find value in your report, we'll refund you. No questions asked.</p>
+                            <p class="guarantee-text">If your report doesn't provide clarity and actionable insights, we'll refund every penny. No questions asked.</p>
                         </div>
                     </div>
                 </div>
@@ -666,12 +673,12 @@
 
             <!-- Final CTA -->
             <div class="final-cta">
-                <h2>Ready to Understand Your Design?</h2>
-                <p>Join 12,847+ people who've discovered their authentic blueprint</p>
-                <a href="https://buy.stripe.com/8x26oI5PK3VqbbgeeR5J61t" class="cta-button cta-button-large">
-                    GET YOUR FULL REPORT - $29
+                <h2>Your Design Isn't Broken. You've Just Been Living Someone Else's.</h2>
+                <p>Get your complete 40+ page blueprint and start living aligned with who you actually are - not who you were conditioned to be.</p>
+                <a href="https://buy.stripe.com/8x26oI5PK3VqbbgeeR5J61t" class="cta-button cta-button-large" onclick="trackPurchaseClick()">
+                    GET MY COMPLETE REPORT - $29
                 </a>
-                <p class="cta-note">30-day money-back guarantee • Delivered within 24 hours</p>
+                <p class="cta-note">30-day money-back guarantee • Instant PDF delivery • 12,847+ reports delivered</p>
             </div>
 
             <!-- Subtle Social Proof -->
@@ -702,10 +709,40 @@
 
                 const data = JSON.parse(localData);
                 const chart = data.chart_derived;
+                const quiz = data.quiz_derived;
 
                 // Birth info
                 document.getElementById('birthInfo').textContent =
                     `${data.birth.place} • ${data.birth.date} • ${data.birth.time}`;
+
+                // Display Big 5 Scores
+                const big5Container = document.getElementById('big5Scores');
+                if (quiz && quiz.detailed && quiz.detailed.percentileScores) {
+                    const scores = quiz.detailed.percentileScores;
+                    const traits = {
+                        'openness': 'Openness',
+                        'conscientiousness': 'Conscientiousness',
+                        'extraversion': 'Extraversion',
+                        'agreeableness': 'Agreeableness',
+                        'neuroticism': 'Emotional Stability'
+                    };
+
+                    let html = '';
+                    Object.keys(traits).forEach(trait => {
+                        const score = trait === 'neuroticism' ? 100 - (scores[trait] || 0) : (scores[trait] || 0);
+                        const interpretation = quiz.detailed.interpretations[trait];
+                        html += `
+                            <div class="design-row">
+                                <div class="design-label">${traits[trait]}</div>
+                                <div>
+                                    <div class="design-value" style="font-size: 1.4rem;">${score}%</div>
+                                    <div class="design-desc">${interpretation?.description || ''}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    big5Container.innerHTML = html;
+                }
 
                 // Design data
                 document.getElementById('hdType').textContent = chart.type || 'Generator';
@@ -747,9 +784,44 @@
                 };
                 document.getElementById('hdProfileDesc').textContent = profileDescs[chart.profile] || 'Your unique life path';
 
-                // Gap text
-                document.getElementById('gapText').innerHTML =
-                    `You're a <strong>${chart.type}</strong> with <strong>${chart.authority} Authority</strong>, but you've been making decisions with your mind and forcing yourself to work against your natural energy. When you align with your design, resistance dissolves.`;
+                // Gap text - Personalized messaging
+                const gapMessages = {
+                    'Generator': 'As a Generator, you have massive sustainable energy - but only when you\'re responding to life, not forcing or initiating. You\'ve likely been trying to make things happen instead of waiting for opportunities to respond to.',
+                    'Manifesting Generator': 'As a Manifesting Generator, you\'re designed to move fast and juggle multiple passions - but you need to respond first, then act. You\'ve probably been initiating without the gut response, leading to frustration.',
+                    'Manifestor': 'As a Manifestor, you\'re meant to initiate freely - but you need to inform others before acting. You\'ve likely experienced a lot of resistance and anger because people feel blindsided by your moves.',
+                    'Projector': 'As a Projector, you\'re designed to guide and manage energy - but only when invited and recognized. You\'ve probably been exhausting yourself trying to prove your worth instead of waiting for invitations.',
+                    'Reflector': 'As a Reflector, you need time to feel into decisions - ideally a lunar cycle. You\'ve likely been making quick decisions under pressure, leading to disappointment and confusion.'
+                };
+
+                const authorityMessages = {
+                    'Sacral': 'Your Sacral Authority means you should trust gut responses (uh-huh/uhn-uh), not your mind. But you\'ve probably been overthinking decisions instead of listening to that instant body knowing.',
+                    'Emotional': 'Your Emotional Authority requires you to wait for clarity over time. You\'ve likely been making decisions in emotional highs or lows, only to regret them later when your wave shifts.',
+                    'Splenic': 'Your Splenic Authority is intuitive and in-the-moment. But you\'ve probably been second-guessing those instant hits of knowing, letting your mind override your body\'s wisdom.',
+                    'Ego': 'Your Ego Authority means you should only commit to what you truly have the will and resources for. You\'ve likely been making promises you can\'t keep or saying yes when your heart isn\'t in it.',
+                    'Self-Projected': 'Your Self-Projected Authority requires you to talk things out and listen to your own voice. You\'ve probably been keeping things internal and making decisions in your head.'
+                };
+
+                // Display mismatch analysis
+                const mismatchContainer = document.getElementById('mismatchAnalysis');
+                let mismatchHtml = '';
+
+                // Show insights if available
+                if (data.insights && data.insights.length > 0) {
+                    data.insights.forEach(insight => {
+                        if (typeof insight === 'string') {
+                            mismatchHtml += `<p class="gap-text">${insight}</p>`;
+                        }
+                    });
+                } else {
+                    // Fallback mismatch messaging
+                    mismatchHtml = `
+                        <p class="gap-text"><strong>Your Psychology (Big 5 Scores):</strong> Shows how you've been conditioned to operate through society, family, and life experiences.</p>
+                        <p class="gap-text"><strong>Your Design (Human Design Chart):</strong> Reveals your authentic energetic blueprint based on your birth data.</p>
+                        <p class="gap-text"><strong>The Gap:</strong> Most people are living according to their conditioning (psychology), not their authentic design. This creates exhaustion, resistance, and that feeling of "something's off."</p>
+                    `;
+                }
+
+                mismatchContainer.innerHTML = mismatchHtml;
 
             } catch (error) {
                 console.error('Error loading results:', error);
@@ -761,6 +833,18 @@
         // Track analytics
         if (typeof gtag !== 'undefined') {
             gtag('event', 'view_results', { 'event_category': 'engagement' });
+        }
+
+        // Track purchase click
+        window.trackPurchaseClick = function() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'begin_checkout', {
+                    'event_category': 'conversion',
+                    'event_label': 'results_page_cta',
+                    'value': 29
+                });
+            }
+            console.log('Purchase intent tracked from results page');
         }
     </script>
 </body>
