@@ -3392,3 +3392,216 @@ p {
         font-size: 2.5rem;
     }
 }
+/* ========================================
+   ENHANCED MOBILE OPTIMIZATION
+   ======================================== */
+
+/* Base mobile improvements */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    /* Quiz improvements */
+    .quiz-container {
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .question-card {
+        padding: 1.5rem 1rem !important;
+        margin-bottom: 1rem;
+    }
+    
+    #questionText {
+        font-size: 1.1rem !important;
+        line-height: 1.5;
+    }
+    
+    .scale-options {
+        gap: 0.5rem !important;
+    }
+    
+    .scale-option {
+        padding: 1rem 0.5rem !important;
+        font-size: 0.85rem !important;
+    }
+    
+    .scale-circle {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Birth form mobile */
+    .birth-form-card {
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .form-group input, 
+    .form-group select {
+        font-size: 16px !important; /* Prevents iOS zoom */
+        padding: 0.75rem !important;
+    }
+    
+    #submitBtn {
+        padding: 1rem !important;
+        font-size: 1rem !important;
+        width: 100%;
+    }
+    
+    /* Results page mobile */
+    .results-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem;
+    }
+    
+    .chart-section,
+    .cta-section {
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .cta-section {
+        position: static !important;
+    }
+    
+    .design-value {
+        font-size: 1.5rem !important;
+    }
+    
+    .design-row {
+        grid-template-columns: 1fr !important;
+        gap: 0.5rem;
+    }
+    
+    /* Hero section mobile */
+    .hero-content {
+        flex-direction: column !important;
+        text-align: center;
+    }
+    
+    .hero-title {
+        font-size: 2rem !important;
+        line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem !important;
+    }
+    
+    /* Navigation mobile */
+    .navbar {
+        padding: 1rem !important;
+    }
+    
+    .nav-logo {
+        font-size: 1.2rem !important;
+    }
+    
+    .nav-menu {
+        gap: 0.5rem;
+    }
+    
+    /* Buttons mobile */
+    .cta-button, .btn {
+        width: 100%;
+        padding: 1rem !important;
+        font-size: 0.95rem !important;
+    }
+    
+    /* Testimonials mobile */
+    .testimonials-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .testimonial-card {
+        padding: 1.5rem 1rem !important;
+    }
+    
+    /* FAQ mobile */
+    .faq-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Preview grid mobile */
+    .preview-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Price display mobile */
+    .price-current {
+        font-size: 2.5rem !important;
+    }
+    
+    .includes-list {
+        font-size: 0.9rem;
+    }
+}
+
+/* Small mobile (iPhone SE, etc) */
+@media (max-width: 375px) {
+    .quiz-container {
+        padding: 1rem 0.75rem !important;
+    }
+    
+    #questionText {
+        font-size: 1rem !important;
+    }
+    
+    .scale-option {
+        padding: 0.75rem 0.25rem !important;
+        font-size: 0.75rem !important;
+    }
+    
+    .scale-circle {
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem !important;
+    }
+    
+    h2 {
+        font-size: 1.5rem !important;
+    }
+    
+    .design-value {
+        font-size: 1.3rem !important;
+    }
+}
+
+/* Tablet optimization */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .results-grid {
+        grid-template-columns: 1fr 350px !important;
+        gap: 2rem;
+    }
+    
+    .quiz-container {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase tap targets for touch */
+    .scale-option {
+        min-height: 60px;
+    }
+    
+    button, .btn, .cta-button {
+        min-height: 48px;
+        padding: 1rem 1.5rem;
+    }
+    
+    input, select, textarea {
+        min-height: 48px;
+    }
+}
