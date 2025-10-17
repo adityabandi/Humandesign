@@ -303,13 +303,130 @@
             color: #000;
         }
 
+        /* Mobile Optimization */
         @media (max-width: 768px) {
+            .confirmation-page {
+                padding: 40px 15px;
+            }
+
+            .confirmation-container {
+                max-width: 100%;
+            }
+
+            .success-icon {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 20px;
+            }
+
+            .success-icon svg {
+                width: 50px;
+                height: 50px;
+            }
+
+            .confirmation-header {
+                padding: 30px 0 40px;
+            }
+
             .confirmation-header h1 {
-                font-size: 2rem;
+                font-size: 1.75rem;
+            }
+
+            .confirmation-header p {
+                font-size: 1rem;
+            }
+
+            .confirmation-card,
+            .what-to-expect {
+                padding: 25px 20px;
+            }
+
+            .confirmation-card h2,
+            .what-to-expect h2 {
+                font-size: 1.3rem;
+            }
+
+            .timeline {
+                padding-left: 30px;
+            }
+
+            .timeline-item::before {
+                left: -24px;
+                width: 16px;
+                height: 16px;
+            }
+
+            .timeline-item::after {
+                left: -17px;
+            }
+
+            .timeline-content h3 {
+                font-size: 1rem;
+            }
+
+            .timeline-content p {
+                font-size: 0.9rem;
+            }
+
+            .info-box,
+            .contact-box,
+            .cta-box {
+                padding: 20px;
+            }
+
+            .info-box h3,
+            .contact-box h3,
+            .cta-box h3 {
+                font-size: 1.15rem;
+            }
+
+            .info-box p,
+            .contact-box p {
+                font-size: 0.95rem;
             }
 
             .expect-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .expect-item {
+                padding: 15px;
+            }
+
+            .expect-icon {
+                font-size: 2rem;
+            }
+
+            .contact-methods {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn-secondary {
+                width: 100%;
+                padding: 14px 30px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .confirmation-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .success-icon {
+                width: 70px;
+                height: 70px;
+            }
+
+            .timeline {
+                padding-left: 25px;
+            }
+
+            .confirmation-card h2,
+            .what-to-expect h2 {
+                font-size: 1.2rem;
             }
         }
     </style>

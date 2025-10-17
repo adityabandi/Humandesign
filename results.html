@@ -456,17 +456,123 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
-        @media (max-width: 968px) {
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .results-page {
+                padding: 20px 15px 60px;
+            }
+
+            .results-header {
+                padding: 20px 0 30px;
+            }
+
+            .results-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .birth-info {
+                font-size: 0.85rem;
+            }
+
             .results-grid {
                 grid-template-columns: 1fr;
+                gap: 30px;
+                margin-top: 30px;
+            }
+
+            .chart-section,
+            .cta-section {
+                padding: 25px 20px;
             }
 
             .cta-section {
                 position: static;
             }
 
-            .preview-grid {
+            .design-row {
                 grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 15px 0;
+            }
+
+            .design-label {
+                font-size: 0.75rem;
+            }
+
+            .design-value {
+                font-size: 1.3rem;
+            }
+
+            .design-desc {
+                font-size: 0.85rem;
+            }
+
+            .comparison-box h3 {
+                font-size: 1.15rem;
+            }
+
+            .preview-grid,
+            .testimonials-grid,
+            .faq-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .preview-item,
+            .testimonial-card,
+            .faq-item {
+                padding: 20px;
+            }
+
+            .cta-button {
+                padding: 16px;
+                font-size: 1rem;
+            }
+
+            .cta-button-large {
+                font-size: 1.1rem;
+                padding: 16px 35px;
+            }
+
+            .final-cta {
+                padding: 40px 20px;
+                margin-top: 50px;
+            }
+
+            .final-cta h2 {
+                font-size: 1.75rem;
+            }
+
+            .final-cta > p {
+                font-size: 1rem;
+            }
+
+            .testimonials-section h2,
+            .preview-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .faq-section h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .results-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .chart-section,
+            .cta-section {
+                padding: 20px 15px;
+            }
+
+            .design-value {
+                font-size: 1.2rem;
+            }
+
+            .cta-button {
+                font-size: 0.95rem;
             }
         }
     </style>
